@@ -1,30 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import SidePanel from "../Shared/SidePanel";
 import DeviceSimulator from "./DeviceSimulator";
+import OptionsTray from "./OptionsTray";
+
+const INITIAL_PAGE = (
+  <div id="pageRoot">
+    <div id="pageHeader"></div>
+    <div id="pageBody"></div>
+    <div id="pageFooter"></div>
+  </div>
+);
 
 const Builder = () => {
+  const [pageContent] = useState(INITIAL_PAGE);
+
   return (
     <BuilderContainer>
       <MainContainer>
-        <DeviceEmulatorContainer>
-          <DeviceSimulator>
-            <div>TEst</div>
-          </DeviceSimulator>
-        </DeviceEmulatorContainer>
+        <DeviceSimulator>{pageContent}</DeviceSimulator>
       </MainContainer>
-      <SidePanel side="right" />
+      <OptionsTray />
     </BuilderContainer>
   );
 };
-
-const DeviceEmulatorContainer = styled.div`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  ${(props) => props.theme.flex.centered};
-  width: 100%;
-`;
 
 const MainContainer = styled.div`
   display: flex;
