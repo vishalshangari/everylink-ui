@@ -9,6 +9,9 @@ interface Theme {
   margin: {
     base: string;
   };
+  width: {
+    sidePanelLg: string;
+  };
 }
 
 const theme: Theme = {
@@ -22,6 +25,9 @@ const theme: Theme = {
   },
   margin: {
     base: "1rem",
+  },
+  width: {
+    sidePanelLg: "400px",
   },
 };
 
