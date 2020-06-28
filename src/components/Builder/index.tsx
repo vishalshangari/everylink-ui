@@ -1,25 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import SidePanel from "../Shared/SidePanel";
 
 const Builder = () => {
-  const history = useHistory();
-
-  const logout = () => {
-    window.localStorage.removeItem("access_token");
-    history.push("/login");
-  };
-
   return (
     <BuilderContainer>
-      <h1>Welcome to Builder</h1>
-      <button onClick={logout}> Log out</button>
+      <MainContainer>Test</MainContainer>
+      <SidePanel side="right" />
     </BuilderContainer>
   );
 };
 
+const MainContainer = styled.div`
+  height: 100%;
+  width: calc(100% - ${(props) => props.theme.width.sidePanelLg});
+  background-color: red;
+`;
+
 const BuilderContainer = styled.div`
   font-size: 40px;
+  height: 100%;
+  width: 100%;
 `;
 
 export default Builder;

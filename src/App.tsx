@@ -22,7 +22,9 @@ function App() {
 }
 
 const AppContainer = styled.div`
-  padding: ${(props) => props.theme.padding.app};
+  height: 100%;
+  width: 100%;
+  overflow: none;
 `;
 
 export default App;
