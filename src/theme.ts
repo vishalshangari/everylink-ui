@@ -16,6 +16,11 @@ interface Theme {
   width: {
     sidePanelLg: string;
   };
+  flex: {
+    column: string;
+    row: string;
+    centered: string;
+  };
 }
 
 const theme: Theme = {
@@ -36,6 +41,11 @@ const theme: Theme = {
   },
   width: {
     sidePanelLg: "400px",
+  },
+  flex: {
+    column: "display: flex; flex-direction: column;",
+    row: "display: flex; flex-direction: row;",
+    centered: "justify-content: center; align-items: center;",
   },
 };
 

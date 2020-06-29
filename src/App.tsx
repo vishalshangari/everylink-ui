@@ -14,7 +14,7 @@ function App() {
           <Route path="/user/:id" component={UserPage} />
           <PrivateRoute path="/builder" component={Builder} />
           <Route path="/login" component={Login} />
-          <Route path="/" component={Login} />
+          <Route path="/" component={Builder} />
         </Switch>
       </BrowserRouter>
     </AppContainer>
@@ -24,7 +24,7 @@ function App() {
 const AppContainer = styled.div`
   height: 100%;
   width: 100%;
-  overflow: none;
+  overflow: hidden;
 `;
 
 export default App;
