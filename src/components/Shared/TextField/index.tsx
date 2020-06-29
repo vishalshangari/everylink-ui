@@ -6,10 +6,10 @@ interface TextField extends React.ComponentPropsWithoutRef<"input"> {
 }
 
 const TextField = ({ color, ...props }: TextField) => {
-  return <StyledMaterialTextField color={color} {...props} />;
+  return <LoginTextField color={color} {...props} />;
 };
 
-const StyledMaterialTextField = styled.input<{ color?: string }>`
+const LoginTextField = styled.input<{ color?: string }>`
   padding: ${(props) => props.theme.padding.base};
   color: ${(props) => props.color || "green"};
 `;
