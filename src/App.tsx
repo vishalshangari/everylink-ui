@@ -14,7 +14,7 @@ function App() {
           <Route path="/user/:id" component={UserPage} />
           <PrivateRoute path="/builder" component={Builder} />
           <Route path="/login" component={Login} />
-          <Route path="/" component={Login} />
+          <Route path="/" component={Builder} />
         </Switch>
       </BrowserRouter>
     </AppContainer>

@@ -1,28 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import styled from "styled-components";
 import DeviceSimulator from "./DeviceSimulator";
 import OptionsTray from "./OptionsTray";
 
-const INITIAL_PAGE = (
-  <div id="pageRoot">
-    <div id="pageHeader"></div>
-    <div id="pageBody"></div>
-    <div id="pageFooter"></div>
-  </div>
-);
+type Block = ReactNode;
+
+const InitialElements: Block[] = [];
 
 const Builder = () => {
-  const [pageContent] = useState(INITIAL_PAGE);
+  const [blocks, setBlocks] = useState(InitialElements);
+
+  const addBlock = () => {
+    console.log(blocks);
+    setBlocks([
+      ...blocks,
+      <Box key={blocks.length} data-grid={{ x: 0, y: 0, h: 10, w: 12 }} />,
+    ]);
+  };
 
   return (
     <BuilderContainer>
       <MainContainer>
-        <DeviceSimulator>{pageContent}</DeviceSimulator>
+        <DeviceSimulator>{blocks}</DeviceSimulator>
       </MainContainer>
-      <OptionsTray />
+      <OptionsTray addBlock={addBlock} />
     </BuilderContainer>
   );
 };
+
+const Box = styled.div`
+  border: 1px solid black;
+  background: green;
+`;
 
 const MainContainer = styled.div`
   display: flex;

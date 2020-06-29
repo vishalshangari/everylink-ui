@@ -1,11 +1,10 @@
 interface Device {
   name: string;
-  width: string | number;
-  height: string | number;
+  width: number;
+  height: number;
 }
 
 const devices: Device[] = [
-  { name: "Browser", width: "100%", height: "100%" },
   { name: "iPhone 5", width: 320, height: 568 },
   { name: "iPhone 6", width: 376, height: 667 },
   { name: "iPhone 6 Plus", width: 414, height: 736 },

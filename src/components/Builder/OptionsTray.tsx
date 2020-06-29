@@ -2,11 +2,15 @@ import React from "react";
 import SidePanel from "../Shared/SidePanel";
 import styled from "styled-components";
 
-const OptionsTray = () => {
+interface OptionsTray {
+  addBlock: () => void;
+}
+
+const OptionsTray: React.FC<OptionsTray> = ({ addBlock }) => {
   return (
     <SidePanel side="right">
       <OptionsContainer>
-        <button>Add Link</button>
+        <button onClick={addBlock}>Add Block</button>
       </OptionsContainer>
     </SidePanel>
   );

@@ -34,7 +34,11 @@ const Login = () => {
   return (
     <LoginContainer>
       <h2>Enter your email to get started</h2>
-      <TextField value={email} onChange={(e) => setEmail(e.target.value)} />
+      <TextField
+        color={"red"}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
       <Button onClick={passwordlessStart}>Submit</Button>
     </LoginContainer>
   );

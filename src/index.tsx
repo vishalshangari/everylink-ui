@@ -5,14 +5,15 @@ import App from "./App";
 import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
 import theme from "./theme";
+import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <StylesProvider injectFirst>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <StylesProvider injectFirst>
         <App />
-      </ThemeProvider>
-    </StylesProvider>
+      </StylesProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

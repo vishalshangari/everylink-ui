@@ -1,16 +1,17 @@
 import React from "react";
-import MaterialTextField from "@material-ui/core/TextField";
 import styled from "styled-components";
-import { TextFieldProps } from "@material-ui/core";
 
-type TextField = TextFieldProps;
+interface TextField extends React.ComponentPropsWithoutRef<"input"> {
+  color?: string;
+}
 
-const TextField = ({ ...props }: TextField) => {
-  return <StyledMaterialTextField variant="outlined" {...props} />;
+const TextField = ({ color, ...props }: TextField) => {
+  return <StyledMaterialTextField color={color} {...props} />;
 };
 
-const StyledMaterialTextField = styled(MaterialTextField)`
+const StyledMaterialTextField = styled.input<{ color?: string }>`
   padding: ${(props) => props.theme.padding.base};
+  color: ${(props) => props.color || "green"};
 `;
 
 export default TextField;

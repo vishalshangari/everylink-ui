@@ -1,23 +1,9 @@
-import React, { useState, ReactNode } from "react";
-import Frame from "react-frame-component";
+import React, { useState } from "react";
 import styled from "styled-components";
-import devices from "./devices";
+import devices from "./Devices";
+import GridLayout from "./GridLayout";
 
-interface DeviceSimulator {
-  children?: ReactNode;
-}
-
-const INITIAL_FRAME_CONTENT = `
-  <!DOCTYPE html>
-  <html>
-    <head>${document.head.innerHTML}</head>
-    <body>
-      <div class="frame-root"></div>
-    </body>
-  </html>
-`;
-
-const DeviceSimulator = ({ children }: DeviceSimulator) => {
+const DeviceSimulator: React.FC = ({ children }) => {
   const [device, setDevice] = useState(devices[0]);
   const [orientation, setOrientation] = useState("portrait");
 
@@ -40,16 +26,18 @@ const DeviceSimulator = ({ children }: DeviceSimulator) => {
         <button onClick={rotateDevice}>Rotate</button>
       </SelectContainer>
       <FrameContainer>
-        <Frame
-          initialContent={INITIAL_FRAME_CONTENT}
-          style={{
-            width: orientation === "portrait" ? device.width : device.height,
-            height: orientation === "portrait" ? device.height : device.width,
-            background: "white",
-          }}
+        <GridContainer
+          width={orientation === "portrait" ? device.width : device.height}
+          height={orientation === "portrait" ? device.height : device.width}
         >
-          {children}
-        </Frame>
+          <GridLayout
+            width={orientation === "portrait" ? device.width : device.height}
+            height={orientation === "portrait" ? device.height : device.width}
+            padding={[10, 10]}
+          >
+            {children}
+          </GridLayout>
+        </GridContainer>
       </FrameContainer>
     </DeviceSimulatorContainer>
   );
@@ -60,6 +48,16 @@ const SelectContainer = styled.div`
   ${(props) => props.theme.flex.centered}
   width: 100%;
   height: 10%;
+`;
+
+const GridContainer = styled.div<{
+  width: number;
+  height: number;
+}>`
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
+  background: white;
+  overflow: hidden;
 `;
 
 const FrameContainer = styled.div`
