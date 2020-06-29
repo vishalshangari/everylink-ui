@@ -3,15 +3,19 @@ interface Theme {
     [key: string]: string;
   };
   fonts: {
-    brand: string;
-    main: string;
+    [key: string]: string;
+  };
+  fontSizes: {
+    [key: string]: string;
+  };
+  borders: {
+    [key: string]: string;
   };
   padding: {
-    base: string;
-    app: string;
+    [key: string]: string;
   };
   margin: {
-    base: string;
+    [key: string]: string;
   };
   width: {
     sidePanelLg: string;
@@ -25,22 +29,33 @@ interface Theme {
 
 const theme: Theme = {
   color: {
-    white: "#fff",
-    black: "#000",
+    deepPurple: "#1A1423",
+    ThreePercentWhite: "rgb(255,255,255,0.03)",
+    TenPercentWhite: "rgb(255,255,255,0.1)",
+    deepGrey: "#333333",
+    popstar: "#B75D69",
   },
   fonts: {
     brand: "Lobster Two",
     main: "Open Sans",
   },
+  fontSizes: {
+    buttonLarge: "1.125rem",
+    dashboardHeader: "1.125rem",
+  },
   padding: {
     base: "1rem",
+    halfBase: "0.5rem",
     app: "5rem",
   },
   margin: {
     base: "1rem",
   },
+  borders: {
+    dashboard: "1px solid rgb(255,255,255,0.1)",
+  },
   width: {
-    sidePanelLg: "400px",
+    sidePanelLg: "380px",
   },
   flex: {
     column: "display: flex; flex-direction: column;",

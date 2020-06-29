@@ -15,9 +15,11 @@ const SidePanelContainer = styled.div<{ side: string }>`
   ${(props) => (props.side === "left" ? "left: 0" : "right: 0")};
   right: 0;
   top: 0;
-  background: blue;
+  background: ${(props) => props.theme.color.ThreePercentWhite};
+  border-left: 1px solid ${(props) => props.theme.color.TenPercentWhite};
   height: 100%;
   width: ${(props) => props.theme.width.sidePanelLg};
+  ${(props) => props.theme.flex.column}
 `;
 
 export default SidePanel;
