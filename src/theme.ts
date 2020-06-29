@@ -2,6 +2,10 @@ interface Theme {
   color: {
     [key: string]: string;
   };
+  fonts: {
+    brand: string;
+    main: string;
+  };
   padding: {
     base: string;
     app: string;
@@ -18,6 +22,10 @@ const theme: Theme = {
   color: {
     white: "#fff",
     black: "#000",
+  },
+  fonts: {
+    brand: "Lobster Two",
+    main: "Open Sans",
   },
   padding: {
     base: "1rem",
