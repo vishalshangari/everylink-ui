@@ -20,7 +20,7 @@ const OptionsTray: React.FC<OptionsTray> = ({
     <SidePanel side="right">
       <ReactTooltip effect="solid" />
       <DashboardHeader>
-        <h3>Sections</h3>
+        <h3>SEGMENTS</h3>
 
         <NewContainerBtn
           data-tip="Add new section"

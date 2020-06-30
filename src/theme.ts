@@ -33,6 +33,7 @@ const theme: Theme = {
     ThreePercentWhite: "rgb(255,255,255,0.03)",
     TenPercentWhite: "rgb(255,255,255,0.1)",
     deepGrey: "#333333",
+    darkCharcoal: "#111111",
     popstar: "#B75D69",
   },
   fonts: {
@@ -55,7 +56,7 @@ const theme: Theme = {
     dashboard: "1px solid rgb(255,255,255,0.1)",
   },
   width: {
-    sidePanelLg: "380px",
+    sidePanelLg: "550px",
   },
   flex: {
     column: "display: flex; flex-direction: column;",

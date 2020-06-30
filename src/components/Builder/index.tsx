@@ -105,7 +105,7 @@ const Box = styled.div`
 const BuilderContainer = styled.div`
   height: 100%;
   width: 100%;
-  background: ${(props) => props.theme.color.deepPurple};
+  background: ${(props) => props.theme.color.darkCharcoal};
 `;
 
 export default Builder;
