@@ -26,12 +26,6 @@ const Textbox = () => {
   );
   return (
     <DashboardViewWrap>
-      <DashboardTextboxSmall>
-        Add label <MdModeEdit />
-      </DashboardTextboxSmall>
-      <DashboardHeader>
-        <h3>Textbox</h3>
-      </DashboardHeader>
       <DashboardTextbox>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus

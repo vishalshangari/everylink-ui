@@ -38,7 +38,9 @@ const theme: Theme = {
     deepGrey: "#333333",
     darkBackground: "#090a0b",
     darkBackgroundLight: "#1c1f22",
-    borderGrey: "#343A40",
+    darkBackgroundLighter: "#212529",
+    borderGrey: "#495057",
+    borderGreyDark: "#343A40",
     offwhite: "#CED4DA",
     offwhiteBright: "#F8F9FA",
     lightGrey: "#ADB5BD",
@@ -48,11 +50,14 @@ const theme: Theme = {
     deleteBtnHover: "#81353B",
     doneBtn: "#31443F",
     doneBtnHover: "#358262",
+    dashboardAccent: "#f77f00",
   },
   fonts: {
     brand: "Lobster Two",
     main: "Open Sans",
-    dashSetting: "font-size: 1rem; font-weight: bold; line-height: 1rem;",
+    dashSetting: "font-size: 1rem; font-weight: 400; line-height: 1rem;",
+    dashSettingsHeader:
+      "font-size: 1.5rem; font-weight: 700; line-height: 1.5rem;",
   },
   fontSizes: {
     buttonLarge: "1.125rem",
@@ -77,6 +82,7 @@ const theme: Theme = {
   },
   borderRadius: {
     small: "0.5rem",
+    xsmall: "0.25rem",
   },
   width: {
     sidePanelLg: "550px",

@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
+import { SidePaddedDashboardContainer } from "./DashFormats";
+
+/* Main Dashboard Tabs */
 
 export const StyledTabPanel = styled(TabPanel)``;
 
@@ -75,4 +78,46 @@ export const DashTabList = styled(TabList)`
   padding: 0;
   margin: 0;
   ${(props) => props.theme.flex.row}
+`;
+
+/* Dashboard sub tabs */
+
+export const DashSubTabs = styled(Tabs)``;
+
+export const DashSubTabsWrap = styled(SidePaddedDashboardContainer)``;
+
+export const DashSubTabList = styled(TabList)`
+  padding: 0;
+  margin: 0;
+  ${(props) => props.theme.flex.row}
+`;
+
+export const DashSubTab = styled(Tab)<{ isActive: boolean }>`
+  justify-content: center;
+  list-style: none;
+  position: relative;
+  padding: ${(props) => props.theme.padding.base};
+  ${(props) => props.theme.flex.row}
+  cursor: pointer;
+  flex: 1;
+  color: ${(props) => props.theme.color.offwhiteBright};
+  font-weight: bold;
+  opacity: ${(props) => (props.isActive ? 1 : 0.75)};
+
+  &:hover {
+    > * {
+      opacity: 1;
+    }
+  }
+  &:focus {
+    outline: none;
+  }
+
+  /* Border magic */
+
+  border-bottom: ${(props) =>
+    `3px solid ` +
+    (props.isActive
+      ? `${props.theme.color.dashboardAccent}`
+      : `${props.theme.color.borderGreyDark}`)};
 `;

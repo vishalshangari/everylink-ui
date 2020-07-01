@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { TransparentButton } from "../../../elements/Buttons";
 import ContentPane from "./ContentPane";
 import AppearancePane from "./AppearancePane";
+import SettingsPane from "./SettingsPane";
 import { Tab } from "react-tabs";
 import {
   TabIcon,
@@ -18,6 +19,9 @@ import {
   DashboardDoneBtn,
   DashboardDeleteBtn,
   DashboardDuplicateBtn,
+  DashboardTitle,
+  DashboardTextboxSmall,
+  DashboardTitleDisplay,
 } from "./DashboardStyledComponents/DashFormats";
 import {
   MdFormatPaint,
@@ -26,6 +30,7 @@ import {
   MdDelete,
   MdFilterNone,
   MdCheckCircle,
+  MdModeEdit,
 } from "react-icons/md";
 import { IconContext } from "react-icons";
 
@@ -34,19 +39,28 @@ interface OptionsTray {
   //   activeTab?: number;
 }
 
-interface MyDashTab extends Tab {
+interface StateDashTab extends Tab {
   isActive: boolean;
 }
 
-const MyDashTab = ({ isActive, ...props }: MyDashTab) => {
+const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
   return <DashTab isActive={isActive} {...props} />;
 };
 
 const OptionsTray: React.FC<OptionsTray> = ({ addBlock }) => {
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(2);
 
   return (
     <SidePanel side="right">
+      <DashboardTitleDisplay>
+        <DashboardTitle>
+          <h3>Textbox</h3>
+        </DashboardTitle>
+
+        <DashboardTextboxSmall>
+          Add label <MdModeEdit />
+        </DashboardTextboxSmall>
+      </DashboardTitleDisplay>
       <StyledTabs
         selectedIndex={activeTab}
         onSelect={(tabIndex) => setActiveTab(tabIndex)}
@@ -80,7 +94,9 @@ const OptionsTray: React.FC<OptionsTray> = ({ addBlock }) => {
         <StyledTabPanel>
           <AppearancePane></AppearancePane>
         </StyledTabPanel>
-        <StyledTabPanel></StyledTabPanel>
+        <StyledTabPanel>
+          <SettingsPane></SettingsPane>
+        </StyledTabPanel>
       </StyledTabs>
       <DashboardElementActions>
         <DashboardDoneBtn>
