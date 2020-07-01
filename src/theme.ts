@@ -3,15 +3,22 @@ interface Theme {
     [key: string]: string;
   };
   fonts: {
-    brand: string;
-    main: string;
+    [key: string]: string;
+  };
+  fontSizes: {
+    [key: string]: string;
+  };
+  borders: {
+    [key: string]: string;
+  };
+  borderRadius: {
+    [key: string]: string;
   };
   padding: {
-    base: string;
-    app: string;
+    [key: string]: string;
   };
   margin: {
-    base: string;
+    [key: string]: string;
   };
   width: {
     sidePanelLg: string;
@@ -25,22 +32,60 @@ interface Theme {
 
 const theme: Theme = {
   color: {
-    white: "#fff",
-    black: "#000",
+    deepPurple: "#1A1423",
+    ThreePercentWhite: "rgb(255,255,255,0.03)",
+    TenPercentWhite: "rgb(255,255,255,0.1)",
+    deepGrey: "#333333",
+    darkBackground: "#090a0b",
+    darkBackgroundLight: "#1c1f22",
+    darkBackgroundLighter: "#212529",
+    borderGrey: "#495057",
+    borderGreyDark: "#343A40",
+    offwhite: "#CED4DA",
+    offwhiteBright: "#F8F9FA",
+    lightGrey: "#ADB5BD",
+    lightMiddleGrey: "#495057",
+    middleGrey: "#6C757D",
+    deleteBtn: "#443136",
+    deleteBtnHover: "#81353B",
+    doneBtn: "#31443F",
+    doneBtnHover: "#358262",
+    dashboardAccent: "#f77f00",
   },
   fonts: {
     brand: "Lobster Two",
     main: "Open Sans",
+    dashSetting: "font-size: 1rem; font-weight: 400; line-height: 1rem;",
+    dashSettingsHeader:
+      "font-size: 1.5rem; font-weight: 700; line-height: 1.5rem;",
+  },
+  fontSizes: {
+    buttonLarge: "1.125rem",
+    dashboardHeader: "2.125rem",
+    dashboardText: "1rem",
+    dashboardTextSmall: "0.875rem",
+    sliderSetting: "1.5rem",
   },
   padding: {
     base: "1rem",
+    halfBase: "0.5rem",
+    doubleBase: "2rem",
     app: "5rem",
   },
   margin: {
     base: "1rem",
+    halfBase: "0.5rem",
+    doubleBase: "2rem",
+  },
+  borders: {
+    dashboard: "1px solid rgb(255,255,255,0.1)",
+  },
+  borderRadius: {
+    small: "0.5rem",
+    xsmall: "0.25rem",
   },
   width: {
-    sidePanelLg: "400px",
+    sidePanelLg: "550px",
   },
   flex: {
     column: "display: flex; flex-direction: column;",
