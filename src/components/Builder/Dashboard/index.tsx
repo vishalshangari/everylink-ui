@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SidePanel from "../../Shared/SidePanel";
+import { Panel } from "../../Shared/Panel";
 import styled from "styled-components";
 import { TransparentButton } from "../../../elements/Buttons";
 import ContentPane from "./ContentPane";
@@ -36,6 +36,7 @@ import { IconContext } from "react-icons";
 
 interface OptionsTray {
   addBlock: () => void;
+  panelRight: boolean;
   //   activeTab?: number;
 }
 
@@ -47,11 +48,11 @@ const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
   return <DashTab isActive={isActive} {...props} />;
 };
 
-const OptionsTray: React.FC<OptionsTray> = ({ addBlock }) => {
-  const [activeTab, setActiveTab] = useState(2);
+const OptionsTray: React.FC<OptionsTray> = ({ addBlock, panelRight }) => {
+  const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <SidePanel side="right">
+    <Panel panelRight={panelRight}>
       <DashboardTitleDisplay>
         <DashboardTitle>
           <h3>Textbox</h3>
@@ -118,7 +119,7 @@ const OptionsTray: React.FC<OptionsTray> = ({ addBlock }) => {
           Delete
         </DashboardDeleteBtn>
       </DashboardElementActions>
-    </SidePanel>
+    </Panel>
   );
 };
 

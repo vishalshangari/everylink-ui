@@ -1,14 +1,6 @@
 import styled from "styled-components";
 export const ViewContainer = styled.div`
-  display: flex;
-  height: calc(
-    100% - ${(props) => props.theme.padding.base} -
-      ${(props) => props.theme.padding.base}
-  );
-  width: calc(
-    100% - ${(props) => props.theme.width.sidePanelLg} -
-      ${(props) => props.theme.padding.base} -
-      ${(props) => props.theme.padding.base}
-  );
+  height: 100vh;
+  ${(props) => props.theme.flex.grow}
   padding: ${(props) => props.theme.padding.base};
 `;
