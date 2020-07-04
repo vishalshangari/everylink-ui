@@ -1,6 +1,7 @@
 * {
   font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
 }
 
 .react-resizable {
@@ -114,4 +115,11 @@
 
 .react-resizable-hide > .react-resizable-handle {
   display: none;
+}
+
+/* Mobile Drawer Dashboard width override */
+@media (max-width: 27.5em) {
+  .MuiPaper-root {
+    width: 80%;
+  }
 }

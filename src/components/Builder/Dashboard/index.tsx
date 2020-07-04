@@ -11,8 +11,10 @@ import {
   DashTab,
   DashTabList,
   TabTitle,
+  DashPanelsContainer,
   StyledTabs,
   StyledTabPanel,
+  PanelTopShadow,
 } from "./DashboardStyledComponents/DashTab";
 import {
   DashboardElementActions,
@@ -34,7 +36,7 @@ import {
 } from "react-icons/md";
 import { IconContext } from "react-icons";
 
-interface OptionsTray {
+interface Dashboard {
   addBlock: () => void;
   panelRight: boolean;
   //   activeTab?: number;
@@ -48,7 +50,7 @@ const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
   return <DashTab isActive={isActive} {...props} />;
 };
 
-const OptionsTray: React.FC<OptionsTray> = ({ addBlock, panelRight }) => {
+const Dashboard: React.FC<Dashboard> = ({ addBlock, panelRight }) => {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
@@ -62,6 +64,7 @@ const OptionsTray: React.FC<OptionsTray> = ({ addBlock, panelRight }) => {
           Add label <MdModeEdit />
         </DashboardTextboxSmall>
       </DashboardTitleDisplay>
+
       <StyledTabs
         selectedIndex={activeTab}
         onSelect={(tabIndex) => setActiveTab(tabIndex)}
@@ -89,15 +92,18 @@ const OptionsTray: React.FC<OptionsTray> = ({ addBlock, panelRight }) => {
           </IconContext.Provider>
         </DashTabList>
 
-        <StyledTabPanel>
-          <ContentPane></ContentPane>
-        </StyledTabPanel>
-        <StyledTabPanel>
-          <AppearancePane></AppearancePane>
-        </StyledTabPanel>
-        <StyledTabPanel>
-          <SettingsPane></SettingsPane>
-        </StyledTabPanel>
+        <DashPanelsContainer>
+          <StyledTabPanel>
+            <ContentPane></ContentPane>
+          </StyledTabPanel>
+          <StyledTabPanel>
+            <PanelTopShadow></PanelTopShadow>
+            <AppearancePane></AppearancePane>
+          </StyledTabPanel>
+          <StyledTabPanel>
+            <SettingsPane></SettingsPane>
+          </StyledTabPanel>
+        </DashPanelsContainer>
       </StyledTabs>
       <DashboardElementActions>
         <DashboardDoneBtn>
@@ -142,4 +148,4 @@ const NewContainerBtn = styled(TransparentButton)`
 
 const OptionsContainer = styled.div``;
 
-export default OptionsTray;
+export default Dashboard;

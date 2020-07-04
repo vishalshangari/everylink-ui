@@ -12,9 +12,7 @@ export const SidePaddedDashboardContainer = styled.div`
   padding: 0 ${(props) => props.theme.padding.doubleBase};
 `;
 
-export const DashboardViewWrap = styled.div`
-  padding: ${(props) => props.theme.padding.base} 0 0;
-`;
+export const DashboardViewWrap = styled.div``;
 
 export const DashboardTitleDisplay = styled.div`
   padding: ${(props) => props.theme.padding.doubleBase} 0
@@ -57,7 +55,6 @@ export const DashboardTextEditor = styled.div`
 `;
 
 export const DashboardElementActions = styled(PaddedDashboardContainer)`
-  margin: ${(props) => props.theme.margin.doubleBase} 0 0;
   padding: ${(props) => props.theme.padding.base}
     ${(props) => props.theme.padding.doubleBase};
   ${(props) => props.theme.flex.row};

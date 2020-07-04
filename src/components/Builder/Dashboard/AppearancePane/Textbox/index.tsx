@@ -113,6 +113,76 @@ const Textbox = () => {
             </StyledMuiGridItem>
           </BorderedGrid>
         </SettingsGrid>
+        <SettingsHeader>
+          <h4>Character</h4>
+        </SettingsHeader>
+        <SettingsGrid>
+          <BorderedGrid container spacing={0}>
+            <StyledMuiGridItem item xs={6}>
+              <SimpleSliderSettingGrid>
+                <label htmlFor="fontSize">Size</label>
+                <SliderValueDisplay>1.25</SliderValueDisplay>
+                <input id="fontSize" type="range"></input>
+              </SimpleSliderSettingGrid>
+            </StyledMuiGridItem>
+            <StyledMuiGridItem item xs={6}>
+              <SimpleSliderSettingGrid>
+                <label htmlFor="fontSize">Line Height</label>
+                <SliderValueDisplay>1.5</SliderValueDisplay>
+                <input id="fontSize" type="range"></input>
+              </SimpleSliderSettingGrid>
+            </StyledMuiGridItem>
+            <StyledMuiGridItem item xs={6}>
+              <SimpleSliderSettingGrid>
+                <label htmlFor="fontSize">Weight</label>
+                <SliderValueDisplay>Semi-Bold</SliderValueDisplay>
+                <input id="fontSize" type="range"></input>
+              </SimpleSliderSettingGrid>
+            </StyledMuiGridItem>
+            <StyledMuiGridItem item xs={6}>
+              <SimpleSliderSettingGrid>
+                <label htmlFor="fontSize">Letter Spacing</label>
+                <SliderValueDisplay>3</SliderValueDisplay>
+                <input id="fontSize" type="range"></input>
+              </SimpleSliderSettingGrid>
+            </StyledMuiGridItem>
+          </BorderedGrid>
+        </SettingsGrid>
+        <SettingsHeader>
+          <h4>Character</h4>
+        </SettingsHeader>
+        <SettingsGrid>
+          <BorderedGrid container spacing={0}>
+            <StyledMuiGridItem item xs={6}>
+              <SimpleSliderSettingGrid>
+                <label htmlFor="fontSize">Size</label>
+                <SliderValueDisplay>1.25</SliderValueDisplay>
+                <input id="fontSize" type="range"></input>
+              </SimpleSliderSettingGrid>
+            </StyledMuiGridItem>
+            <StyledMuiGridItem item xs={6}>
+              <SimpleSliderSettingGrid>
+                <label htmlFor="fontSize">Line Height</label>
+                <SliderValueDisplay>1.5</SliderValueDisplay>
+                <input id="fontSize" type="range"></input>
+              </SimpleSliderSettingGrid>
+            </StyledMuiGridItem>
+            <StyledMuiGridItem item xs={6}>
+              <SimpleSliderSettingGrid>
+                <label htmlFor="fontSize">Weight</label>
+                <SliderValueDisplay>Semi-Bold</SliderValueDisplay>
+                <input id="fontSize" type="range"></input>
+              </SimpleSliderSettingGrid>
+            </StyledMuiGridItem>
+            <StyledMuiGridItem item xs={6}>
+              <SimpleSliderSettingGrid>
+                <label htmlFor="fontSize">Letter Spacing</label>
+                <SliderValueDisplay>3</SliderValueDisplay>
+                <input id="fontSize" type="range"></input>
+              </SimpleSliderSettingGrid>
+            </StyledMuiGridItem>
+          </BorderedGrid>
+        </SettingsGrid>
       </form>
     </DashboardViewWrap>
   );
