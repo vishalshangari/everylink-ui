@@ -3,6 +3,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Login from "./components/Auth/Login";
 import Builder from "./components/Builder";
 import PrivateRoute from "./components/Shared/PrivateRoute";
+import Test from "./components/Test";
 import UserPage from "./components/UserPage";
 import styled from "styled-components";
 
@@ -14,6 +15,7 @@ function App() {
           <Route path="/user/:id" component={UserPage} />
           <PrivateRoute path="/builder" component={Builder} />
           <Route path="/login" component={Login} />
+          <Route path="/test" component={Test} />
           <Route path="/" component={Builder} />
         </Switch>
       </BrowserRouter>

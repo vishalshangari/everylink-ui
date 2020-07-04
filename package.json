@@ -4,22 +4,47 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.0.0",
-    "@material-ui/core": "^4.10.2",
+    "@material-ui/core": "^4.11.0",
+    "@styled-system/prop-types": "^5.1.5",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/draft-js": "^0.10.41",
+    "@types/lodash": "^4.14.157",
+    "@types/react-color": "^3.0.4",
+    "@types/react-responsive": "^8.0.2",
+    "@types/react-tabs": "^2.3.1",
+    "@types/styled-system": "^5.1.9",
     "auth0-js": "^9.13.2",
+    "babel-polyfill": "^6.26.0",
+    "csstype": "^2.6.11",
+    "draft-js": "^0.11.6",
+    "lodash": "^4.17.15",
     "normalize.css": "^8.0.1",
+    "rc-tooltip": "^4.2.1",
     "react": "^16.13.1",
     "react-accessible-accordion": "^3.0.1",
+<<<<<<< HEAD
     "react-dom": "^16.13.1",
     "react-grid-layout": "^0.18.3",
     "react-icons": "^3.10.0",
+=======
+    "react-color": "^2.18.1",
+    "react-dom": "^16.13.1",
+    "react-grid-layout": "^0.18.3",
+    "react-icons": "^3.10.0",
+    "react-responsive": "^8.1.0",
+>>>>>>> vish/dash-system
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-tabs": "^3.1.1",
     "react-tooltip": "^4.2.7",
+<<<<<<< HEAD
     "styled-components": "^5.1.1"
+=======
+    "styled-components": "^5.1.1",
+    "styled-system": "^5.1.5"
+>>>>>>> vish/dash-system
   },
   "devDependencies": {
     "@types/auth0-js": "^9.13.2",
