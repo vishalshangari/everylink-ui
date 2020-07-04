@@ -1,9 +1,7 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
-import Data from "../../dummydata/testInterface";
 
 interface BuilderContext {
-  data: Data;
   children?: ReactNode;
 }
 
@@ -15,7 +13,6 @@ const BuilderRender = styled.div`
 `;
 
 const BuilderContainer: React.FC<BuilderContext> = ({
-  data,
   children,
 }: BuilderContext) => {
   return <BuilderRender>{children}</BuilderRender>;

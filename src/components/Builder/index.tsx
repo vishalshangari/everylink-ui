@@ -1,18 +1,9 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, createContext } from "react";
 
 // Components
 import BuilderContainer from "./BuilderContainer";
 import DeviceSimulator from "./DeviceSimulator";
-import OptionsTray from "./OptionsTray";
-import { GoTriangleRight, GoTriangleDown } from "react-icons/go";
 import { ViewContainer } from "./ViewContainer";
-import {
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-  AccordionItemState,
-} from "react-accessible-accordion";
 import Dashboard from "./Dashboard";
 
 // Utils
@@ -35,6 +26,8 @@ type AccordionElement = ReactNode;
 
 const InitialElements: Block[] = [];
 const InitialAccordionElements: AccordionElement[] = [];
+
+export const BuilderContext = createContext<Data>({} as Data);
 
 const Builder = () => {
   const [blocks, setBlocks] = useState(InitialElements);
@@ -137,37 +130,41 @@ const Builder = () => {
 
   return (
     <ThemeProvider theme={currTheme}>
-      <BuilderContainer data={data}>
-        <ViewContainer>
-          <DeviceSimulator>{blocks}</DeviceSimulator>
-          <ModeBtn>
-            <button onClick={() => setDarkMode(!darkMode)}>
-              {darkMode ? "Dark" : "Light"}
-            </button>
-            <button onClick={() => setPanelRight(!panelRight)}>
-              {panelRight ? "Right" : "Left"}
-            </button>
-            <button onClick={addBlock}>Add block</button>
-            <button onClick={handleDrawerToggle}>Drawer</button>
-          </ModeBtn>
-        </ViewContainer>
-        {/* Mobile Temporary Drawer Dashboard */}
-        {isMobile && (
-          <Drawer
-            open={mobileOpen}
-            anchor={panelRight ? "right" : "left"}
-            variant={"temporary"}
-            onClose={handleDrawerToggle}
-            ModalProps={{
-              keepMounted: true,
-            }}
-          >
+      <BuilderContext.Provider value={data as Data}>
+        <BuilderContainer>
+          <ViewContainer>
+            <DeviceSimulator>{blocks}</DeviceSimulator>
+            <ModeBtn>
+              <button onClick={() => setDarkMode(!darkMode)}>
+                {darkMode ? "Dark" : "Light"}
+              </button>
+              <button onClick={() => setPanelRight(!panelRight)}>
+                {panelRight ? "Right" : "Left"}
+              </button>
+              <button onClick={addBlock}>Add block</button>
+              <button onClick={handleDrawerToggle}>Drawer</button>
+            </ModeBtn>
+          </ViewContainer>
+          {/* Mobile Temporary Drawer Dashboard */}
+          {isMobile && (
+            <Drawer
+              open={mobileOpen}
+              anchor={panelRight ? "right" : "left"}
+              variant={"temporary"}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true,
+              }}
+            >
+              <Dashboard addBlock={addBlock} panelRight={panelRight} />
+            </Drawer>
+          )}
+          {/* Desktop Persistent Dashboard */}
+          {!isMobile && (
             <Dashboard addBlock={addBlock} panelRight={panelRight} />
-          </Drawer>
-        )}
-        {/* Desktop Persistent Dashboard */}
-        {!isMobile && <Dashboard addBlock={addBlock} panelRight={panelRight} />}
-      </BuilderContainer>
+          )}
+        </BuilderContainer>
+      </BuilderContext.Provider>
     </ThemeProvider>
   );
 };
