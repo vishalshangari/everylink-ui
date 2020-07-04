@@ -13,10 +13,11 @@ const PanelContainer = styled.div<{ panelRight: boolean }>`
       : `border-right: 1px solid ${props.theme.color.borderGrey}; order: -1`};
   right: 0;
   top: 0;
-  height: 100%;
+  max-height: 100vh;
   width: ${(props) => props.theme.scales.panel};
   ${(props) => props.theme.flex.column}
   background: ${(props) => props.theme.color.darkBackgroundLight};
+  overflow-x: hidden;
 `;
 
 export const Panel = ({ children, panelRight }: Panel) => {

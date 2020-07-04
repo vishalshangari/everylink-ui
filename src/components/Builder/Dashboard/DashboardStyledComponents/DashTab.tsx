@@ -4,11 +4,48 @@ import { SidePaddedDashboardContainer } from "./DashFormats";
 
 /* Main Dashboard Tabs */
 
+export const DashPanelsContainer = styled.div`
+  flex-grow: 1;
+  min-height: 0;
+  overflow: auto;
+  overflow-x: hidden;
+  position: relative;
+
+  ::-webkit-scrollbar {
+    width: 0.5em;
+  }
+  ::-webkit-scrollbar-track {
+    background: ${(props) => props.theme.color.darkBackgroundLight};
+    border-left: 1px solid ${(props) => props.theme.color.borderGreyDark};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${(props) => props.theme.color.borderGreyDark};
+    -webkit-transition: 0.3s ease all;
+    &:hover {
+      background: ${(props) => props.theme.color.borderGrey};
+    }
+  }
+`;
+
 export const StyledTabPanel = styled(TabPanel)``;
+
+export const PanelTopShadow = styled.div`
+  width: 100%;
+  height: 2rem;
+  position: sticky;
+  top: -1px;
+  background: linear-gradient(
+    180deg,
+    rgba(28, 31, 34, 1) 10%,
+    rgba(255, 255, 255, 0) 100%
+  );
+`;
 
 export const StyledTabs = styled(Tabs)`
   -webkit-tap-highlight-color: transparent;
   flex-grow: 1;
+  min-height: 0;
+  ${(props) => props.theme.flex.column}
 `;
 
 export const DashTab = styled(Tab)<{ isActive: boolean }>`

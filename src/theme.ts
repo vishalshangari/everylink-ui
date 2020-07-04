@@ -61,6 +61,12 @@ export interface Scales {
   lg: {
     [key: string]: string;
   };
+  md: {
+    [key: string]: string;
+  };
+  sm: {
+    [key: string]: string;
+  };
 }
 
 // Scale object
@@ -71,6 +77,12 @@ export const scales: Scales = {
   lg: {
     panel: "28rem",
   },
+  md: {
+    panel: "28rem",
+  },
+  sm: {
+    panel: "22em",
+  },
 };
 
 // Main theme object def
@@ -78,8 +90,10 @@ export interface Theme {
   colors: ThemeColors;
   scales: Scales;
   breakpoints: {
-    md: string;
+    xl: string;
     lg: string;
+    md: string;
+    sm: string;
   };
   color: {
     [key: string]: string;
@@ -137,8 +151,10 @@ export const theme: Theme = {
     dashboardAccent: "#f77f00",
   },
   breakpoints: {
-    md: "60em",
-    lg: "80em",
+    xl: "80em",
+    lg: "60em",
+    md: "37.5em",
+    sm: "26.5em",
   },
   fonts: {
     brand: "Lobster Two",

@@ -1,4 +1,7 @@
 import React, { useState, ReactNode } from "react";
+
+// Components
+import BuilderContainer from "./BuilderContainer";
 import DeviceSimulator from "./DeviceSimulator";
 import OptionsTray from "./OptionsTray";
 import { GoTriangleRight, GoTriangleDown } from "react-icons/go";
@@ -12,12 +15,20 @@ import {
 } from "react-accessible-accordion";
 import Dashboard from "./Dashboard";
 
+// Utils
 import merge from "lodash/merge";
 import get from "lodash/get";
 import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import { Theme, theme } from "../../theme";
+import Drawer from "@material-ui/core/Drawer";
+
+// Test Data
+import Data from "../../dummydata/testInterface";
+import dataImport from "../../dummydata/testObject.json";
+
+const data: Data = dataImport;
 
 type Block = ReactNode;
 type AccordionElement = ReactNode;
@@ -42,10 +53,13 @@ const Builder = () => {
   const dark = "dark";
 
   // Responsive media query constants
-  const EXTRA_LARGE = 80;
+  const threshold_xl = theme.breakpoints.xl;
   const XL = "xl";
-  const LARGE = 60;
+  const threshold_lg = theme.breakpoints.lg;
   const LG = "lg";
+  const threshold_md = theme.breakpoints.md;
+  const MD = "md";
+  const SM = "sm";
 
   // Get initial display scale for rendering
   const getInitialDisplayScale = () => {
@@ -56,22 +70,52 @@ const Builder = () => {
     );
     const emRatio = window.innerWidth / rootFontSize;
 
-    if (emRatio >= EXTRA_LARGE) return XL;
-    else if (emRatio >= LARGE) {
+    if (emRatio >= parseInt(threshold_xl)) return XL;
+    else if (emRatio >= parseInt(threshold_lg)) {
       return LG;
+    } else if (emRatio >= parseInt(threshold_md)) {
+      return MD;
     }
-    return "";
+
+    return SM;
   };
 
-  const [displayScale, setDisplayScale] = useState(getInitialDisplayScale);
+  const [displaySize, setDisplaySize] = useState(getInitialDisplayScale);
 
   // Set media queries for responsive theming
-  useMediaQuery({ minWidth: EXTRA_LARGE + "em" }, undefined, (matches) => {
-    if (matches) setDisplayScale(XL);
-  });
-  useMediaQuery({ maxWidth: EXTRA_LARGE + "em" }, undefined, (matches) => {
-    if (matches) setDisplayScale(LG);
-  });
+  useMediaQuery(
+    { minWidth: parseInt(threshold_xl) + "em" },
+    undefined,
+    (matches) => {
+      if (matches) setDisplaySize(XL);
+    }
+  );
+
+  useMediaQuery(
+    { query: `(max-width: ${threshold_xl}) and (min-width: ${threshold_lg})` },
+    undefined,
+    (matches) => {
+      if (matches) setDisplaySize(LG);
+    }
+  );
+
+  const isMobile = useMediaQuery({ maxWidth: parseInt(threshold_lg) + "em" });
+
+  useMediaQuery(
+    { query: `(max-width: ${threshold_lg}) and (min-width: ${threshold_md})` },
+    undefined,
+    (matches) => {
+      if (matches) setDisplaySize(MD);
+    }
+  );
+
+  useMediaQuery(
+    { query: `(max-width: ${threshold_md})` },
+    undefined,
+    (matches) => {
+      if (matches) setDisplaySize(SM);
+    }
+  );
 
   // Generate theme for rendering based on color mode and display scale
   const getTheme = (darkMode: boolean, displayScale: string) =>
@@ -80,42 +124,58 @@ const Builder = () => {
       scales: get(theme.scales, displayScale, theme.scales),
     });
 
+  const currTheme: Theme = getTheme(darkMode, displaySize);
+
+  // Handle Mobile Drawer Dashboard
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   // Render Panel side per user preference
   const [panelRight, setPanelRight] = useState(true);
 
-  const currTheme: Theme = getTheme(darkMode, displayScale);
   return (
     <ThemeProvider theme={currTheme}>
-      <BuilderContainer>
-        <ModeBtn>
-          <button onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? "Dark" : "Light"}
-          </button>
-          <button onClick={() => setPanelRight(!panelRight)}>
-            {panelRight ? "Right" : "Left"}
-          </button>
-          <button onClick={addBlock}>Add block</button>
-        </ModeBtn>
+      <BuilderContainer data={data}>
         <ViewContainer>
           <DeviceSimulator>{blocks}</DeviceSimulator>
+          <ModeBtn>
+            <button onClick={() => setDarkMode(!darkMode)}>
+              {darkMode ? "Dark" : "Light"}
+            </button>
+            <button onClick={() => setPanelRight(!panelRight)}>
+              {panelRight ? "Right" : "Left"}
+            </button>
+            <button onClick={addBlock}>Add block</button>
+            <button onClick={handleDrawerToggle}>Drawer</button>
+          </ModeBtn>
         </ViewContainer>
-        <Dashboard addBlock={addBlock} panelRight={panelRight} />
+        {/* Mobile Temporary Drawer Dashboard */}
+        {isMobile && (
+          <Drawer
+            open={mobileOpen}
+            anchor={panelRight ? "right" : "left"}
+            variant={"temporary"}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true,
+            }}
+          >
+            <Dashboard addBlock={addBlock} panelRight={panelRight} />
+          </Drawer>
+        )}
+        {/* Desktop Persistent Dashboard */}
+        {!isMobile && <Dashboard addBlock={addBlock} panelRight={panelRight} />}
       </BuilderContainer>
     </ThemeProvider>
   );
 };
 
-// Builder Styled Components
+// Temporary Styled Components
 
 const Box = styled.div`
   background: grey;
-`;
-
-const BuilderContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
-  ${(props) => props.theme.flex.row}
-  background: ${(props) => props.theme.colors.builderBg};
 `;
 
 const ModeBtn = styled.div`
