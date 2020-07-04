@@ -154,10 +154,6 @@ export const theme: Theme = {
     dashboardTextSmall: "0.875rem",
     sliderSetting: "1.5rem",
   },
-  fontSizes: {
-    buttonLarge: "1.125rem",
-    dashboardHeader: "1.125rem",
-  },
   padding: {
     base: "1rem",
     halfBase: "0.5rem",
