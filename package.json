@@ -24,27 +24,17 @@
     "rc-tooltip": "^4.2.1",
     "react": "^16.13.1",
     "react-accessible-accordion": "^3.0.1",
-<<<<<<< HEAD
-    "react-dom": "^16.13.1",
-    "react-grid-layout": "^0.18.3",
-    "react-icons": "^3.10.0",
-=======
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
     "react-grid-layout": "^0.18.3",
     "react-icons": "^3.10.0",
     "react-responsive": "^8.1.0",
->>>>>>> vish/dash-system
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-tabs": "^3.1.1",
     "react-tooltip": "^4.2.7",
-<<<<<<< HEAD
-    "styled-components": "^5.1.1"
-=======
     "styled-components": "^5.1.1",
     "styled-system": "^5.1.5"
->>>>>>> vish/dash-system
   },
   "devDependencies": {
     "@types/auth0-js": "^9.13.2",
