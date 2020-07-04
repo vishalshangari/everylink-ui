@@ -187,6 +187,7 @@ const ModeBtn = styled.div`
     padding: 0.5rem 1rem;
     justify-content: center;
     margin-right: 0.5rem;
+    color: #000;
   }
   z-index: 999;
 `;
