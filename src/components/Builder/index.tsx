@@ -66,7 +66,9 @@ const Builder: React.FC<BuilderProps> = (props) => {
               {panelRight ? "Right" : "Left"}
             </button>
             <button onClick={addBlock}>Add block</button>
-            <button onClick={handleMobileDashboardToggle}>Drawer</button>
+            {displaySize !== "xl" && displaySize !== "lg" && (
+              <button onClick={handleMobileDashboardToggle}>Drawer</button>
+            )}
           </ModeBtn>
         </ViewContainer>
         {/* Mobile Temporary Drawer Dashboard */}
