@@ -2,24 +2,38 @@ import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Login from "./main/Auth/Login";
 import Builder from "./main/Builder";
-import PrivateRoute from "./main/Shared/PrivateRoute";
-import Test from "./main/Test";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+import useTheme from "./hooks/useTheme";
+import useDisplaySize from "./hooks/useDisplaySize";
+import { DisplaySizeContext } from "./contexts/DisplaySizeContext";
 
-function App() {
+const App = () => {
+  const [displaySize, handleDisplaySizeChange] = useDisplaySize();
+  const [getNewTheme, currentTheme, handleThemeChange] = useTheme({
+    defaultTheme: process.env.REACT_APP_DEV_THEME as string,
+    displaySize,
+  });
+
   return (
-    <AppContainer>
-      <BrowserRouter>
-        <Switch>
-          <PrivateRoute path="/builder" component={Builder} />
-          <Route path="/login" component={Login} />
-          <Route path="/test" component={Test} />
-          <Route path="/" component={Builder} />
-        </Switch>
-      </BrowserRouter>
-    </AppContainer>
+    <ThemeProvider theme={getNewTheme(currentTheme)}>
+      <DisplaySizeContext.Provider value={displaySize}>
+        <AppContainer>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/login" component={Login} />
+              <Route path="/">
+                <Builder
+                  handleThemeChange={handleThemeChange}
+                  currentTheme={currentTheme}
+                ></Builder>
+              </Route>
+            </Switch>
+          </BrowserRouter>
+        </AppContainer>
+      </DisplaySizeContext.Provider>
+    </ThemeProvider>
   );
-}
+};
 
 // Main AppContainer styled component
 const AppContainer = styled.div`

@@ -40,7 +40,7 @@ interface ThemeColors {
 
 // Color assignment object
 const themeColors: ThemeColors = {
-  builderBg: colors.grey[2],
+  builderBg: colors.grey[9],
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
@@ -48,7 +48,7 @@ const themeColors: ThemeColors = {
       builderBg: colors.grey[6],
     },
     dark: {
-      builderBg: colors.grey[11],
+      builderBg: colors.grey[2],
     },
   },
 };

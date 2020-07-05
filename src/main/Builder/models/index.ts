@@ -23,3 +23,8 @@ export interface Data {
     };
   };
 }
+
+export interface BuilderProps {
+  handleThemeChange: (newTheme: string) => void;
+  currentTheme: string;
+}
