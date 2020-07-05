@@ -1,0 +1,20 @@
+export const dataImport = {
+  type: "text",
+  textContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  appearance: {
+    theme: {
+      default: "",
+    },
+    font: "times new roman",
+    color: {
+      text: "tomato",
+      background: "lightblue",
+    },
+    character: {
+      size: "1rem",
+      lineHeight: "1rem",
+      fontWeight: "normal",
+      letterSpacing: "2px",
+    },
+  },
+};
