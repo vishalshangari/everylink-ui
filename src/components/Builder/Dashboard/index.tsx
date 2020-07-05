@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Panel } from "../../Shared/Panel";
-import styled from "styled-components";
-import { TransparentButton } from "../../../elements/Buttons";
 import ContentPane from "./ContentPane";
 import AppearancePane from "./AppearancePane";
 import SettingsPane from "./SettingsPane";
@@ -36,7 +34,7 @@ import {
 } from "react-icons/md";
 import { IconContext } from "react-icons";
 
-interface Dashboard {
+interface DashboardProps {
   addBlock: () => void;
   panelRight: boolean;
   //   activeTab?: number;
@@ -50,7 +48,7 @@ const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
   return <DashTab isActive={isActive} {...props} />;
 };
 
-const Dashboard: React.FC<Dashboard> = ({ addBlock, panelRight }) => {
+const Dashboard: React.FC<DashboardProps> = ({ addBlock, panelRight }) => {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
@@ -94,14 +92,14 @@ const Dashboard: React.FC<Dashboard> = ({ addBlock, panelRight }) => {
 
         <DashPanelsContainer>
           <StyledTabPanel>
-            <ContentPane></ContentPane>
+            <ContentPane />
           </StyledTabPanel>
           <StyledTabPanel>
-            <PanelTopShadow></PanelTopShadow>
-            <AppearancePane></AppearancePane>
+            <PanelTopShadow />
+            <AppearancePane />
           </StyledTabPanel>
           <StyledTabPanel>
-            <SettingsPane></SettingsPane>
+            <SettingsPane />
           </StyledTabPanel>
         </DashPanelsContainer>
       </StyledTabs>
@@ -128,24 +126,5 @@ const Dashboard: React.FC<Dashboard> = ({ addBlock, panelRight }) => {
     </Panel>
   );
 };
-
-const DashboardContainer = styled.div`
-  padding: ${(props) => props.theme.padding.base};
-  border-bottom: ${(props) => props.theme.borders.dashboard};
-`;
-
-const NewContainerBtn = styled(TransparentButton)`
-  height: 100%;
-  opacity: 0.8;
-  &:hover {
-    opacity: 1;
-  }
-  ${(props) => props.theme.flex.column}
-  ${(props) => props.theme.flex.centered}
-
-  margin-top: 200px;
-`;
-
-const OptionsContainer = styled.div``;
 
 export default Dashboard;

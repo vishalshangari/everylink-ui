@@ -11,6 +11,7 @@ const PanelContainer = styled.div<{ panelRight: boolean }>`
     props.panelRight
       ? `border-left: 1px solid ${props.theme.color.borderGrey}; order: 1;`
       : `border-right: 1px solid ${props.theme.color.borderGrey}; order: -1`};
+
   right: 0;
   top: 0;
   max-height: 100vh;
