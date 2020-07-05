@@ -21,9 +21,9 @@ export const ModeBtn = styled.div`
 export const ViewContainer = styled.div`
   height: 100vh;
   padding: ${(props) => props.theme.padding.base};
-  width: 100%;
-  ${props => props.theme.flex.centered}
-  ${props => props.theme.flex.column}
+  flex-grow: 1;
+  ${(props) => props.theme.flex.centered}
+  ${(props) => props.theme.flex.column}
 `;
 
 export const BuilderContainer = styled.div`

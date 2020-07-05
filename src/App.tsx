@@ -18,7 +18,7 @@ const App = () => {
       <AppContainer>
         <BrowserRouter>
           <Switch>
-            <Route path="/login" component={() => <Login/>} />
+            <Route path="/login" component={() => <Login />} />
             <Route path="/">
               <Builder
                 displaySize={displaySize}
