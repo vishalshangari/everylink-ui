@@ -1,22 +1,9 @@
 import { useState } from "react";
-import { DisplaySizes } from "./DisplaySizes";
-import { Theme, theme as baseTheme } from "../theme";
+import { UseThemeDefinition } from "./models";
+import { theme as baseTheme } from "../theme";
 import { merge, get } from "lodash";
 
-// type Hook = (
-//   {defaultTheme: string,
-//   displaySize: DisplaySizes}
-// ) => [Theme, () => void];
-
-type Hook = ({
-  defaultTheme,
-  displaySize,
-}: {
-  defaultTheme: string;
-  displaySize: DisplaySizes;
-}) => [(newTheme: string) => Theme, string, (newTheme: string) => void];
-
-const useTheme: Hook = ({ defaultTheme, displaySize }) => {
+const useTheme: UseThemeDefinition = ({ defaultTheme, displaySize }) => {
   const [currentTheme, setCurrentTheme] = useState(defaultTheme);
 
   const handleThemeChange = (newTheme: string) => {

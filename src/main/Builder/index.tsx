@@ -2,8 +2,6 @@ import React, { useState, createContext, useContext } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
-import useMobileDashboard from "../../hooks/useMobileDashboard";
-import { DisplaySizeContext } from "../../contexts/DisplaySizeContext";
 import { Box } from "@material-ui/core";
 import { BuilderContainer, ModeBtn, ViewContainer } from "./components";
 import { Block, BuilderProps, Data } from "./models";
@@ -17,7 +15,7 @@ export const BuilderContext = createContext<Data>({} as Data);
 
 const Builder: React.FC<BuilderProps> = (props) => {
   const [panelRight, setPanelRight] = useState(true);
-  const displaySize = useContext(DisplaySizeContext);
+  const { displaySize, handleThemeChange, currentTheme } = props;
   const [blocks, setBlocks] = useState(InitialElements);
   const addBlock = () => {
     console.log(blocks);
@@ -27,9 +25,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
     ]);
   };
 
-  const [mobileDashboardOpen, handleMobileDashboardToggle] = useMobileDashboard(
-    false
-  );
+  const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
 
   // Render Panel side per user preference
 
@@ -41,19 +37,25 @@ const Builder: React.FC<BuilderProps> = (props) => {
           <ModeBtn>
             <button
               onClick={() =>
-                props.handleThemeChange(
-                  props.currentTheme === "dark" ? "" : "dark"
-                )
+                handleThemeChange(currentTheme === "dark" ? "" : "dark")
               }
             >
-              {props.currentTheme === "dark" ? "dark" : "default"}
+              {currentTheme === "dark" ? "dark" : "default"}
             </button>
             <button onClick={() => setPanelRight(!panelRight)}>
               {panelRight ? "Right" : "Left"}
             </button>
             <button onClick={addBlock}>Add block</button>
             {displaySize !== "xl" && displaySize !== "lg" && (
-              <button onClick={handleMobileDashboardToggle}>Drawer</button>
+              <button
+                onClick={() =>
+                  setMobileDashboardOpen(
+                    (prevMobileDashboardOpen) => !prevMobileDashboardOpen
+                  )
+                }
+              >
+                Drawer
+              </button>
             )}
           </ModeBtn>
         </ViewContainer>
@@ -63,7 +65,11 @@ const Builder: React.FC<BuilderProps> = (props) => {
             open={mobileDashboardOpen}
             anchor={panelRight ? "right" : "left"}
             variant={"temporary"}
-            onClose={handleMobileDashboardToggle}
+            onClose={() =>
+              setMobileDashboardOpen(
+                (prevMobileDashboardOpen) => !prevMobileDashboardOpen
+              )
+            }
             ModalProps={{
               keepMounted: true,
             }}

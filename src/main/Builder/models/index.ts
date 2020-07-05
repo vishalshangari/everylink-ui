@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { DisplaySizes } from "../../../hooks/models";
 
 export type Block = ReactNode;
 export type AccordionElement = ReactNode;
@@ -25,6 +26,7 @@ export interface Data {
 }
 
 export interface BuilderProps {
+  displaySize: DisplaySizes;
   handleThemeChange: (newTheme: string) => void;
   currentTheme: string;
 }

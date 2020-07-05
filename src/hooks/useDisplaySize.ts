@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { theme } from "../theme";
-import { DisplaySizes } from "./DisplaySizes";
+import { DisplaySizes } from "./models";
 
 const {
   xl: threshold_xl,
@@ -9,12 +9,7 @@ const {
   md: threshold_md,
 } = theme.breakpoints;
 
-type DisplaySizeHook = () => [
-  DisplaySizes,
-  (newDisplaySizes: DisplaySizes) => void
-];
-
-const useDisplaySize: DisplaySizeHook = () => {
+const useDisplaySize = (): [DisplaySizes] => {
   const getInitialDisplayScale = () => {
     const rootFontSize = parseInt(
       getComputedStyle(
@@ -34,13 +29,13 @@ const useDisplaySize: DisplaySizeHook = () => {
     return DisplaySizes.SM;
   };
 
-  const [displaySize, setDisplaySize] = useState(getInitialDisplayScale);
+  const [displaySize, setDisplaySize] = useState(getInitialDisplayScale());
 
   useMediaQuery(
     { minWidth: parseInt(threshold_xl) + "em" },
     undefined,
     (matches) => {
-      if (matches) handleDisplaySizeChange(DisplaySizes.XL);
+      if (matches) setDisplaySize(DisplaySizes.XL);
     }
   );
 
@@ -48,7 +43,7 @@ const useDisplaySize: DisplaySizeHook = () => {
     { query: `(max-width: ${threshold_xl}) and (min-width: ${threshold_lg})` },
     undefined,
     (matches) => {
-      if (matches) handleDisplaySizeChange(DisplaySizes.LG);
+      if (matches) setDisplaySize(DisplaySizes.LG);
     }
   );
 
@@ -56,7 +51,7 @@ const useDisplaySize: DisplaySizeHook = () => {
     { query: `(max-width: ${threshold_lg}) and (min-width: ${threshold_md})` },
     undefined,
     (matches) => {
-      if (matches) handleDisplaySizeChange(DisplaySizes.MD);
+      if (matches) setDisplaySize(DisplaySizes.MD);
     }
   );
 
@@ -64,15 +59,11 @@ const useDisplaySize: DisplaySizeHook = () => {
     { query: `(max-width: ${threshold_md})` },
     undefined,
     (matches) => {
-      if (matches) handleDisplaySizeChange(DisplaySizes.SM);
+      if (matches) setDisplaySize(DisplaySizes.SM);
     }
   );
 
-  const handleDisplaySizeChange = (newDisplaySize: DisplaySizes) => {
-    setDisplaySize(newDisplaySize);
-  };
-
-  return [displaySize, handleDisplaySizeChange];
+  return [displaySize];
 };
 
 export default useDisplaySize;

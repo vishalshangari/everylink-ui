@@ -5,10 +5,9 @@ import Builder from "./main/Builder";
 import styled, { ThemeProvider } from "styled-components";
 import useTheme from "./hooks/useTheme";
 import useDisplaySize from "./hooks/useDisplaySize";
-import { DisplaySizeContext } from "./contexts/DisplaySizeContext";
 
 const App = () => {
-  const [displaySize, handleDisplaySizeChange] = useDisplaySize();
+  const [displaySize] = useDisplaySize();
   const [getNewTheme, currentTheme, handleThemeChange] = useTheme({
     defaultTheme: process.env.REACT_APP_DEV_THEME as string,
     displaySize,
@@ -16,21 +15,20 @@ const App = () => {
 
   return (
     <ThemeProvider theme={getNewTheme(currentTheme)}>
-      <DisplaySizeContext.Provider value={displaySize}>
-        <AppContainer>
-          <BrowserRouter>
-            <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/">
-                <Builder
-                  handleThemeChange={handleThemeChange}
-                  currentTheme={currentTheme}
-                ></Builder>
-              </Route>
-            </Switch>
-          </BrowserRouter>
-        </AppContainer>
-      </DisplaySizeContext.Provider>
+      <AppContainer>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/login" component={() => <Login/>} />
+            <Route path="/">
+              <Builder
+                displaySize={displaySize}
+                handleThemeChange={handleThemeChange}
+                currentTheme={currentTheme}
+              ></Builder>
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </AppContainer>
     </ThemeProvider>
   );
 };
