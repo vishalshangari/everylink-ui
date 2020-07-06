@@ -6,19 +6,25 @@ interface Panel {
   children?: ReactNode;
 }
 
+export const PanelInnerContainer = styled.div`
+  ${(props) => props.theme.flex.column}
+  height: 100%;
+  background: ${(props) => props.theme.color.darkBackgroundLight};
+  border: 1px solid #31363c;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 5px #000;
+  overflow: hidden;
+`;
+
 const PanelContainer = styled.div<{ panelRight: boolean }>`
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   ${(props) =>
     props.panelRight
-      ? `border-left: 1px solid ${props.theme.color.borderGrey}; order: 1;`
-      : `border-right: 1px solid ${props.theme.color.borderGrey}; order: -1`};
-
-  right: 0;
-  top: 0;
+      ? `order: 1; padding-right: ${props.theme.padding.base};`
+      : `order: -1; padding-left: ${props.theme.padding.base};`}
   max-height: 100vh;
   width: ${(props) => props.theme.scales.panel};
-  ${(props) => props.theme.flex.column}
-  background: ${(props) => props.theme.color.darkBackgroundLight};
-  overflow-x: hidden;
 `;
 
 export const Panel = ({ children, panelRight }: Panel) => {

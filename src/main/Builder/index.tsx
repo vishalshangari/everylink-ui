@@ -1,10 +1,12 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, ReactNode } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
+import Tooltip from "rc-tooltip";
+import "rc-tooltip/assets/bootstrap.css";
 import {
   Box,
-  ActionPanel,
+  StyledActionPanel,
   BuilderContainer,
   ViewContainer,
 } from "./components";
@@ -18,6 +20,17 @@ const data: Data = dataImport;
 const InitialElements: Block[] = [];
 
 export const BuilderContext = createContext<Data>({} as Data);
+
+interface ActionPanelProps {
+  panelRight: boolean;
+  children?: ReactNode;
+}
+
+const ActionPanel = ({ children, panelRight }: ActionPanelProps) => {
+  return (
+    <StyledActionPanel panelRight={panelRight}>{children}</StyledActionPanel>
+  );
+};
 
 const Builder: React.FC<BuilderProps> = (props) => {
   const [panelRight, setPanelRight] = useState(true);
@@ -39,24 +52,36 @@ const Builder: React.FC<BuilderProps> = (props) => {
       <BuilderContainer>
         <ViewContainer>
           <DeviceSimulator>{blocks}</DeviceSimulator>
-          <ActionPanel>
-            <button onClick={addBlock}>
-              <MdAddCircle />
-            </button>
-            <button
-              onClick={() =>
-                handleThemeChange(currentTheme === "dark" ? "" : "dark")
+          <ActionPanel panelRight={panelRight}>
+            <Tooltip overlay={<span>Add new container</span>}>
+              <button onClick={addBlock}>
+                <MdAddCircle />
+              </button>
+            </Tooltip>
+            <Tooltip
+              overlay={
+                <span>
+                  Switch to {currentTheme === "dark" ? "default" : "dark"} theme
+                </span>
               }
             >
-              {currentTheme === "dark" ? (
-                <MdWbSunny />
-              ) : (
-                <WiMoonAltWaningCrescent4 />
-              )}
-            </button>
-            <button onClick={() => setPanelRight(!panelRight)}>
-              <MdSwapHoriz />
-            </button>
+              <button
+                onClick={() =>
+                  handleThemeChange(currentTheme === "dark" ? "" : "dark")
+                }
+              >
+                {currentTheme === "dark" ? (
+                  <MdWbSunny />
+                ) : (
+                  <WiMoonAltWaningCrescent4 />
+                )}
+              </button>
+            </Tooltip>
+            <Tooltip overlay={<span>Switch editor layout</span>}>
+              <button onClick={() => setPanelRight(!panelRight)}>
+                <MdSwapHoriz />
+              </button>
+            </Tooltip>
 
             {displaySize !== "xl" && displaySize !== "lg" && (
               <button

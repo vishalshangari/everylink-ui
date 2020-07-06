@@ -7,12 +7,12 @@ export const Box = styled.div<{ backgroundColor: string }>`
   border-radius: 2px;
 `;
 
-export const ActionPanel = styled.div`
+export const StyledActionPanel = styled.div<{ panelRight: boolean }>`
   position: absolute;
   justify-content: center;
   border-radius: 1rem;
   overflow: hidden;
-  left: 1rem;
+  ${(props) => (props.panelRight ? "left: 1rem" : "right: 1rem")};
   button {
     font-size: 2rem;
     padding: 2rem 1rem;

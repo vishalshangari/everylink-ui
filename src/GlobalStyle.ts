@@ -37,4 +37,24 @@ export const GlobalStyles = createGlobalStyle`
             opacity: 1;
         }
     }
+
+    /* Dashboard action panel tooltips */
+/* 
+  .rc-tooltip {
+    font-size: 1rem;
+  } */
+
+  .rc-tooltip {
+    opacity: 1;
+  }
+
+  .rc-tooltip-inner {
+    background-color: #343A40;
+    font-size: 1rem;
+  }
+
+  div[class^=".rc-tooltip"], div[class*=""] {
+    border-color: #343A40;
+  }
+
 `;
