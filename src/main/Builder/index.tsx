@@ -12,7 +12,12 @@ import {
 } from "./components";
 import { Block, BuilderProps, Data } from "./models";
 import { dataImport } from "../../data/test";
-import { MdAddCircle, MdWbSunny, MdSwapHoriz } from "react-icons/md";
+import {
+  MdAddCircle,
+  MdWbSunny,
+  MdSwapHoriz,
+  MdSettings,
+} from "react-icons/md";
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 
 const data: Data = dataImport;
@@ -84,15 +89,17 @@ const Builder: React.FC<BuilderProps> = (props) => {
             </Tooltip>
 
             {displaySize !== "xl" && displaySize !== "lg" && (
-              <button
-                onClick={() =>
-                  setMobileDashboardOpen(
-                    (prevMobileDashboardOpen) => !prevMobileDashboardOpen
-                  )
-                }
-              >
-                Drawer
-              </button>
+              <Tooltip overlay={<span>Open dashboard</span>}>
+                <button
+                  onClick={() =>
+                    setMobileDashboardOpen(
+                      (prevMobileDashboardOpen) => !prevMobileDashboardOpen
+                    )
+                  }
+                >
+                  <MdSettings />
+                </button>
+              </Tooltip>
             )}
           </ActionPanel>
         </ViewContainer>
@@ -111,10 +118,14 @@ const Builder: React.FC<BuilderProps> = (props) => {
               keepMounted: true,
             }}
           >
-            <Dashboard addBlock={addBlock} panelRight={panelRight} />
+            <Dashboard
+              isDesktop={false}
+              addBlock={addBlock}
+              panelRight={panelRight}
+            />
           </Drawer>
         ) : (
-          <Dashboard addBlock={addBlock} panelRight={panelRight} />
+          <Dashboard isDesktop addBlock={addBlock} panelRight={panelRight} />
         )}
       </BuilderContainer>
     </BuilderContext.Provider>

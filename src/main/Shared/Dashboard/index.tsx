@@ -35,7 +35,7 @@ import { IconContext } from "react-icons";
 interface DashboardProps {
   addBlock: () => void;
   panelRight: boolean;
-  //   activeTab?: number;
+  isDesktop: boolean;
 }
 
 interface StateDashTab extends Tab {
@@ -46,12 +46,16 @@ const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
   return <DashTab isActive={isActive} {...props} />;
 };
 
-const Dashboard: React.FC<DashboardProps> = ({ addBlock, panelRight }) => {
+const Dashboard: React.FC<DashboardProps> = ({
+  addBlock,
+  panelRight,
+  isDesktop,
+}) => {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <Panel panelRight={panelRight}>
-      <PanelInnerContainer>
+    <Panel isDesktop={isDesktop} panelRight={panelRight}>
+      <PanelInnerContainer isDesktop={isDesktop}>
         <DashboardTitleDisplay>
           <DashboardTitle>
             <h3>Textbox</h3>
