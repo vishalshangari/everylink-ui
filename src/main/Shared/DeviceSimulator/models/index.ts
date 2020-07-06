@@ -3,3 +3,7 @@ export interface Device {
   width: number;
   height: number;
 }
+
+export interface DeviceSimulatorProps {
+  onDeviceChange: (device: Device) => void;
+}

@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { devices } from "./constants";
+import { DeviceSimulatorProps } from "./models";
 
-const DeviceSimulator: React.FC = ({ children }) => {
-  const [device, setDevice] = useState(devices[1]);
+const DeviceSimulator: React.FC<DeviceSimulatorProps> = ({
+  children,
+  onDeviceChange,
+}) => {
+  const [device, setDevice] = useState(devices[0]);
   const [orientation, setOrientation] = useState("portrait");
 
   const rotateDevice = (event: { preventDefault: () => void }) => {
@@ -14,10 +18,15 @@ const DeviceSimulator: React.FC = ({ children }) => {
     setOrientation(orientation === "portrait" ? "landscape" : "portrait");
   };
 
+  const handleDeviceChange = (e: { target: { value: string } }) => {
+    setDevice(devices[parseInt(e.target.value)]);
+    onDeviceChange(devices[parseInt(e.target.value)]);
+  };
+
   return (
     <DeviceSimulatorContainer>
       <SelectContainer>
-        <select onChange={(e) => setDevice(devices[parseInt(e.target.value)])}>
+        <select onChange={handleDeviceChange}>
           {devices.map((device, index) => (
             <option label={device.name} value={index} key={index} />
           ))}
@@ -51,7 +60,6 @@ const GridContainer = styled.div<{
   height: ${(props) => props.height}px;
   background: white;
   overflow: hidden;
-  padding: ${(props) => props.theme.padding.halfBase};
   border-radius: 2px;
 `;
 
@@ -63,10 +71,10 @@ const FrameContainer = styled.div`
 `;
 
 const DeviceSimulatorContainer = styled.div`
-  position: relative;
   ${(props) => props.theme.flex.column}
   ${(props) => props.theme.flex.centered};
   width: 100%;
+  height: 100%;
 `;
 
 export default DeviceSimulator;
