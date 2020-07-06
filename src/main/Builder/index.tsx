@@ -2,10 +2,16 @@ import React, { useState, createContext, useContext } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
-import { Box } from "@material-ui/core";
-import { BuilderContainer, ModeBtn, ViewContainer } from "./components";
+import {
+  Box,
+  ActionPanel,
+  BuilderContainer,
+  ViewContainer,
+} from "./components";
 import { Block, BuilderProps, Data } from "./models";
 import { dataImport } from "../../data/test";
+import { MdAddCircle, MdWbSunny, MdSwapHoriz } from "react-icons/md";
+import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 
 const data: Data = dataImport;
 
@@ -19,10 +25,9 @@ const Builder: React.FC<BuilderProps> = (props) => {
   const [blocks, setBlocks] = useState(InitialElements);
   const addBlock = () => {
     console.log(blocks);
-    setBlocks([
-      ...blocks,
-      <Box key={blocks.length} data-grid={{ x: 0, y: 0, h: 10, w: 12 }} />,
-    ]);
+    let color =
+      "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
+    setBlocks([...blocks, <Box backgroundColor={color} key={blocks.length} />]);
   };
 
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
@@ -34,18 +39,25 @@ const Builder: React.FC<BuilderProps> = (props) => {
       <BuilderContainer>
         <ViewContainer>
           <DeviceSimulator>{blocks}</DeviceSimulator>
-          <ModeBtn>
+          <ActionPanel>
+            <button onClick={addBlock}>
+              <MdAddCircle />
+            </button>
             <button
               onClick={() =>
                 handleThemeChange(currentTheme === "dark" ? "" : "dark")
               }
             >
-              {currentTheme === "dark" ? "dark" : "default"}
+              {currentTheme === "dark" ? (
+                <MdWbSunny />
+              ) : (
+                <WiMoonAltWaningCrescent4 />
+              )}
             </button>
             <button onClick={() => setPanelRight(!panelRight)}>
-              {panelRight ? "Right" : "Left"}
+              <MdSwapHoriz />
             </button>
-            <button onClick={addBlock}>Add block</button>
+
             {displaySize !== "xl" && displaySize !== "lg" && (
               <button
                 onClick={() =>
@@ -57,7 +69,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
                 Drawer
               </button>
             )}
-          </ModeBtn>
+          </ActionPanel>
         </ViewContainer>
         {/* Mobile Temporary Drawer Dashboard */}
         {displaySize !== "xl" && displaySize !== "lg" ? (

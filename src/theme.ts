@@ -72,10 +72,10 @@ export interface Scales {
 // Scale object
 export const scales: Scales = {
   xl: {
-    panel: "34rem",
+    panel: "32rem",
   },
   lg: {
-    panel: "28rem",
+    panel: "26rem",
   },
   md: {
     panel: "28rem",
