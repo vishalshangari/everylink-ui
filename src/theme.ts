@@ -72,10 +72,10 @@ export interface Scales {
 // Scale object
 export const scales: Scales = {
   xl: {
-    panel: "34rem",
+    panel: "32rem",
   },
   lg: {
-    panel: "28rem",
+    panel: "26rem",
   },
   md: {
     panel: "28rem",
@@ -144,9 +144,9 @@ export const theme: Theme = {
     lightGrey: "#ADB5BD",
     lightMiddleGrey: "#495057",
     middleGrey: "#6C757D",
-    deleteBtn: "#44336",
+    deleteBtn: "#3a262a",
     deleteBtnHover: "#81353B",
-    doneBtn: "#31443F",
+    doneBtn: "#243d35",
     doneBtnHover: "#358262",
     dashboardAccent: "#f77f00",
   },
@@ -164,6 +164,7 @@ export const theme: Theme = {
       "font-size: 1.5rem; font-weight: 700; line-height: 1.5rem;",
   },
   fontSizes: {
+    base: "1rem",
     buttonLarge: "1.125rem",
     dashboardHeader: "2.125rem",
     dashboardText: "1rem",

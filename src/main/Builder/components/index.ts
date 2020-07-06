@@ -1,19 +1,38 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-export const Box = styled.div`
-  background: grey;
+export const Box = styled.div<{ backgroundColor: string }>`
+  background: ${(props) => props.backgroundColor};
+  height: 100px;
+  margin-bottom: ${(props) => props.theme.margin.halfBase};
+  border-radius: 2px;
 `;
 
-export const ModeBtn = styled.div`
-  position: relative;
+export const StyledActionPanel = styled.div<{ panelRight: boolean }>`
+  position: absolute;
   justify-content: center;
-  top: 1rem;
-  left: 1rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  ${(props) => (props.panelRight ? "left: 1rem" : "right: 1rem")};
   button {
-    padding: 0.5rem 1rem;
+    font-size: 2rem;
+    padding: 2rem 1rem;
     justify-content: center;
-    margin-right: 0.5rem;
-    color: #000;
+    line-height: 2rem;
+    border: none;
+    display: block;
+    outline: none;
+    background: ${(props) => props.theme.color.darkBackgroundLight};
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 2px;
+    transition: 0.1s;
+    &:hover {
+      background: ${(props) => props.theme.color.borderGreyDark};
+      color: #fff;
+    }
+    > * {
+      vertical-align: middle;
+    }
   }
   z-index: 999;
 `;

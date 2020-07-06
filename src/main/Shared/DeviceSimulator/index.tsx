@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { devices } from "./constants";
 
 const DeviceSimulator: React.FC = ({ children }) => {
-  const [device, setDevice] = useState(devices[0]);
+  const [device, setDevice] = useState(devices[1]);
   const [orientation, setOrientation] = useState("portrait");
 
   const rotateDevice = (event: { preventDefault: () => void }) => {
@@ -51,6 +51,8 @@ const GridContainer = styled.div<{
   height: ${(props) => props.height}px;
   background: white;
   overflow: hidden;
+  padding: ${(props) => props.theme.padding.halfBase};
+  border-radius: 2px;
 `;
 
 const FrameContainer = styled.div`

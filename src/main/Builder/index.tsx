@@ -1,11 +1,24 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, ReactNode } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
-import { Box } from "@material-ui/core";
-import { BuilderContainer, ModeBtn, ViewContainer } from "./components";
+import Tooltip from "rc-tooltip";
+import "rc-tooltip/assets/bootstrap.css";
+import {
+  Box,
+  StyledActionPanel,
+  BuilderContainer,
+  ViewContainer,
+} from "./components";
 import { Block, BuilderProps, Data } from "./models";
 import { dataImport } from "../../data/test";
+import {
+  MdAddCircle,
+  MdWbSunny,
+  MdSwapHoriz,
+  MdSettings,
+} from "react-icons/md";
+import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 
 const data: Data = dataImport;
 
@@ -13,16 +26,26 @@ const InitialElements: Block[] = [];
 
 export const BuilderContext = createContext<Data>({} as Data);
 
+interface ActionPanelProps {
+  panelRight: boolean;
+  children?: ReactNode;
+}
+
+const ActionPanel = ({ children, panelRight }: ActionPanelProps) => {
+  return (
+    <StyledActionPanel panelRight={panelRight}>{children}</StyledActionPanel>
+  );
+};
+
 const Builder: React.FC<BuilderProps> = (props) => {
   const [panelRight, setPanelRight] = useState(true);
   const { displaySize, handleThemeChange, currentTheme } = props;
   const [blocks, setBlocks] = useState(InitialElements);
   const addBlock = () => {
     console.log(blocks);
-    setBlocks([
-      ...blocks,
-      <Box key={blocks.length} data-grid={{ x: 0, y: 0, h: 10, w: 12 }} />,
-    ]);
+    let color =
+      "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
+    setBlocks([...blocks, <Box backgroundColor={color} key={blocks.length} />]);
   };
 
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
@@ -34,30 +57,51 @@ const Builder: React.FC<BuilderProps> = (props) => {
       <BuilderContainer>
         <ViewContainer>
           <DeviceSimulator>{blocks}</DeviceSimulator>
-          <ModeBtn>
-            <button
-              onClick={() =>
-                handleThemeChange(currentTheme === "dark" ? "" : "dark")
+          <ActionPanel panelRight={panelRight}>
+            <Tooltip overlay={<span>Add new container</span>}>
+              <button onClick={addBlock}>
+                <MdAddCircle />
+              </button>
+            </Tooltip>
+            <Tooltip
+              overlay={
+                <span>
+                  Switch to {currentTheme === "dark" ? "default" : "dark"} theme
+                </span>
               }
             >
-              {currentTheme === "dark" ? "dark" : "default"}
-            </button>
-            <button onClick={() => setPanelRight(!panelRight)}>
-              {panelRight ? "Right" : "Left"}
-            </button>
-            <button onClick={addBlock}>Add block</button>
-            {displaySize !== "xl" && displaySize !== "lg" && (
               <button
                 onClick={() =>
-                  setMobileDashboardOpen(
-                    (prevMobileDashboardOpen) => !prevMobileDashboardOpen
-                  )
+                  handleThemeChange(currentTheme === "dark" ? "" : "dark")
                 }
               >
-                Drawer
+                {currentTheme === "dark" ? (
+                  <MdWbSunny />
+                ) : (
+                  <WiMoonAltWaningCrescent4 />
+                )}
               </button>
+            </Tooltip>
+            <Tooltip overlay={<span>Switch editor layout</span>}>
+              <button onClick={() => setPanelRight(!panelRight)}>
+                <MdSwapHoriz />
+              </button>
+            </Tooltip>
+
+            {displaySize !== "xl" && displaySize !== "lg" && (
+              <Tooltip overlay={<span>Open dashboard</span>}>
+                <button
+                  onClick={() =>
+                    setMobileDashboardOpen(
+                      (prevMobileDashboardOpen) => !prevMobileDashboardOpen
+                    )
+                  }
+                >
+                  <MdSettings />
+                </button>
+              </Tooltip>
             )}
-          </ModeBtn>
+          </ActionPanel>
         </ViewContainer>
         {/* Mobile Temporary Drawer Dashboard */}
         {displaySize !== "xl" && displaySize !== "lg" ? (
@@ -74,10 +118,14 @@ const Builder: React.FC<BuilderProps> = (props) => {
               keepMounted: true,
             }}
           >
-            <Dashboard addBlock={addBlock} panelRight={panelRight} />
+            <Dashboard
+              isDesktop={false}
+              addBlock={addBlock}
+              panelRight={panelRight}
+            />
           </Drawer>
         ) : (
-          <Dashboard addBlock={addBlock} panelRight={panelRight} />
+          <Dashboard isDesktop addBlock={addBlock} panelRight={panelRight} />
         )}
       </BuilderContainer>
     </BuilderContext.Provider>

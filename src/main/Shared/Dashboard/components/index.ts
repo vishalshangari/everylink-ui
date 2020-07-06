@@ -18,7 +18,8 @@ export const DashboardViewWrap = styled.div``;
 export const DashboardTitleDisplay = styled.div`
   padding: ${(props) => props.theme.padding.doubleBase} 0
     ${(props) => props.theme.padding.base};
-  border-bottom: 1px solid ${(props) => props.theme.color.borderGrey};
+  background: #1f1b24;
+  z-index: 2;
 `;
 
 export const DashboardTitle = styled(SidePaddedDashboardContainer)`
@@ -55,16 +56,9 @@ export const DashboardTextEditor = styled.div`
   border-radius: ${(props) => props.theme.borderRadius.small};
 `;
 
-export const DashboardElementActions = styled(PaddedDashboardContainer)`
-  padding: ${(props) => props.theme.padding.base}
-    ${(props) => props.theme.padding.doubleBase};
+export const DashboardElementActions = styled.div`
   ${(props) => props.theme.flex.row};
-  border-top: 1px solid ${(props) => props.theme.color.borderGrey};
-  > * {
-    margin-right: ${(props) => props.theme.margin.base};
-    &:last-child {
-      margin-right: 0;
-    }
+  border-top: 1px solid ${(props) => props.theme.color.borderGreyDark};
   }
 `;
 
@@ -75,8 +69,7 @@ export const DashboardButtonBase = styled.button`
   flex: 1;
   justify-content: center;
   cursor: pointer;
-  padding: ${(props) => props.theme.padding.base};
-  border-radius: ${(props) => props.theme.borderRadius.small};
+  padding: 1.5rem ${(props) => props.theme.padding.base};
   color: ${(props) => props.theme.color.offwhite};
   background: ${(props) => props.theme.color.borderGrey};
   span {
@@ -272,6 +265,17 @@ export const DashTab = styled(Tab)<{ isActive: boolean }>`
     opacity: ${(props) => (props.isActive ? 1 : 0.5)};
   }
 
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+
+  &:first-child {
+    border-top-left-radius: 0;
+  }
+
+  &:last-child {
+    border-top-right-radius: 0;
+  }
+
   &:hover {
     > * {
       opacity: 1;
@@ -283,33 +287,37 @@ export const DashTab = styled(Tab)<{ isActive: boolean }>`
 
   /* Border magic */
 
+  border-top: ${(props) =>
+    `1px solid ` +
+    (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
+
   border-bottom: ${(props) =>
     `1px solid ` +
-    (!props.isActive ? `${props.theme.color.borderGrey}` : `transparent`)};
+    (!props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
 
   &:first-child {
     border-right: ${(props) =>
       `1px solid ` +
-      (props.isActive ? `${props.theme.color.borderGrey}` : `transparent`)};
+      (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
   }
 
   &:nth-child(2) {
     border-right: ${(props) =>
       `1px solid ` +
-      (props.isActive ? `${props.theme.color.borderGrey}` : `transparent`)};
+      (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
     border-left: ${(props) =>
       `1px solid ` +
-      (props.isActive ? `${props.theme.color.borderGrey}` : `transparent`)};
+      (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
   }
 
   &:last-child {
     border-left: ${(props) =>
       `1px solid ` +
-      (props.isActive ? `${props.theme.color.borderGrey}` : `black`)};
+      (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
   }
 
   background: ${(props) =>
-    props.isActive ? `inherit` : props.theme.color.darkBackground};
+    props.isActive ? props.theme.color.darkBackgroundLight : `#1F1B24`};
 `;
 
 export const TabIcon = styled.div`
@@ -326,6 +334,10 @@ export const DashTabList = styled(TabList)`
   padding: 0;
   margin: 0;
   ${(props) => props.theme.flex.row}
+  background: #1F1B24;
+  box-shadow: 0px 0px 10px 15px
+    ${(props) => props.theme.color.darkBackgroundLight};
+  z-index: 1;
 `;
 
 /* Dashboard sub tabs */

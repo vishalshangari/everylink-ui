@@ -183,6 +183,8 @@ const Textbox = () => {
             </StyledMuiGridItem>
           </BorderedGrid>
         </SettingsGrid>
+        <br />
+        <br />
       </form>
     </DashboardViewWrap>
   );
