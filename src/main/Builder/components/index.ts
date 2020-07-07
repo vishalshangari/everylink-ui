@@ -69,10 +69,9 @@ export const ControlCenter = styled.div`
 `;
 
 const controlCenterButtonBaseStyle = css`
-  font-size: ${(props) => props.theme.scales.fontSize.controlPanelIcon};
   color: #fff;
   cursor: pointer;
-  padding: 1rem 2rem;
+  padding: ${(props) => props.theme.scales.padding.controlPanelButton};
   border: 0;
   outline: 0;
   transition: 0.1s;
@@ -95,25 +94,16 @@ const controlCenterButtonBaseStyle = css`
 
 export const ControlCenterButton = styled.button`
   ${controlCenterButtonBaseStyle}
+  font-size: ${(props) => props.theme.scales.fontSize.controlPanelButton};
 `;
 
 export const ControlCenterMainActions = styled.div`
   border-radius: 1rem;
   box-shadow: 0px 0px 5px #000;
-  ${ControlCenterButton} {
-  }
 `;
 
-export const ControlCenterSettings = styled.div``;
-
-export const SettingsButton = styled(DropdownButton)`
-  button {
-    ${controlCenterButtonBaseStyle}
-  }
-`;
-
-export const SettingsDropdownButton = styled(ControlCenterButton)``;
-
-export const StyledSettingsButton = styled(ControlCenterButton)`
-  border: 5px solid green;
+export const ControlCenterSettings = styled.div`
+  border-radius: 1rem;
+  box-shadow: 0px 0px 5px #000;
+  margin-left: 2rem;
 `;

@@ -60,6 +60,18 @@ const themeColors: ThemeColors = {
   },
 };
 
+interface PaddingDefinition {
+  doubleBase: string;
+  base: string;
+  halfBase: string;
+}
+
+export const padding: PaddingDefinition = {
+  doubleBase: "2rem",
+  base: "1rem",
+  halfBase: "0.5rem",
+};
+
 // Scale object def
 export interface Scales {
   xl: {
@@ -97,25 +109,37 @@ export const scales: Scales = {
   xl: {
     panel: "32rem",
     fontSize: {
-      controlPanelIcon: "2rem",
+      controlPanelButton: "2rem",
+    },
+    padding: {
+      controlPanelButton: "0.75rem 2rem",
     },
   },
   lg: {
     panel: "26rem",
     fontSize: {
-      controlPanelIcon: "1.5rem",
+      controlPanelButton: "1.5rem",
+    },
+    padding: {
+      controlPanelButton: "1rem 1.25rem",
     },
   },
   md: {
     panel: "28rem",
     fontSize: {
-      controlPanelIcon: "1.5rem",
+      controlPanelButton: "1.5rem",
+    },
+    padding: {
+      controlPanelButton: "1rem 1.25rem",
     },
   },
   sm: {
     panel: "22em",
     fontSize: {
-      controlPanelIcon: "1.5rem",
+      controlPanelButton: "1.5rem",
+    },
+    padding: {
+      controlPanelButton: "1rem 1.25rem",
     },
   },
 };
@@ -145,9 +169,7 @@ export interface Theme {
   borderRadius: {
     [key: string]: string;
   };
-  padding: {
-    [key: string]: string;
-  };
+  padding: PaddingDefinition;
   margin: {
     [key: string]: string;
   };
@@ -206,12 +228,7 @@ export const theme: Theme = {
     dashboardTextSmall: "0.875rem",
     sliderSetting: "1.5rem",
   },
-  padding: {
-    base: "1rem",
-    halfBase: "0.5rem",
-    doubleBase: "2rem",
-    app: "5rem",
-  },
+  padding: padding,
   margin: {
     base: "1rem",
     halfBase: "0.5rem",

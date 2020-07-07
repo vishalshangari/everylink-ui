@@ -2,8 +2,6 @@ import React, { useState, createContext, ReactNode } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-bootstrap/Dropdown";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import {
@@ -15,8 +13,6 @@ import {
   ControlCenterButton,
   ControlCenterMainActions,
   ControlCenterSettings,
-  SettingsDropdownButton,
-  SettingsButton,
 } from "./components";
 import { Block, BuilderProps, Data } from "./models";
 import { dataImport } from "../../data/test";
@@ -68,10 +64,10 @@ const Builder: React.FC<BuilderProps> = (props) => {
     placement: "bottom",
   };
 
-  const sidePanelTooltipProps = {
-    mouseEnterDelay: 0.75,
+  const controlPanelSettingsTooltipProps = {
+    trigger: "click",
     mouseLeaveDelay: 0,
-    placement: "right",
+    placement: "bottom",
   };
 
   const log = console.log;
@@ -116,19 +112,19 @@ const Builder: React.FC<BuilderProps> = (props) => {
     },
   ];
 
-  interface sidePanelAction {
+  interface controlPanelSettingsOptionDefinition {
     type: string;
     description: string;
     icon: ReactNode;
     action: () => void;
   }
 
-  const sidePanelActions: sidePanelAction[] = [
+  const controlPanelSettingsOptions: controlPanelSettingsOptionDefinition[] = [
     {
       type: "Color mode",
-      description: `Switch to + ${
+      description: `Switch to ${
         currentTheme === "dark" ? "default" : "dark"
-      } + theme`,
+      } theme`,
       icon:
         currentTheme === "dark" ? <MdWbSunny /> : <WiMoonAltWaningCrescent4 />,
       action: () => handleThemeChange(currentTheme === "dark" ? "" : "dark"),
@@ -162,7 +158,21 @@ const Builder: React.FC<BuilderProps> = (props) => {
               })}
             </ControlCenterMainActions>
             <ControlCenterSettings>
-              <SettingsButton title={<MdSettings />}>
+              {controlPanelSettingsOptions.map((option, index) => {
+                return (
+                  <Tooltip
+                    {...controlPanelTooltipProps}
+                    key={index}
+                    overlay={option.description}
+                  >
+                    <ControlCenterButton onClick={option.action}>
+                      {option.icon}
+                    </ControlCenterButton>
+                  </Tooltip>
+                );
+              })}
+
+              {/* <SettingsButton title={<MdSettings />}>
                 {sidePanelActions.map((option, index) => {
                   return (
                     <Dropdown.Item
@@ -174,11 +184,11 @@ const Builder: React.FC<BuilderProps> = (props) => {
                     </Dropdown.Item>
                   );
                 })}
-              </SettingsButton>
+              </SettingsButton> */}
             </ControlCenterSettings>
           </ControlCenter>
           <DeviceSimulator>{blocks}</DeviceSimulator>
-          <ActionPanel panelRight={panelRight}>
+          {/* <ActionPanel panelRight={panelRight}>
             {sidePanelActions.map((option, index) => {
               return (
                 <Tooltip
@@ -207,7 +217,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
                 </button>
               </Tooltip>
             )}
-          </ActionPanel>
+          </ActionPanel> */}
         </ViewContainer>
         {/* Mobile Temporary Drawer Dashboard */}
         {displaySize !== "xl" && displaySize !== "lg" ? (
