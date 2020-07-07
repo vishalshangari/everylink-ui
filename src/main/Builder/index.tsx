@@ -9,6 +9,7 @@ import {
   StyledActionPanel,
   BuilderContainer,
   ViewContainer,
+  ControlCenter,
 } from "./components";
 import { Block, BuilderProps, Data } from "./models";
 import { dataImport } from "../../data/test";
@@ -17,6 +18,10 @@ import {
   MdWbSunny,
   MdSwapHoriz,
   MdSettings,
+  MdSave,
+  MdUndo,
+  MdRedo,
+  MdClose,
 } from "react-icons/md";
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 
@@ -43,53 +48,128 @@ const Builder: React.FC<BuilderProps> = (props) => {
   const [blocks, setBlocks] = useState(InitialElements);
   const addBlock = () => {
     console.log(blocks);
-    let color =
+    const color =
       "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
     setBlocks([...blocks, <Box backgroundColor={color} key={blocks.length} />]);
   };
 
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
 
-  // Render Panel side per user preference
+  const controlPanelTooltipProps = {
+    mouseEnterDelay: 0.75,
+    mouseLeaveDelay: 0,
+    placement: "bottom",
+  };
+
+  const sidePanelTooltipProps = {
+    mouseEnterDelay: 0.75,
+    mouseLeaveDelay: 0,
+    placement: "right",
+  };
+
+  const log = console.log;
+
+  interface controlPanelActions {
+    type: string;
+    description: string;
+    icon: ReactNode;
+    action: () => void;
+  }
+
+  const controlPanelActions: controlPanelActions[] = [
+    {
+      type: "Add",
+      description: "Add a new container",
+      icon: <MdAddCircle />,
+      action: () => addBlock(),
+    },
+    {
+      type: "Publish",
+      description: "Publish site",
+      icon: <MdSave />,
+      action: () => log("publish"),
+    },
+    {
+      type: "Undo",
+      description: "Undo last change",
+      icon: <MdUndo />,
+      action: () => log("undo"),
+    },
+    {
+      type: "Redo",
+      description: "Redo last change",
+      icon: <MdRedo />,
+      action: () => log("redo"),
+    },
+    {
+      type: "Exit",
+      description: "Exit builder",
+      icon: <MdClose />,
+      action: () => log("exit"),
+    },
+  ];
+
+  interface sidePanelAction {
+    type: string;
+    description: string;
+    icon: ReactNode;
+    action: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  }
+
+  const sidePanelActions: sidePanelAction[] = [
+    {
+      type: "Color mode",
+      description: `Switch to + ${
+        currentTheme === "dark" ? "default" : "dark"
+      } + theme`,
+      icon:
+        currentTheme === "dark" ? <MdWbSunny /> : <WiMoonAltWaningCrescent4 />,
+      action: (e) => handleThemeChange(currentTheme === "dark" ? "" : "dark"),
+    },
+    {
+      type: "Editor layout",
+      description: "Switch editor layout",
+      icon: <MdSwapHoriz />,
+      action: (e) => setPanelRight(!panelRight),
+    },
+  ];
 
   return (
     <BuilderContext.Provider value={data as Data}>
       <BuilderContainer>
         <ViewContainer>
+          <ControlCenter>
+            {controlPanelActions.map((option, index) => {
+              return (
+                <Tooltip
+                  {...controlPanelTooltipProps}
+                  key={index}
+                  overlay={option.description}
+                >
+                  <button onClick={option.action}>{option.icon}</button>
+                </Tooltip>
+              );
+            })}
+          </ControlCenter>
           <DeviceSimulator>{blocks}</DeviceSimulator>
           <ActionPanel panelRight={panelRight}>
-            <Tooltip overlay={<span>Add new container</span>}>
-              <button onClick={addBlock}>
-                <MdAddCircle />
-              </button>
-            </Tooltip>
-            <Tooltip
-              overlay={
-                <span>
-                  Switch to {currentTheme === "dark" ? "default" : "dark"} theme
-                </span>
-              }
-            >
-              <button
-                onClick={() =>
-                  handleThemeChange(currentTheme === "dark" ? "" : "dark")
-                }
-              >
-                {currentTheme === "dark" ? (
-                  <MdWbSunny />
-                ) : (
-                  <WiMoonAltWaningCrescent4 />
-                )}
-              </button>
-            </Tooltip>
-            <Tooltip overlay={<span>Switch editor layout</span>}>
-              <button onClick={() => setPanelRight(!panelRight)}>
-                <MdSwapHoriz />
-              </button>
-            </Tooltip>
+            {sidePanelActions.map((option, index) => {
+              return (
+                <Tooltip
+                  {...controlPanelTooltipProps}
+                  key={index}
+                  overlay={option.description}
+                >
+                  <button onClick={option.action}>{option.icon}</button>
+                </Tooltip>
+              );
+            })}
 
             {displaySize !== "xl" && displaySize !== "lg" && (
-              <Tooltip overlay={<span>Open dashboard</span>}>
+              <Tooltip
+                {...sidePanelTooltipProps}
+                overlay={<span>Open dashboard</span>}
+              >
                 <button
                   onClick={() =>
                     setMobileDashboardOpen(

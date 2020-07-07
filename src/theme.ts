@@ -11,21 +11,25 @@ const colors: Colors = {
     0: "#000000",
     1: "#090a0b",
     2: "#121416",
-    3: "#212529",
-    4: "#343A40",
-    5: "#495057",
-    6: "#6C757D",
-    7: "#ADB5BD",
-    8: "#CED4DA",
-    9: "#DEE2E6",
-    10: "#E9ECEF",
-    11: "#F8F9FA",
+    3: "#1c1f22",
+    4: "#212529",
+    5: "#343A40",
+    6: "#495057",
+    7: "#6C757D",
+    8: "#ADB5BD",
+    9: "#CED4DA",
+    10: "#DEE2E6",
+    11: "#E9ECEF",
+    12: "#F8F9FA",
   },
 };
 
 // Color assignment object def
 interface ThemeColors {
   builderBg: string;
+  controlPanelButtonDef: string;
+  controlPanelButtonHover: string;
+  controlPanelButtonBorder: string;
   // TODO add modes here i.e.:
   // modes: { dark: { [key: string]: string }, light: { [key: string]: string } }
   modes: {
@@ -41,6 +45,9 @@ interface ThemeColors {
 // Color assignment object
 const themeColors: ThemeColors = {
   builderBg: colors.grey[9],
+  controlPanelButtonDef: colors.grey[5],
+  controlPanelButtonHover: colors.grey[6],
+  controlPanelButtonBorder: colors.grey[3],
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
@@ -56,7 +63,11 @@ const themeColors: ThemeColors = {
 // Scale object def
 export interface Scales {
   xl: {
-    [key: string]: string;
+    [key: string]:
+      | string
+      | {
+          [key: string]: string;
+        };
   };
   lg: {
     [key: string]: string;
@@ -73,6 +84,9 @@ export interface Scales {
 export const scales: Scales = {
   xl: {
     panel: "32rem",
+    fontSize: {
+      controlPanelIcon: "2rem",
+    },
   },
   lg: {
     panel: "26rem",
