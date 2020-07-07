@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-bootstrap/Dropdown";
+import { ControlPanelActions } from "../models";
 
 export const Box = styled.div<{ backgroundColor: string }>`
   background: ${(props) => props.backgroundColor};
@@ -62,48 +61,66 @@ export const BuilderContainer = styled.div`
   background: ${(props) => props.theme.colors.builderBg};
 `;
 
+// Desktop Control Center styles
+const controlCenterButtonBaseStyle = css`
+  color: #fff;
+  cursor: pointer;
+  padding: ${(props) => props.theme.scales.padding.controlCenterButton};
+  border: 0;
+  outline: 0;
+  background: ${(props) => props.theme.colors.controlCenterButtonDef};
+  border-right: 1px solid
+    ${(props) => props.theme.colors.controlCenterButtonBorder};
+`;
+
+export const ControlCenterMainActions = styled.div``;
+export const ControlCenterSettings = styled.div``;
+export const ControlCenterButton = styled.button`
+  ${controlCenterButtonBaseStyle}
+  font-size: ${(props) => props.theme.scales.fontSize.controlCenterButton};
+`;
 export const ControlCenter = styled.div`
   position: relative;
   margin: 1rem auto 0;
   ${(props) => props.theme.flex.row};
-`;
-
-const controlCenterButtonBaseStyle = css`
-  color: #fff;
-  cursor: pointer;
-  padding: ${(props) => props.theme.scales.padding.controlPanelButton};
-  border: 0;
-  outline: 0;
-  transition: 0.1s;
-  background: ${(props) => props.theme.colors.controlPanelButtonDef};
-  border-right: 1px solid
-    ${(props) => props.theme.colors.controlPanelButtonBorder};
-  &:first-child {
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
+  display: ${(props) => props.theme.scales.display.controlCenter};
+  ${ControlCenterMainActions} {
+    border-radius: 1rem;
+    box-shadow: 0px 0px 5px #000;
   }
-  &:last-child {
-    border-top-right-radius: 1rem;
-    border-bottom-right-radius: 1rem;
-    border-right: none;
+  ${ControlCenterSettings} {
+    border-radius: 1rem;
+    box-shadow: 0px 0px 5px #000;
+    margin-left: 2rem;
   }
-  &:hover {
-    background: ${(props) => props.theme.colors.controlPanelButtonHover};
+  ${ControlCenterButton} {
+    transition: 0.1s;
+    &:first-child {
+      border-top-left-radius: 1rem;
+      border-bottom-left-radius: 1rem;
+    }
+    &:last-child {
+      border-top-right-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+      border-right: none;
+    }
+    &:hover {
+      background: ${(props) => props.theme.colors.controlCenterButtonHover};
+    }
   }
 `;
 
-export const ControlCenterButton = styled.button`
-  ${controlCenterButtonBaseStyle}
-  font-size: ${(props) => props.theme.scales.fontSize.controlPanelButton};
-`;
+// Mobile Control Center styles
 
-export const ControlCenterMainActions = styled.div`
-  border-radius: 1rem;
-  box-shadow: 0px 0px 5px #000;
-`;
-
-export const ControlCenterSettings = styled.div`
-  border-radius: 1rem;
-  box-shadow: 0px 0px 5px #000;
-  margin-left: 2rem;
+export const MobileControlCenter = styled.div`
+  ${ControlCenterMainActions} {
+    ${(props) => props.theme.flex.row}
+  }
+  ${ControlCenterSettings} {
+    display: none;
+  }
+  ${ControlCenterButton} {
+    flex-grow: 1;
+  }
+  width: 100%;
 `;

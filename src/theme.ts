@@ -27,9 +27,9 @@ const colors: Colors = {
 // Color assignment object def
 interface ThemeColors {
   builderBg: string;
-  controlPanelButtonDef: string;
-  controlPanelButtonHover: string;
-  controlPanelButtonBorder: string;
+  controlCenterButtonDef: string;
+  controlCenterButtonHover: string;
+  controlCenterButtonBorder: string;
   // TODO add modes here i.e.:
   // modes: { dark: { [key: string]: string }, light: { [key: string]: string } }
   modes: {
@@ -45,9 +45,9 @@ interface ThemeColors {
 // Color assignment object
 const themeColors: ThemeColors = {
   builderBg: colors.grey[9],
-  controlPanelButtonDef: colors.grey[5],
-  controlPanelButtonHover: colors.grey[6],
-  controlPanelButtonBorder: colors.grey[3],
+  controlCenterButtonDef: colors.grey[5],
+  controlCenterButtonHover: colors.grey[6],
+  controlCenterButtonBorder: colors.grey[3],
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
@@ -108,38 +108,50 @@ export interface Scales {
 export const scales: Scales = {
   xl: {
     panel: "32rem",
+    display: {
+      controlCenter: "",
+    },
     fontSize: {
-      controlPanelButton: "2rem",
+      controlCenterButton: "2rem",
     },
     padding: {
-      controlPanelButton: "0.75rem 2rem",
+      controlCenterButton: "0.75rem 2rem",
     },
   },
   lg: {
     panel: "26rem",
+    display: {
+      controlCenter: "",
+    },
     fontSize: {
-      controlPanelButton: "1.5rem",
+      controlCenterButton: "1.5rem",
     },
     padding: {
-      controlPanelButton: "1rem 1.25rem",
+      controlCenterButton: "1rem 1.25rem",
     },
   },
   md: {
     panel: "28rem",
+    display: {
+      controlCenter: "none",
+    },
     fontSize: {
-      controlPanelButton: "1.5rem",
+      controlCenterButton: "1.5rem",
     },
     padding: {
-      controlPanelButton: "1rem 1.25rem",
+      controlCenterButton: "1rem 1.25rem",
     },
   },
   sm: {
     panel: "22em",
+    display: {
+      controlCenter: "none",
+    },
     fontSize: {
-      controlPanelButton: "1.5rem",
+      controlCenterButton: "1.5rem",
     },
     padding: {
-      controlPanelButton: "1rem 1.25rem",
+      controlCenterButton: "1rem 1.25rem",
     },
   },
 };
