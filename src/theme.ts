@@ -70,13 +70,25 @@ export interface Scales {
         };
   };
   lg: {
-    [key: string]: string;
+    [key: string]:
+      | string
+      | {
+          [key: string]: string;
+        };
   };
   md: {
-    [key: string]: string;
+    [key: string]:
+      | string
+      | {
+          [key: string]: string;
+        };
   };
   sm: {
-    [key: string]: string;
+    [key: string]:
+      | string
+      | {
+          [key: string]: string;
+        };
   };
 }
 
@@ -90,12 +102,21 @@ export const scales: Scales = {
   },
   lg: {
     panel: "26rem",
+    fontSize: {
+      controlPanelIcon: "1.5rem",
+    },
   },
   md: {
     panel: "28rem",
+    fontSize: {
+      controlPanelIcon: "1.5rem",
+    },
   },
   sm: {
     panel: "22em",
+    fontSize: {
+      controlPanelIcon: "1.5rem",
+    },
   },
 };
 

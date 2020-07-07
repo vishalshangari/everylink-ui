@@ -1,4 +1,6 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css } from "styled-components";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 export const Box = styled.div<{ backgroundColor: string }>`
   background: ${(props) => props.backgroundColor};
@@ -61,33 +63,57 @@ export const BuilderContainer = styled.div`
 `;
 
 export const ControlCenter = styled.div`
-  overflow: hidden;
   position: relative;
   margin: 1rem auto 0;
+  ${(props) => props.theme.flex.row};
+`;
+
+const controlCenterButtonBaseStyle = css`
+  font-size: ${(props) => props.theme.scales.fontSize.controlPanelIcon};
+  color: #fff;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  border: 0;
+  outline: 0;
+  transition: 0.1s;
+  background: ${(props) => props.theme.colors.controlPanelButtonDef};
+  border-right: 1px solid
+    ${(props) => props.theme.colors.controlPanelButtonBorder};
+  &:first-child {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+  }
+  &:last-child {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-right: none;
+  }
+  &:hover {
+    background: ${(props) => props.theme.colors.controlPanelButtonHover};
+  }
+`;
+
+export const ControlCenterButton = styled.button`
+  ${controlCenterButtonBaseStyle}
+`;
+
+export const ControlCenterMainActions = styled.div`
   border-radius: 1rem;
   box-shadow: 0px 0px 5px #000;
-  button {
-    font-size: ${(props) => props.theme.scales.fontSize.controlPanelIcon};
-    color: #fff;
-    cursor: pointer;
-    padding: 1rem 2rem;
-    border: 0;
-    outline: 0;
-    transition: 0.1s;
-    background: ${(props) => props.theme.colors.controlPanelButtonDef};
-    border-right: 1px solid
-      ${(props) => props.theme.colors.controlPanelButtonBorder};
-    &:first-child {
-      border-top-left-radius: 1rem;
-      border-bottom-left-radius: 1rem;
-    }
-    &:last-child {
-      border-top-right-radius: 1rem;
-      border-bottom-right-radius: 1rem;
-      border-right: none;
-    }
-    &:hover {
-      background: ${(props) => props.theme.colors.controlPanelButtonHover};
-    }
+  ${ControlCenterButton} {
   }
+`;
+
+export const ControlCenterSettings = styled.div``;
+
+export const SettingsButton = styled(DropdownButton)`
+  button {
+    ${controlCenterButtonBaseStyle}
+  }
+`;
+
+export const SettingsDropdownButton = styled(ControlCenterButton)``;
+
+export const StyledSettingsButton = styled(ControlCenterButton)`
+  border: 5px solid green;
 `;

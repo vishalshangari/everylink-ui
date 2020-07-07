@@ -2,6 +2,8 @@ import React, { useState, createContext, ReactNode } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import {
@@ -10,6 +12,11 @@ import {
   BuilderContainer,
   ViewContainer,
   ControlCenter,
+  ControlCenterButton,
+  ControlCenterMainActions,
+  ControlCenterSettings,
+  SettingsDropdownButton,
+  SettingsButton,
 } from "./components";
 import { Block, BuilderProps, Data } from "./models";
 import { dataImport } from "../../data/test";
@@ -113,7 +120,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
     type: string;
     description: string;
     icon: ReactNode;
-    action: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    action: () => void;
   }
 
   const sidePanelActions: sidePanelAction[] = [
@@ -124,13 +131,13 @@ const Builder: React.FC<BuilderProps> = (props) => {
       } + theme`,
       icon:
         currentTheme === "dark" ? <MdWbSunny /> : <WiMoonAltWaningCrescent4 />,
-      action: (e) => handleThemeChange(currentTheme === "dark" ? "" : "dark"),
+      action: () => handleThemeChange(currentTheme === "dark" ? "" : "dark"),
     },
     {
       type: "Editor layout",
       description: "Switch editor layout",
       icon: <MdSwapHoriz />,
-      action: (e) => setPanelRight(!panelRight),
+      action: () => setPanelRight(!panelRight),
     },
   ];
 
@@ -139,17 +146,36 @@ const Builder: React.FC<BuilderProps> = (props) => {
       <BuilderContainer>
         <ViewContainer>
           <ControlCenter>
-            {controlPanelActions.map((option, index) => {
-              return (
-                <Tooltip
-                  {...controlPanelTooltipProps}
-                  key={index}
-                  overlay={option.description}
-                >
-                  <button onClick={option.action}>{option.icon}</button>
-                </Tooltip>
-              );
-            })}
+            <ControlCenterMainActions>
+              {controlPanelActions.map((option, index) => {
+                return (
+                  <Tooltip
+                    {...controlPanelTooltipProps}
+                    key={index}
+                    overlay={option.description}
+                  >
+                    <ControlCenterButton onClick={option.action}>
+                      {option.icon}
+                    </ControlCenterButton>
+                  </Tooltip>
+                );
+              })}
+            </ControlCenterMainActions>
+            <ControlCenterSettings>
+              <SettingsButton title={<MdSettings />}>
+                {sidePanelActions.map((option, index) => {
+                  return (
+                    <Dropdown.Item
+                      as={SettingsDropdownButton}
+                      key={index}
+                      onClick={option.action}
+                    >
+                      {option.icon}
+                    </Dropdown.Item>
+                  );
+                })}
+              </SettingsButton>
+            </ControlCenterSettings>
           </ControlCenter>
           <DeviceSimulator>{blocks}</DeviceSimulator>
           <ActionPanel panelRight={panelRight}>

@@ -1,3 +1,5 @@
+import { Theme } from "../../theme";
+
 interface UseThemeParams {
   defaultTheme: string;
   displaySize: DisplaySizes;
@@ -5,7 +7,7 @@ interface UseThemeParams {
 
 export type UseThemeDefinition = (
   params: UseThemeParams
-) => [(newTheme: string) => void, string, (newTheme: string) => void];
+) => [(newTheme: string) => Theme, string, (newTheme: string) => void];
 
 export enum DisplaySizes {
   XL = "xl",
