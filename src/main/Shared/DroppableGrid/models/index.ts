@@ -5,5 +5,5 @@ export interface DroppableGridProps {
   parentWidth: number;
   parentHeight: number;
   elements: { [key: string]: DragElement };
-  setElements: (elements: { [key: string]: DragElement }) => void;
+  setElements: (element: DragElement) => void;
 }

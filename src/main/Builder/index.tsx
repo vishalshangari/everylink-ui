@@ -1,4 +1,10 @@
-import React, { useState, createContext, ReactNode } from "react";
+import React, {
+  useState,
+  createContext,
+  ReactNode,
+  ElementType,
+  useCallback,
+} from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
@@ -9,7 +15,7 @@ import {
   BuilderContainer,
   ViewContainer,
 } from "./components";
-import { BuilderProps } from "./models";
+import { BuilderProps, Element, ElementList } from "./models";
 import {
   MdAddCircle,
   MdWbSunny,
@@ -19,6 +25,8 @@ import {
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 import { DroppapleGrid } from "../Shared/DroppableGrid";
 import { devices } from "../Shared/DeviceSimulator/constants";
+import { Position } from "./models";
+import { DragElement } from "../Shared/DraggableElement";
 
 interface ActionPanelProps {
   panelRight: boolean;
@@ -34,25 +42,59 @@ const ActionPanel = ({ children, panelRight }: ActionPanelProps) => {
 const Builder: React.FC<BuilderProps> = (props) => {
   const [panelRight, setPanelRight] = useState(true);
   const { displaySize, handleThemeChange, currentTheme } = props;
-
-  const [elements, setElements] = useState<{ [key: string]: any }>({});
+  const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
+  const [device, setDevice] = useState(devices[0]);
+  const [elements, setElements] = useState<ElementList>({});
 
   const addBlock = () => {
     const id = `${Math.floor(Math.random() * 10000)}`;
+    const newElement: Element<"container"> = {
+      type: "container",
+      position: {
+        top: 0,
+        left: 0,
+        width: device.width,
+        height: 100,
+      },
+      style: {
+        height: 100,
+      },
+    };
     setElements({
       ...elements,
-      [id]: {
-        top: 20,
-        left: 80,
-        width: 100,
-        height: 100,
-        title: "Fuck you x " + id + ", vishal",
-      },
+      [id]: newElement,
     });
   };
 
-  const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
-  const [device, setDevice] = useState(devices[0]);
+  const dragElements = useCallback(
+    () =>
+      Object.keys(elements).reduce((positions, currentKey) => {
+        positions[currentKey] = {
+          id: currentKey,
+          ...elements[currentKey].position,
+          type: "container",
+          title: "fuckk" + currentKey,
+        };
+        return positions;
+      }, {} as { [key: string]: DragElement }),
+    [elements]
+  );
+
+  const setDragElements = (newElement: DragElement) => {
+    setElements((prevElements) => ({
+      ...prevElements,
+      [newElement.id]: {
+        ...elements[newElement.id],
+        position: {
+          ...elements[newElement.id].position,
+          left: newElement.left,
+          top: newElement.top,
+          width: newElement.width,
+          height: newElement.height,
+        },
+      },
+    }));
+  };
 
   // Render Panel side per user preference
 
@@ -64,8 +106,8 @@ const Builder: React.FC<BuilderProps> = (props) => {
             parentHeight={device.height}
             parentWidth={device.width}
             isMobile={displaySize !== "xl" && displaySize !== "lg"}
-            elements={elements}
-            setElements={setElements}
+            elements={dragElements()}
+            setElements={setDragElements}
           />
         </DeviceSimulator>
         <ActionPanel panelRight={panelRight}>

@@ -10,53 +10,52 @@ export const DndContainer: React.FC<DndContainerProps> = ({
   elements,
   setElements,
 }) => {
-  const moveElement = useCallback(
-    (id: string, left: number, top: number) => {
-      setElements({
-        ...elements,
-        [id]: { ...elements[id], left, top },
-      });
-    },
-    [elements, setElements]
-  );
+  const moveElement = (id: string, left: number, top: number) => {
+    setElements({ ...elements[id], left, top });
+  };
+
+  const resizeElement = (id: string, width: number, height: number) => {
+    setElements({ ...elements[id], width, height });
+  };
 
   const [, drop] = useDrop({
-    accept: "element",
+    accept: "container",
     drop(item: DragElement, monitor) {
       const delta = monitor.getDifferenceFromInitialOffset() as {
         x: number;
         y: number;
       };
 
-      const left = Math.round(item.left + delta.x);
-      const top = Math.round(item.top + delta.y);
+      if (!delta) return undefined;
+      let left = Math.round(item.left + delta.x);
+      let top = Math.round(item.top + delta.y);
+      if (left + item.width > parentWidth) {
+        left = parentWidth - item.width;
+      } else if (left < 0) {
+        left = 0;
+      }
+      if (top + item.height > parentHeight) {
+        top = parentHeight - item.height;
+      } else if (top < 0) {
+        top = 0;
+      }
+      top = Math.floor(top / (parentHeight / 10)) * (parentHeight / 10);
+      left = Math.floor(left / (parentWidth / 10)) * (parentWidth / 10);
       moveElement(item.id, left, top);
       return undefined;
-    },
-    canDrop: (item: DragElement, monitor) => {
-      const delta = monitor.getDifferenceFromInitialOffset() as {
-        x: number;
-        y: number;
-      };
-
-      const left = Math.round(item.left + delta.x);
-      const top = Math.round(item.top + delta.y);
-      if (
-        left + item.width > parentWidth ||
-        left < 0 ||
-        top < 0 ||
-        top + item.height > parentHeight
-      ) {
-        return false;
-      }
-      return true;
     },
   });
 
   return (
     <Container ref={drop}>
       {Object.keys(elements).map((key) => (
-        <DraggableElement key={key} {...elements[key]} id={key} />
+        <DraggableElement
+          moveElement={moveElement}
+          resizeElement={resizeElement}
+          key={key}
+          {...elements[key]}
+          id={key}
+        />
       ))}
     </Container>
   );

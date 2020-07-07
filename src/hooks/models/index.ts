@@ -13,3 +13,14 @@ export enum DisplaySizes {
   MD = "md",
   SM = "sm",
 }
+
+export interface UseResizeSpec {
+  item: {
+    id: string;
+    width: number;
+    height: number;
+    left: number;
+    top: number;
+  };
+  handleSizeChange: (id: string, width: number, height: number) => void;
+}
