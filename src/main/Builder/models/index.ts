@@ -18,6 +18,7 @@ export type ElementList = {
 };
 
 export interface Element<T extends ElementType> {
+  id: string;
   type: T;
   position: Position;
   style: StyleMap<T>;
@@ -34,7 +35,7 @@ type StyleMap<T> = T extends "container"
   : unknown;
 
 type ContainerStyle = {
-  height: number;
+  backgroundColor: string;
 };
 
 type TextboxStyle = {

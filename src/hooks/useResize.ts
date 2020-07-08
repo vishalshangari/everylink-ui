@@ -15,6 +15,36 @@ export const useResize = (spec: UseResizeSpec) => {
 
     const handleMouseUp = (e: MouseEvent) => {
       e.preventDefault();
+
+      const { item, handleSizeChange } = specRef.current;
+      const { id } = item;
+      const element = document.getElementById(id);
+      let width;
+      let height;
+
+      if (element && element.parentElement) {
+        const styles = document.defaultView?.getComputedStyle(element);
+        if (styles) {
+          width = parseInt(styles.width);
+          height = parseInt(styles.height);
+        }
+        const parentStyles = document.defaultView?.getComputedStyle(
+          element.parentElement
+        );
+        if (width && height && parentStyles) {
+          const parentWidth = parseInt(parentStyles.width);
+          const parentHeight = parseInt(parentStyles.height);
+          const newWidth =
+            Math.floor(width / (parentWidth / 25)) * (parentWidth / 25);
+          const newHeight =
+            Math.floor(height / (parentHeight / 25)) * (parentHeight / 25);
+          if (!handleSizeChange) {
+            element.style.height = `${newHeight}px`;
+          } else {
+            handleSizeChange(id, newWidth, newHeight);
+          }
+        }
+      }
       setMouseDown(false);
     };
 

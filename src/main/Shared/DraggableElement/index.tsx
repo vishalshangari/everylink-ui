@@ -1,11 +1,15 @@
-import React, { useRef, useState, useCallback, useEffect } from "react";
-import { useDrag, DragSourceMonitor, useDrop } from "react-dnd";
+import React from "react";
+import {
+  useDrag,
+  DragSourceMonitor,
+  useDrop,
+  DropTargetMonitor,
+} from "react-dnd";
 import styled from "styled-components";
 import { useResize } from "../../../hooks/useResize";
 
 export interface DraggableElementProps {
   id: string;
-  title: string;
   type: string;
   left: number;
   top: number;
@@ -22,13 +26,11 @@ export interface DragElement {
   top: number;
   width: number;
   height: number;
-  title: string;
 }
 
 export const DraggableElement: React.FC<DraggableElementProps> = (props) => {
   const {
     id,
-    title,
     left,
     top,
     width,
@@ -38,7 +40,7 @@ export const DraggableElement: React.FC<DraggableElementProps> = (props) => {
     type,
   } = props;
   const [{ isDragging }, drag] = useDrag({
-    item: { type, id, left, top, width, height, title },
+    item: { type, id, left, top, width, height },
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -46,7 +48,13 @@ export const DraggableElement: React.FC<DraggableElementProps> = (props) => {
 
   const [resize] = useResize({
     item: { id, width, height, top, left },
-    handleSizeChange: resizeElement,
+    handleSizeChange: (
+      thisId: string,
+      thisWidth: number,
+      thisHeight: number
+    ) => {
+      resizeElement(thisId, width, thisHeight);
+    },
   });
 
   return (
@@ -59,21 +67,19 @@ export const DraggableElement: React.FC<DraggableElementProps> = (props) => {
       height={height}
       id={id}
     >
-      <div>{title}</div>
-      <div
-        ref={resize}
-        style={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          width: "10px",
-          height: "10px",
-          backgroundColor: "blue",
-        }}
-      />
+      <Resizer ref={resize} />
     </DraggableElementContainer>
   );
 };
+
+const Resizer = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: blue;
+`;
 
 const DraggableElementContainer = styled.div<{
   left: number;

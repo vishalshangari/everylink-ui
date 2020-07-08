@@ -1,8 +1,9 @@
-import React, { useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useDrop } from "react-dnd";
 import { DraggableElement, DragElement } from "../../../DraggableElement";
 import { DndContainerProps } from "./models";
+import _ from "lodash";
 
 export const DndContainer: React.FC<DndContainerProps> = ({
   parentHeight,
@@ -11,11 +12,17 @@ export const DndContainer: React.FC<DndContainerProps> = ({
   setElements,
 }) => {
   const moveElement = (id: string, left: number, top: number) => {
-    setElements({ ...elements[id], left, top });
+    const currentElement = _.find(elements, { id });
+    if (currentElement) {
+      setElements({ ...currentElement, left, top });
+    }
   };
 
   const resizeElement = (id: string, width: number, height: number) => {
-    setElements({ ...elements[id], width, height });
+    const currentElement = _.find(elements, { id });
+    if (currentElement) {
+      setElements({ ...currentElement, width, height });
+    }
   };
 
   const [, drop] = useDrop({
@@ -39,8 +46,8 @@ export const DndContainer: React.FC<DndContainerProps> = ({
       } else if (top < 0) {
         top = 0;
       }
-      top = Math.floor(top / (parentHeight / 10)) * (parentHeight / 10);
-      left = Math.floor(left / (parentWidth / 10)) * (parentWidth / 10);
+      top = Math.floor(top / (parentHeight / 25)) * (parentHeight / 25);
+      left = Math.floor(left / (parentWidth / 25)) * (parentWidth / 25);
       moveElement(item.id, left, top);
       return undefined;
     },
@@ -48,13 +55,12 @@ export const DndContainer: React.FC<DndContainerProps> = ({
 
   return (
     <Container ref={drop}>
-      {Object.keys(elements).map((key) => (
+      {elements.map((element) => (
         <DraggableElement
           moveElement={moveElement}
           resizeElement={resizeElement}
-          key={key}
-          {...elements[key]}
-          id={key}
+          key={element.id}
+          {...element}
         />
       ))}
     </Container>
