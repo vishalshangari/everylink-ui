@@ -76,3 +76,10 @@ export interface BuilderProps {
   handleThemeChange: (newTheme: string) => void;
   currentTheme: string;
 }
+
+export interface ControlPanelActions {
+  type: string;
+  description: string;
+  icon: ReactNode;
+  action: () => void;
+}

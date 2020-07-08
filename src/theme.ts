@@ -11,21 +11,25 @@ const colors: Colors = {
     0: "#000000",
     1: "#090a0b",
     2: "#121416",
-    3: "#212529",
-    4: "#343A40",
-    5: "#495057",
-    6: "#6C757D",
-    7: "#ADB5BD",
-    8: "#CED4DA",
-    9: "#DEE2E6",
-    10: "#E9ECEF",
-    11: "#F8F9FA",
+    3: "#1c1f22",
+    4: "#212529",
+    5: "#343A40",
+    6: "#495057",
+    7: "#6C757D",
+    8: "#ADB5BD",
+    9: "#CED4DA",
+    10: "#DEE2E6",
+    11: "#E9ECEF",
+    12: "#F8F9FA",
   },
 };
 
 // Color assignment object def
 interface ThemeColors {
   builderBg: string;
+  controlCenterButtonDef: string;
+  controlCenterButtonHover: string;
+  controlCenterButtonBorder: string;
   // TODO add modes here i.e.:
   // modes: { dark: { [key: string]: string }, light: { [key: string]: string } }
   modes: {
@@ -41,6 +45,9 @@ interface ThemeColors {
 // Color assignment object
 const themeColors: ThemeColors = {
   builderBg: colors.grey[9],
+  controlCenterButtonDef: colors.grey[5],
+  controlCenterButtonHover: colors.grey[6],
+  controlCenterButtonBorder: colors.grey[3],
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
@@ -53,19 +60,47 @@ const themeColors: ThemeColors = {
   },
 };
 
+interface PaddingDefinition {
+  doubleBase: string;
+  base: string;
+  halfBase: string;
+}
+
+export const padding: PaddingDefinition = {
+  doubleBase: "2rem",
+  base: "1rem",
+  halfBase: "0.5rem",
+};
+
 // Scale object def
 export interface Scales {
   xl: {
-    [key: string]: string;
+    [key: string]:
+      | string
+      | {
+          [key: string]: string;
+        };
   };
   lg: {
-    [key: string]: string;
+    [key: string]:
+      | string
+      | {
+          [key: string]: string;
+        };
   };
   md: {
-    [key: string]: string;
+    [key: string]:
+      | string
+      | {
+          [key: string]: string;
+        };
   };
   sm: {
-    [key: string]: string;
+    [key: string]:
+      | string
+      | {
+          [key: string]: string;
+        };
   };
 }
 
@@ -73,15 +108,51 @@ export interface Scales {
 export const scales: Scales = {
   xl: {
     panel: "32rem",
+    display: {
+      controlCenter: "",
+    },
+    fontSize: {
+      controlCenterButton: "2rem",
+    },
+    padding: {
+      controlCenterButton: "0.75rem 2rem",
+    },
   },
   lg: {
     panel: "26rem",
+    display: {
+      controlCenter: "",
+    },
+    fontSize: {
+      controlCenterButton: "1.5rem",
+    },
+    padding: {
+      controlCenterButton: "1rem 1.25rem",
+    },
   },
   md: {
     panel: "28rem",
+    display: {
+      controlCenter: "none",
+    },
+    fontSize: {
+      controlCenterButton: "1.5rem",
+    },
+    padding: {
+      controlCenterButton: "1rem 1.25rem",
+    },
   },
   sm: {
     panel: "22em",
+    display: {
+      controlCenter: "none",
+    },
+    fontSize: {
+      controlCenterButton: "1.5rem",
+    },
+    padding: {
+      controlCenterButton: "1rem 1.25rem",
+    },
   },
 };
 
@@ -110,9 +181,7 @@ export interface Theme {
   borderRadius: {
     [key: string]: string;
   };
-  padding: {
-    [key: string]: string;
-  };
+  padding: PaddingDefinition;
   margin: {
     [key: string]: string;
   };
@@ -171,12 +240,7 @@ export const theme: Theme = {
     dashboardTextSmall: "0.875rem",
     sliderSetting: "1.5rem",
   },
-  padding: {
-    base: "1rem",
-    halfBase: "0.5rem",
-    doubleBase: "2rem",
-    app: "5rem",
-  },
+  padding: padding,
   margin: {
     base: "1rem",
     halfBase: "0.5rem",
