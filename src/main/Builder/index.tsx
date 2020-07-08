@@ -13,7 +13,12 @@ import {
   ControlCenterSettings,
   MobileControlCenter,
 } from "./components";
-import { BuilderProps, Element, ControlPanelActions } from "./models";
+import {
+  BuilderProps,
+  Element,
+  ControlPanelActions,
+  ElementType,
+} from "./models";
 import {
   MdAddCircle,
   MdWbSunny,
@@ -24,9 +29,9 @@ import {
   MdClose,
 } from "react-icons/md";
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
-import { DroppapleGrid } from "../Shared/DroppableGrid";
-import { DragElement } from "../Shared/DraggableElement";
 import _ from "lodash";
+import { ContainerList } from "../Shared/ContainerList";
+import { Container } from "../Shared/Container";
 
 const device = {
   width: 375,
@@ -39,66 +44,102 @@ const Builder: React.FC<BuilderProps> = (props) => {
   const idIncrement = useRef(0);
   const [panelRight, setPanelRight] = useState(true);
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
-  const [containers, setContainers] = useState<Element<"container">[]>([]);
+  const [containers, setContainers] = useState<
+    Element<ElementType.CONTAINER>[]
+  >([]);
 
-  const addContainer = useCallback(() => {
+  const createDefaultContainer = useCallback(() => {
     const id = `container-${idIncrement.current}`;
     idIncrement.current++;
-    const newContainer: Element<"container"> = {
+    const newContainer: Element<ElementType.CONTAINER> = {
       id,
-      type: "container",
+      type: ElementType.CONTAINER,
       position: {
         top: 0,
         left: 0,
         width: device.width,
-        height: device.height / 2,
+        height: device.height / 10,
       },
       style: {
         backgroundColor: "blue",
       },
+      elements: [],
     };
+    return newContainer;
+  }, []);
+
+  const addContainer = useCallback(() => {
+    const newContainer = createDefaultContainer();
     setContainers((prevContainers) => {
       return [...prevContainers, newContainer];
     });
-  }, [idIncrement]);
+  }, [createDefaultContainer]);
 
-  const dragContainers = useCallback(
-    () =>
-      containers.map((container) => ({
-        ...container.position,
-        type: "container",
-        id: container.id,
-      })),
+  const handleFindContainer = useCallback(
+    (id: string) => {
+      const foundContainer = _.find(containers, { id });
+      const foundContainerIndex = _.findIndex(containers, { id });
+      return {
+        container: foundContainer,
+        index: foundContainerIndex,
+      };
+    },
     [containers]
   );
 
-  const setDragContainers = useCallback(
-    (updateElement: DragElement) => {
-      const currentContainerIndex = _.findIndex(containers, {
-        id: updateElement.id,
-      });
-      if (currentContainerIndex >= 0) {
+  const handleMoveContainer = useCallback(
+    (id: string, atIndex: number) => {
+      const foundContainer = _.find(containers, { id });
+      const foundContainerIndex = _.findIndex(containers, { id });
+      if (foundContainer) {
         setContainers((prevContainers) => {
-          return prevContainers.map((prevContainer) => {
-            if (prevContainer.id === updateElement.id) {
-              return {
-                ...prevContainers[currentContainerIndex],
-                position: {
-                  ...prevContainers[currentContainerIndex].position,
-                  left: updateElement.left,
-                  top: updateElement.top,
-                  width: updateElement.width,
-                  height: updateElement.height,
-                },
-              };
-            }
-            return prevContainer;
-          });
+          const newContainers = [...prevContainers];
+          newContainers.splice(foundContainerIndex, 1);
+          newContainers.splice(atIndex, 0, foundContainer);
+          return [...newContainers];
         });
       }
     },
     [containers]
   );
+
+  const handleResizeContainer = useCallback(
+    (id: string, width: number, height: number) => {
+      const foundContainer = _.find(containers, { id });
+      const foundContainerIndex = _.findIndex(containers, { id });
+      if (foundContainer) {
+        setContainers((prevContainers) => {
+          const newContainers = [...prevContainers];
+          newContainers[foundContainerIndex] = {
+            ...foundContainer,
+            position: { ...foundContainer.position, width, height },
+          };
+          return [...newContainers];
+        });
+      }
+    },
+    [containers]
+  );
+
+  const renderContainers = () => {
+    return (
+      <ContainerList>
+        {containers.map((container) => {
+          return (
+            <Container
+              key={container.id}
+              moveContainer={handleMoveContainer}
+              findContainer={handleFindContainer}
+              resizeContainer={handleResizeContainer}
+              {..._.pick(container, "type", "id")}
+              {..._.pick(container.position, "width", "height")}
+            />
+          );
+        })}
+        ;
+      </ContainerList>
+    );
+  };
 
   const log = console.log;
 
@@ -217,15 +258,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
           </MobileControlCenter>
         ) : null}
 
-        <DeviceSimulator>
-          <DroppapleGrid
-            parentHeight={device.height}
-            parentWidth={device.width}
-            isMobile={displaySize !== "xl" && displaySize !== "lg"}
-            elements={dragContainers()}
-            setElements={setDragContainers}
-          />
-        </DeviceSimulator>
+        <DeviceSimulator>{renderContainers()}</DeviceSimulator>
       </ViewContainer>
       {/* Mobile Temporary Drawer Dashboard */}
       {displaySize !== "xl" && displaySize !== "lg" ? (

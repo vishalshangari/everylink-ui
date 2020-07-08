@@ -21,8 +21,6 @@ export interface UseResizeSpec {
     id: string;
     width: number;
     height: number;
-    left: number;
-    top: number;
   };
   handleSizeChange: (id: string, width: number, height: number) => void;
 }

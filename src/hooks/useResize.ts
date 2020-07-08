@@ -71,10 +71,10 @@ export const useResize = (spec: UseResizeSpec) => {
           if (parentStyles) {
             const parentWidth = parseInt(parentStyles.width);
             const parentHeight = parseInt(parentStyles.height);
-            if (newWidth + item.left >= parentWidth) {
+            if (newWidth >= parentWidth) {
               newWidth = width;
             }
-            if (newHeight + item.top >= parentHeight) {
+            if (newHeight >= parentHeight) {
               newHeight = height;
             }
           }

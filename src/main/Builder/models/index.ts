@@ -4,7 +4,12 @@ import { DisplaySizes } from "../../../hooks/models";
 export type Block = ReactNode;
 export type AccordionElement = ReactNode;
 
-type ElementType = "container" | "textbox" | "button" | "image";
+export enum ElementType {
+  CONTAINER = "container",
+  TEXTBOX = "textbox",
+  BUTTON = "button",
+  IMAGE = "image",
+}
 
 export type Position = {
   top: number;
@@ -22,15 +27,16 @@ export interface Element<T extends ElementType> {
   type: T;
   position: Position;
   style: StyleMap<T>;
+  elements: Element<Exclude<ElementType, ElementType.CONTAINER>>[];
 }
 
-type StyleMap<T> = T extends "container"
+type StyleMap<T> = T extends ElementType.CONTAINER
   ? ContainerStyle
-  : T extends "textbox"
+  : T extends ElementType.TEXTBOX
   ? TextboxStyle
-  : T extends "button"
+  : T extends ElementType.BUTTON
   ? ButtonStyle
-  : T extends "image"
+  : T extends ElementType.IMAGE
   ? ImageStyle
   : unknown;
 
