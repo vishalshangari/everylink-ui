@@ -1,0 +1,56 @@
+{
+  "type": "container",
+  "nature": "default/columns",
+  "layout": {
+    "columns": [
+      {
+        "spacerOnly": false,
+        "width": "% of layout",
+        "alignContent": "auto/left/center/right"
+      }
+    ]
+  },
+  "appearance": {
+    "style": "custom container format",
+    "css": {
+      "width": {},
+      "height": {},
+      "background": {
+        "type": "none|color|image|gradient",
+        "backgroundColor": "HEX",
+        "backgroundImage": "URL",
+        "backgroundGradient": "CSS"
+      },
+      "border": {
+        "borderTop": {},
+        "borderRight": {},
+        "borderBottom": {},
+        "borderLeft": "option to make all borders same",
+        "borderColor": "HEX",
+        "borderWidth": {},
+        "borderRadius": {}
+      },
+      "boxShadow": {
+        "cssProperties": {}
+      },
+      "padding": {
+        "top": "option to lock to padding bottom",
+        "bottom": {},
+        "left": "option to lock to padding right",
+        "right": {}
+      },
+      "margins": {
+        "top": "option to lock to padding bottom",
+        "bottom": {},
+        "left": "option to lock to padding right",
+        "right": {}
+      },
+      "contentBox": {
+        "positionWithinContainerX": "auto|left|center|right",
+        "positionWithinContainerY": "auto|top|center|right",
+        "contentAlignmentX": "auto|left|center|right",
+        "contentAlignmentY": "auto|left|center|right"
+      }
+    }
+  }
+}
