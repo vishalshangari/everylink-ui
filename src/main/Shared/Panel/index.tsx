@@ -5,6 +5,7 @@ interface PanelProps {
   panelRight: boolean;
   children?: ReactNode;
   isDesktop: boolean;
+  dashboardHidden: boolean;
 }
 
 interface PanelInnerContainerProps {
@@ -36,7 +37,17 @@ export const PanelInnerContainer = ({
   );
 };
 
-const PanelContainer = styled.div<{ panelRight: boolean; isDesktop: boolean }>`
+const PanelContainer = styled.div<{
+  panelRight: boolean;
+  isDesktop: boolean;
+  dashboardHidden: boolean;
+}>`
+  transition: .5s ease all;
+  z-index: 5;
+  ${(props) =>
+    props.dashboardHidden
+      ? `margin-right: -${props.theme.scales.panel};`
+      : `margin-right: 0;`}
   ${(props) =>
     props.isDesktop
       ? `padding-top: ${props.theme.padding.base}; padding-bottom: ${props.theme.padding.base};`
@@ -58,9 +69,18 @@ const PanelContainer = styled.div<{ panelRight: boolean; isDesktop: boolean }>`
   width: ${(props) => props.theme.scales.panel};
 `;
 
-export const Panel = ({ children, panelRight, isDesktop }: PanelProps) => {
+export const Panel = ({
+  children,
+  panelRight,
+  isDesktop,
+  dashboardHidden,
+}: PanelProps) => {
   return (
-    <PanelContainer isDesktop={isDesktop} panelRight={panelRight}>
+    <PanelContainer
+      dashboardHidden={dashboardHidden}
+      isDesktop={isDesktop}
+      panelRight={panelRight}
+    >
       {children}
     </PanelContainer>
   );

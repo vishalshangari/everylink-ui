@@ -30,6 +30,7 @@ interface ThemeColors {
   controlCenterButtonDef: string;
   controlCenterButtonHover: string;
   controlCenterButtonBorder: string;
+  controlCenterButtonShadow: string;
   // TODO add modes here i.e.:
   // modes: { dark: { [key: string]: string }, light: { [key: string]: string } }
   modes: {
@@ -48,6 +49,7 @@ const themeColors: ThemeColors = {
   controlCenterButtonDef: colors.grey[5],
   controlCenterButtonHover: colors.grey[6],
   controlCenterButtonBorder: colors.grey[3],
+  controlCenterButtonShadow: colors.grey[0],
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {

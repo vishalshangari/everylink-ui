@@ -2,6 +2,7 @@ import React from "react";
 import MaterialButton from "@material-ui/core/Button";
 import styled from "styled-components";
 import { ButtonProps } from "@material-ui/core";
+import { css } from "styled-components";
 
 type Button = ButtonProps;
 
@@ -34,4 +35,15 @@ export const TransparentButton = styled.button`
   border: none;
   color: white;
   cursor: pointer;
+`;
+
+export const controlCenterButtonBaseStyle = css`
+  color: #fff;
+  cursor: pointer;
+  padding: ${(props) => props.theme.scales.padding.controlCenterButton};
+  border: 0;
+  outline: 0;
+  background: ${(props) => props.theme.colors.controlCenterButtonDef};
+  border-right: 1px solid
+    ${(props) => props.theme.colors.controlCenterButtonBorder};
 `;
