@@ -1,12 +1,9 @@
 import React from "react";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
-import { DndContainerList } from "./components/DndContainer";
+import { DndContainer } from "../DndContainer";
+import { ElementType } from "../../Builder/models";
 
 export const ContainerList: React.FC = ({ children }) => {
   return (
-    <DndProvider backend={HTML5Backend}>
-      <DndContainerList>{children}</DndContainerList>
-    </DndProvider>
+    <DndContainer accept={[ElementType.CONTAINER]}>{children}</DndContainer>
   );
 };

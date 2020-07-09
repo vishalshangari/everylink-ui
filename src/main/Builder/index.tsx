@@ -131,8 +131,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
               moveContainer={handleMoveContainer}
               findContainer={handleFindContainer}
               resizeContainer={handleResizeContainer}
-              {..._.pick(container, "type", "id")}
-              {..._.pick(container.position, "width", "height")}
+              container={container}
             />
           );
         })}
