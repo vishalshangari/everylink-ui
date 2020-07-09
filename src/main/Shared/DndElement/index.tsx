@@ -2,10 +2,10 @@ import React, { useRef } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import styled from "styled-components";
 import { useResize } from "../../../hooks/useResize";
-import _ from "lodash";
-import { DraggableElementProps, DraggableElementItem } from "./models";
+import { DndElementItem, DndElementProps } from "./models";
+import { ElementType } from "../../Builder/models";
 
-export const DraggableElement: React.FC<DraggableElementProps> = ({
+export const DndElement: React.FC<DndElementProps> = ({
   id,
   width,
   height,
@@ -15,6 +15,7 @@ export const DraggableElement: React.FC<DraggableElementProps> = ({
   type,
   originIndex,
   moveElement,
+  moveElementByIndex,
   findElement,
   resizeElement,
   children,
@@ -29,7 +30,7 @@ export const DraggableElement: React.FC<DraggableElementProps> = ({
       const { id: droppedId, originalIndex } = monitor.getItem();
       const didDrop = monitor.didDrop();
       if (!didDrop) {
-        moveElement(droppedId, originalIndex);
+        moveElementByIndex(droppedId, originalIndex);
       }
     },
   });
@@ -37,8 +38,8 @@ export const DraggableElement: React.FC<DraggableElementProps> = ({
   const [, drop] = useDrop({
     accept: acceptDrop || "none",
     canDrop: () => false,
-    hover: (item: DraggableElementItem, monitor: DropTargetMonitor) => {
-      if (item.id !== id) {
+    hover: (item: DndElementItem, monitor: DropTargetMonitor) => {
+      if (item.id !== id && type === ElementType.CONTAINER) {
         const offset = monitor.getSourceClientOffset();
         const delta = monitor.getDifferenceFromInitialOffset();
         const bounds = elementRef.current?.getBoundingClientRect();
@@ -51,12 +52,12 @@ export const DraggableElement: React.FC<DraggableElementProps> = ({
           if (delta.y < 0) {
             if (trueDelta.y <= 0) {
               const { index: overIndex } = findElement(id);
-              moveElement(item.id, overIndex);
+              moveElementByIndex(item.id, overIndex);
             }
           } else {
             if (trueDelta.y >= height - item.height) {
               const { index: overIndex } = findElement(id);
-              moveElement(item.id, overIndex);
+              moveElementByIndex(item.id, overIndex);
             }
           }
         }
@@ -71,12 +72,16 @@ export const DraggableElement: React.FC<DraggableElementProps> = ({
       thisWidth: number,
       thisHeight: number
     ) => {
-      resizeElement(thisId, width, thisHeight);
+      resizeElement(
+        thisId,
+        type === ElementType.CONTAINER ? width : thisWidth,
+        thisHeight
+      );
     },
   });
 
   return (
-    <DraggableElementContainer
+    <DndElementContainer
       ref={(node) => {
         if (node) {
           elementRef.current = node;
@@ -86,11 +91,14 @@ export const DraggableElement: React.FC<DraggableElementProps> = ({
       isDragging={isDragging}
       width={width}
       height={height}
+      top={top}
+      left={left}
       id={id}
+      type={type}
     >
       {children}
       <Resizer ref={resize} />
-    </DraggableElementContainer>
+    </DndElementContainer>
   );
 };
 
@@ -103,18 +111,22 @@ const Resizer = styled.div`
   background-color: blue;
 `;
 
-const DraggableElementContainer = styled.div<{
+const DndElementContainer = styled.div<{
   width: number;
   height: number;
   top?: number;
   left?: number;
   isDragging: boolean;
+  type: ElementType;
 }>`
+position: relative;
   ${(props) =>
-    _.isNumber(props.left) &&
-    _.isNumber(props.top) &&
-    "transform: translate3d(" + props.left + "px," + props.top + "px);"}
-  position: relative;
+    props.type !== ElementType.CONTAINER &&
+    "transform: translate3d(" +
+      props.left +
+      "px," +
+      props.top +
+      "px, 0);position:absolute;"}
   opacity: ${(props) => (props.isDragging ? 0.5 : 1)};
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;

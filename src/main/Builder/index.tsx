@@ -31,7 +31,6 @@ import {
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 import _ from "lodash";
 import { ContainerList } from "../Shared/ContainerList";
-import { Container } from "../Shared/Container";
 
 const device = {
   width: 375,
@@ -41,7 +40,8 @@ const device = {
 const Builder: React.FC<BuilderProps> = (props) => {
   const { displaySize, handleThemeChange, currentTheme } = props;
 
-  const idIncrement = useRef(0);
+  const containerIdIncrement = useRef(0);
+  const elementIdIncrement = useRef(0);
   const [panelRight, setPanelRight] = useState(true);
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
   const [containers, setContainers] = useState<
@@ -49,8 +49,8 @@ const Builder: React.FC<BuilderProps> = (props) => {
   >([]);
 
   const createDefaultContainer = useCallback(() => {
-    const id = `container-${idIncrement.current}`;
-    idIncrement.current++;
+    const id = `container-${containerIdIncrement.current}`;
+    containerIdIncrement.current++;
     const newContainer: Element<ElementType.CONTAINER> = {
       id,
       type: ElementType.CONTAINER,
@@ -68,12 +68,80 @@ const Builder: React.FC<BuilderProps> = (props) => {
     return newContainer;
   }, []);
 
+  const createDefaultElement = useCallback((type: ElementType) => {
+    const id = `${type}-${elementIdIncrement.current}`;
+    elementIdIncrement.current++;
+    let newContainer: Element<Exclude<ElementType, ElementType.CONTAINER>>;
+    switch (type) {
+      case ElementType.BUTTON:
+        newContainer = {
+          id,
+          type: ElementType.BUTTON,
+          position: {
+            top: 0,
+            left: 0,
+            width: 50,
+            height: 20,
+          },
+          style: { label: "fs", link: "sfsa" },
+        };
+        break;
+      case ElementType.IMAGE:
+        newContainer = {
+          id,
+          type: ElementType.IMAGE,
+          position: {
+            top: 0,
+            left: 0,
+            width: 50,
+            height: 50,
+          },
+          style: { src: "fs" },
+        };
+        break;
+      case ElementType.TEXTBOX:
+        newContainer = {
+          id,
+          type: ElementType.TEXTBOX,
+          position: {
+            top: 0,
+            left: 0,
+            width: 50,
+            height: 20,
+          },
+          style: { content: "fs" },
+        };
+        break;
+      default:
+        throw new Error("what");
+        break;
+    }
+
+    return newContainer;
+  }, []);
+
   const addContainer = useCallback(() => {
     const newContainer = createDefaultContainer();
     setContainers((prevContainers) => {
       return [...prevContainers, newContainer];
     });
   }, [createDefaultContainer]);
+
+  const addElement = useCallback(
+    (containerId: string, type: ElementType) => {
+      const foundContainer = _.find(containers, { id: containerId });
+      const foundContainerIndex = _.findIndex(containers, { id: containerId });
+      if (foundContainer) {
+        const newElement = createDefaultElement(type);
+        setContainers((prevContainers) => {
+          const newContainers = [...prevContainers];
+          newContainers[foundContainerIndex].elements.push(newElement);
+          return [...newContainers];
+        });
+      }
+    },
+    [containers, createDefaultElement]
+  );
 
   const handleFindContainer = useCallback(
     (id: string) => {
@@ -83,6 +151,80 @@ const Builder: React.FC<BuilderProps> = (props) => {
         container: foundContainer,
         index: foundContainerIndex,
       };
+    },
+    [containers]
+  );
+
+  const handleFindElement = useCallback(
+    (id: string) => {
+      const foundContainer = _.find(containers, { elements: [{ id }] });
+      const foundContainerIndex = _.findIndex(containers, {
+        elements: [{ id }],
+      });
+      const foundElement = _.find(foundContainer?.elements, { id });
+      const foundContainerElementIndex = _.findIndex(foundContainer?.elements, {
+        id,
+      });
+      return {
+        container: foundContainer,
+        containerIndex: foundContainerIndex,
+        element: foundElement,
+        index: foundContainerElementIndex,
+      };
+    },
+    [containers]
+  );
+
+  const handleMoveElement = useCallback(
+    (id: string, left: number, top: number) => {
+      console.log(id, left);
+      const foundContainer = _.find(containers, { elements: [{ id }] });
+      const foundContainerIndex = _.findIndex(containers, {
+        elements: [{ id }],
+      });
+      const foundElement = _.find(foundContainer?.elements, { id });
+      const foundContainerElementIndex = _.findIndex(foundContainer?.elements, {
+        id,
+      });
+      if (foundElement) {
+        setContainers((prevContainers) => {
+          const newContainers = [...prevContainers];
+          newContainers[foundContainerIndex].elements[
+            foundContainerElementIndex
+          ] = {
+            ...foundElement,
+            position: { ...foundElement.position, left, top },
+          };
+          console.log(newContainers[foundContainerIndex]);
+          return [...newContainers];
+        });
+      }
+    },
+    [containers]
+  );
+
+  const handleResizeElement = useCallback(
+    (id: string, width: number, height: number) => {
+      const foundContainer = _.find(containers, { elements: [{ id }] });
+      const foundContainerIndex = _.findIndex(containers, {
+        elements: [{ id }],
+      });
+      const foundElement = _.find(foundContainer?.elements, { id });
+      const foundContainerElementIndex = _.findIndex(foundContainer?.elements, {
+        id,
+      });
+      if (foundElement) {
+        setContainers((prevContainers) => {
+          const newContainers = [...prevContainers];
+          newContainers[foundContainerIndex].elements[
+            foundContainerElementIndex
+          ] = {
+            ...foundElement,
+            position: { ...foundElement.position, width, height },
+          };
+          return [...newContainers];
+        });
+      }
     },
     [containers]
   );
@@ -120,25 +262,6 @@ const Builder: React.FC<BuilderProps> = (props) => {
     },
     [containers]
   );
-
-  const renderContainers = () => {
-    return (
-      <ContainerList>
-        {containers.map((container) => {
-          return (
-            <Container
-              key={container.id}
-              moveContainer={handleMoveContainer}
-              findContainer={handleFindContainer}
-              resizeContainer={handleResizeContainer}
-              container={container}
-            />
-          );
-        })}
-        ;
-      </ContainerList>
-    );
-  };
 
   const log = console.log;
 
@@ -257,7 +380,18 @@ const Builder: React.FC<BuilderProps> = (props) => {
           </MobileControlCenter>
         ) : null}
 
-        <DeviceSimulator>{renderContainers()}</DeviceSimulator>
+        <DeviceSimulator>
+          <ContainerList
+            addElement={addElement}
+            handleMoveContainer={handleMoveContainer}
+            handleFindContainer={handleFindContainer}
+            handleResizeContainer={handleResizeContainer}
+            handleMoveElement={handleMoveElement}
+            handleResizeElement={handleResizeElement}
+            handleFindElement={handleFindElement}
+            containers={containers}
+          />
+        </DeviceSimulator>
       </ViewContainer>
       {/* Mobile Temporary Drawer Dashboard */}
       {displaySize !== "xl" && displaySize !== "lg" ? (

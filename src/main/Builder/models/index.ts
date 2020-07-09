@@ -5,10 +5,10 @@ export type Block = ReactNode;
 export type AccordionElement = ReactNode;
 
 export enum ElementType {
-  CONTAINER = "container",
-  TEXTBOX = "textbox",
-  BUTTON = "button",
-  IMAGE = "image",
+  CONTAINER = "CONTAINER",
+  TEXTBOX = "TEXTBOX",
+  BUTTON = "BUTTON",
+  IMAGE = "IMAGE",
 }
 
 export type Position = {
@@ -22,14 +22,12 @@ export type ElementList = {
   [id: string]: Element<ElementType>;
 };
 
-export interface Element<T extends ElementType> {
+interface BaseElement<T> {
   id: string;
   type: T;
   position: Position;
   style: StyleMap<T>;
-  elements: Element<Exclude<ElementType, ElementType.CONTAINER>>[];
 }
-
 type StyleMap<T> = T extends ElementType.CONTAINER
   ? ContainerStyle
   : T extends ElementType.TEXTBOX
@@ -56,6 +54,14 @@ type ButtonStyle = {
 type ImageStyle = {
   src: string;
 };
+
+interface Container {
+  elements: Element<Exclude<ElementType, ElementType.CONTAINER>>[];
+}
+
+export type Element<T> = T extends ElementType.CONTAINER
+  ? BaseElement<T> & Container
+  : BaseElement<T>;
 
 export interface Data {
   type: string;

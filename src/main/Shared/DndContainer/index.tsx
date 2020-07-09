@@ -1,22 +1,34 @@
 import React from "react";
 import styled from "styled-components";
-import { useDrop, DndProvider } from "react-dnd";
+import { useDrop } from "react-dnd";
 import { DndContainerProps } from "./models";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { ElementType } from "../../Builder/models";
+import { DndElementItem } from "../DndElement/models";
+import _ from "lodash";
 
 export const DndContainer: React.FC<DndContainerProps> = ({
   children,
   accept,
+  moveElement,
 }) => {
-  return (
-    <DndProvider backend={HTML5Backend}>
-      <DroppableArea accept={accept}>{children}</DroppableArea>
-    </DndProvider>
-  );
-};
-
-const DroppableArea: React.FC<DndContainerProps> = ({ children, accept }) => {
-  const [, drop] = useDrop({ accept });
+  const [, drop] = useDrop({
+    accept,
+    drop: (item: DndElementItem, monitor) => {
+      const { id, left, top, type } = item;
+      const delta = monitor.getDifferenceFromInitialOffset();
+      if (_.isNumber(top) && _.isNumber(left) && delta) {
+        const newLeft = left + delta?.x;
+        const newTop = top + delta?.y;
+        switch (type) {
+          case ElementType.CONTAINER:
+            break;
+          default:
+            moveElement(id, newLeft, newTop);
+            break;
+        }
+      }
+    },
+  });
   return <Container ref={drop}>{children}</Container>;
 };
 
