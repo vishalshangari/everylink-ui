@@ -140,54 +140,6 @@ const Builder: React.FC<BuilderProps> = (props) => {
             options={controlCenterActions}
             mobileOptions={mobileControlCenterActions}
           />
-          {/* <ResponsiveControlCenterType>
-            <ControlCenterGroup>
-              {controlPanelActions.map((option, index) => {
-                return (
-                  <Tooltip
-                    {...createControlPanelTooltipProps()}
-                    key={index}
-                    overlay={option.description}
-                  >
-                    <ControlCenterButton onClick={option.action}>
-                      {option.icon}
-                    </ControlCenterButton>
-                  </Tooltip>
-                );
-              })}
-            </ControlCenterGroup>
-            <ControlCenterGroup>
-              {controlPanelSettingsOptions.map((option, index) => {
-                return (
-                  <Tooltip
-                    {...createControlPanelTooltipProps()}
-                    key={index}
-                    overlay={option.description}
-                  >
-                    <ControlCenterButton onClick={option.action}>
-                      {option.icon}
-                    </ControlCenterButton>
-                  </Tooltip>
-                );
-              })}
-            </ControlCenterGroup>
-          </ResponsiveControlCenterType>
-
-          {displaySize !== "xl" && displaySize !== "lg" ? (
-            <MobileControlCenter>
-              <Drawer anchor={"top"}>
-                <div>hello, world</div>
-              </Drawer>
-            </MobileControlCenter>
-          ) : (
-            <ShowDashboardButton>
-              <ControlCenterButton
-                onClick={() => setDashboardHidden(!dashboardHidden)}
-              >
-                <MdViewHeadline />
-              </ControlCenterButton>
-            </ShowDashboardButton>
-          )} */}
           <DeviceSimulator>{blocks}</DeviceSimulator>
         </ViewContainer>
         {/* Mobile Temporary Drawer Dashboard */}

@@ -1,16 +1,8 @@
 import React from "react";
 import { controlCenterButtonBaseStyle } from "../Button";
 import styled from "styled-components";
-import { ButtonProps } from "@material-ui/core";
-import { ControlCenterActionDef } from "../ResponsiveControlPanel/models";
 import Tooltip from "rc-tooltip";
-
-type Button = ButtonProps;
-
-interface AnchoredActionButtonProps extends ControlCenterActionDef {
-  side: string;
-  displaySize: string;
-}
+import { AnchoredActionButtonProps } from "./models/AnchoredActionButtonProps";
 
 const tooltipProps = {
   mouseEnterDelay: 0.75,
