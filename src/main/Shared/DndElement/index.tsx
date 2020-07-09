@@ -14,7 +14,6 @@ export const DndElement: React.FC<DndElementProps> = ({
   acceptDrop,
   type,
   originIndex,
-  moveElement,
   moveElementByIndex,
   findElement,
   resizeElement,

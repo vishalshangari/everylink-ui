@@ -31,41 +31,54 @@ export const Container: React.FC<ContainerProps> = ({
       resizeElement={resizeContainer}
     >
       <DraggableContainer newStyle={style}>
-        <button
-          style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
-          onClick={() => addElement(id, ElementType.TEXTBOX)}
+        <div style={{ position: "absolute", bottom: 0, left: 0, zIndex: 1 }}>
+          <button onClick={() => addElement(id, ElementType.TEXTBOX)}>
+            txt
+          </button>
+
+          <button onClick={() => addElement(id, ElementType.BUTTON)}>
+            btn
+          </button>
+
+          <button onClick={() => addElement(id, ElementType.IMAGE)}>img</button>
+        </div>
+        <DndContainer
+          accept={[ElementType.TEXTBOX, ElementType.BUTTON, ElementType.IMAGE]}
+          moveElement={moveElement}
         >
-          +
-        </button>
-        <DndContainer accept={[ElementType.TEXTBOX]} moveElement={moveElement}>
           {container.elements.map((element) => {
             const { id, type, position, style } = element;
             const { height, width, left, top } = position;
-            switch (type) {
-              case ElementType.TEXTBOX:
-                return (
-                  <DndElement
-                    id={id}
-                    key={id}
-                    type={type}
-                    width={width}
-                    height={height}
-                    left={left}
-                    top={top}
-                    moveElementByIndex={moveContainer}
-                    findElement={findElement}
-                    resizeElement={resizeElement}
-                  >
-                    <div>textbox-{id}</div>
-                  </DndElement>
-                );
-              case ElementType.BUTTON:
-                return <div>button</div>;
-              case ElementType.IMAGE:
-                return <div>image</div>;
-              default:
-                return <div>error</div>;
-            }
+            return (
+              <DndElement
+                id={id}
+                key={id}
+                type={type}
+                width={width}
+                height={height}
+                left={left}
+                top={top}
+                moveElementByIndex={moveContainer}
+                findElement={findElement}
+                resizeElement={resizeElement}
+              >
+                {type === ElementType.TEXTBOX ? (
+                  <div>textbox{id}</div>
+                ) : type === ElementType.IMAGE ? (
+                  <img
+                    style={{
+                      backgroundColor: "red",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                ) : type === ElementType.BUTTON ? (
+                  <div>button{id}</div>
+                ) : (
+                  <div>error</div>
+                )}
+              </DndElement>
+            );
           })}
         </DndContainer>
       </DraggableContainer>
