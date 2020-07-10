@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   DashboardTextbox,
   DashboardViewWrap,
@@ -8,20 +8,15 @@ import {
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 
-import { BuilderContext } from "../../../../../Builder";
-import { Data } from "../../../../../Builder/models";
-
 const Textbox = () => {
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
   );
 
-  const data: Data = useContext(BuilderContext);
-
   return (
     <DashboardViewWrap>
       <DashboardTextbox>
-        <p>{data.textContent}</p>
+        <p>Fuck you vishal</p>
       </DashboardTextbox>
       <PaddedDashboardContainer>
         <DashboardTextEditor>

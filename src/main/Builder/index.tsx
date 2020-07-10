@@ -1,11 +1,10 @@
-import React, { useState, createContext } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import {
-  Box,
   BuilderContainer,
   ViewContainer,
   ControlCenter,
@@ -14,8 +13,12 @@ import {
   ControlCenterSettings,
   MobileControlCenter,
 } from "./components";
-import { Block, BuilderProps, Data, ControlPanelActions } from "./models";
-import { dataImport } from "../../data/test";
+import {
+  BuilderProps,
+  Element,
+  ControlPanelActions,
+  ElementType,
+} from "./models";
 import {
   MdAddCircle,
   MdWbSunny,
@@ -26,25 +29,148 @@ import {
   MdClose,
 } from "react-icons/md";
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
+import _ from "lodash";
+import { ContainerList } from "../Shared/ContainerList";
+import { getElementPathById, createDefaultElement } from "./utils";
 
-const data: Data = dataImport;
-
-const InitialElements: Block[] = [];
-
-export const BuilderContext = createContext<Data>({} as Data);
+const device = {
+  width: 375,
+  height: 812,
+};
 
 const Builder: React.FC<BuilderProps> = (props) => {
-  const [panelRight, setPanelRight] = useState(true);
   const { displaySize, handleThemeChange, currentTheme } = props;
-  const [blocks, setBlocks] = useState(InitialElements);
-  const addBlock = () => {
-    console.log(blocks);
-    const color =
-      "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
-    setBlocks([...blocks, <Box backgroundColor={color} key={blocks.length} />]);
-  };
 
+  const elementIdIncrement = useRef(0);
+  const [panelRight, setPanelRight] = useState(true);
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
+  const [containers, setContainers] = useState<
+    Element<ElementType.CONTAINER>[]
+  >([]);
+
+  const createDefaultContainer = useCallback(() => {
+    const id = `container-${elementIdIncrement.current}`;
+    elementIdIncrement.current++;
+    const newContainer: Element<ElementType.CONTAINER> = {
+      id,
+      type: ElementType.CONTAINER,
+      position: {
+        top: 0,
+        left: 0,
+        width: device.width,
+        height: device.height / 10,
+      },
+      style: {
+        backgroundColor: "blue",
+      },
+      elements: [],
+    };
+    return newContainer;
+  }, []);
+
+  const addContainer = useCallback(() => {
+    const newContainer = createDefaultContainer();
+    setContainers((prevContainers) => {
+      return [...prevContainers, newContainer];
+    });
+  }, [createDefaultContainer]);
+
+  const addElement = useCallback(
+    (id: string, type: ElementType) => {
+      const elementPath = getElementPathById(id, containers);
+      const foundContainer = _.get(containers, elementPath);
+      const newContainer = createDefaultElement(
+        type,
+        elementIdIncrement.current,
+        type === ElementType.CONTAINER ? device.width : undefined
+      );
+      elementIdIncrement.current++;
+      setContainers((prevContainers) => {
+        const newContainers = [...prevContainers];
+        _.set(newContainers, elementPath, {
+          ...foundContainer,
+          elements: [...foundContainer.elements, newContainer],
+        });
+        return [...newContainers];
+      });
+    },
+    [containers]
+  );
+
+  const handleFindElement = useCallback(
+    (id: string) => {
+      const elementPath = getElementPathById(id, containers);
+      const foundElement = _.get(containers, elementPath);
+      const parentPath = elementPath.substring(0, elementPath.length - 2);
+      const parentContainer = _.get(containers, parentPath, containers);
+      const foundElementIndex = _.findIndex(parentContainer, foundElement);
+      return {
+        parentPath,
+        parentContainer,
+        elementPath,
+        element: foundElement,
+        index: foundElementIndex,
+      };
+    },
+    [containers]
+  );
+
+  const handleMoveElement = useCallback(
+    (
+      id: string,
+      { index, top, left }: { index?: number; top?: number; left?: number }
+    ) => {
+      const elementPath = getElementPathById(id, containers);
+      console.log(elementPath);
+      setContainers((prevContainers) => {
+        let newContainers = [...prevContainers];
+        const foundElement = _.get(newContainers, elementPath);
+        const parentPath = elementPath.substring(0, elementPath.length - 2);
+        console.log(parentPath);
+        const parentContainer = _.get(newContainers, parentPath, newContainers);
+        console.log(parentContainer);
+        const foundElementIndex = _.findIndex(parentContainer, foundElement);
+        if (_.isNumber(index)) {
+          parentContainer.splice(foundElementIndex, 1);
+          parentContainer.splice(index, 0, foundElement);
+          newContainers = _.set(newContainers, parentPath, parentContainer);
+        } else {
+          parentContainer[foundElementIndex] = {
+            ...parentContainer[foundElementIndex],
+            position: {
+              ...parentContainer[foundElementIndex].position,
+              top,
+              left,
+            },
+          };
+        }
+        console.log(newContainers);
+        return [...newContainers];
+      });
+    },
+    [containers]
+  );
+
+  const handleResizeElement = useCallback(
+    (id: string, width: number, height: number) => {
+      const elementPath = getElementPathById(id, containers);
+      console.log(elementPath);
+      setContainers((prevContainers) => {
+        let newContainers = [...prevContainers];
+        const foundElement = _.get(newContainers, elementPath);
+        newContainers = _.set(newContainers, elementPath, {
+          ...foundElement,
+          position: {
+            ...foundElement.position,
+            width,
+            height,
+          },
+        });
+        return [...newContainers];
+      });
+    },
+    [containers]
+  );
 
   const log = console.log;
 
@@ -53,7 +179,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
       type: "Add",
       description: "Add a new container",
       icon: <MdAddCircle />,
-      action: () => addBlock(),
+      action: () => addContainer(),
     },
     {
       type: "Publish",
@@ -121,76 +247,87 @@ const Builder: React.FC<BuilderProps> = (props) => {
   };
 
   return (
-    <BuilderContext.Provider value={data as Data}>
-      <BuilderContainer>
-        <ViewContainer>
-          <ResponsiveControlCenterType>
-            <ControlCenterMainActions>
-              {controlPanelActions.map((option, index) => {
-                return (
-                  <Tooltip
-                    {...createControlPanelTooltipProps()}
-                    key={index}
-                    overlay={option.description}
-                  >
-                    <ControlCenterButton onClick={option.action}>
-                      {option.icon}
-                    </ControlCenterButton>
-                  </Tooltip>
-                );
-              })}
-            </ControlCenterMainActions>
-            <ControlCenterSettings>
-              {controlPanelSettingsOptions.map((option, index) => {
-                return (
-                  <Tooltip
-                    {...createControlPanelTooltipProps()}
-                    key={index}
-                    overlay={option.description}
-                  >
-                    <ControlCenterButton onClick={option.action}>
-                      {option.icon}
-                    </ControlCenterButton>
-                  </Tooltip>
-                );
-              })}
-            </ControlCenterSettings>
-          </ResponsiveControlCenterType>
-          {displaySize !== "xl" && displaySize !== "lg" ? (
-            <MobileControlCenter>
-              <Drawer anchor={"top"}>
-                <div>hello, world</div>
-              </Drawer>
-            </MobileControlCenter>
-          ) : null}
-          <DeviceSimulator>{blocks}</DeviceSimulator>
-        </ViewContainer>
-        {/* Mobile Temporary Drawer Dashboard */}
+    <BuilderContainer>
+      <ViewContainer>
+        <ResponsiveControlCenterType>
+          <ControlCenterMainActions>
+            {controlPanelActions.map((option, index) => {
+              return (
+                <Tooltip
+                  {...createControlPanelTooltipProps()}
+                  key={index}
+                  overlay={option.description}
+                >
+                  <ControlCenterButton onClick={option.action}>
+                    {option.icon}
+                  </ControlCenterButton>
+                </Tooltip>
+              );
+            })}
+          </ControlCenterMainActions>
+          <ControlCenterSettings>
+            {controlPanelSettingsOptions.map((option, index) => {
+              return (
+                <Tooltip
+                  {...createControlPanelTooltipProps()}
+                  key={index}
+                  overlay={option.description}
+                >
+                  <ControlCenterButton onClick={option.action}>
+                    {option.icon}
+                  </ControlCenterButton>
+                </Tooltip>
+              );
+            })}
+          </ControlCenterSettings>
+        </ResponsiveControlCenterType>
         {displaySize !== "xl" && displaySize !== "lg" ? (
-          <Drawer
-            open={mobileDashboardOpen}
-            anchor={panelRight ? "right" : "left"}
-            variant={"temporary"}
-            onClose={() =>
-              setMobileDashboardOpen(
-                (prevMobileDashboardOpen) => !prevMobileDashboardOpen
-              )
-            }
-            ModalProps={{
-              keepMounted: true,
-            }}
-          >
-            <Dashboard
-              isDesktop={false}
-              addBlock={addBlock}
-              panelRight={panelRight}
-            />
-          </Drawer>
-        ) : (
-          <Dashboard isDesktop addBlock={addBlock} panelRight={panelRight} />
-        )}
-      </BuilderContainer>
-    </BuilderContext.Provider>
+          <MobileControlCenter>
+            <Drawer anchor={"top"}>
+              <div>hello, world</div>
+            </Drawer>
+          </MobileControlCenter>
+        ) : null}
+
+        <DeviceSimulator>
+          <ContainerList
+            addElement={addElement}
+            handleMoveElement={handleMoveElement}
+            handleResizeElement={handleResizeElement}
+            handleFindElement={handleFindElement}
+            containers={containers}
+          />
+        </DeviceSimulator>
+      </ViewContainer>
+      {/* Mobile Temporary Drawer Dashboard */}
+      {displaySize !== "xl" && displaySize !== "lg" ? (
+        <Drawer
+          open={mobileDashboardOpen}
+          anchor={panelRight ? "right" : "left"}
+          variant={"temporary"}
+          onClose={() =>
+            setMobileDashboardOpen(
+              (prevMobileDashboardOpen) => !prevMobileDashboardOpen
+            )
+          }
+          ModalProps={{
+            keepMounted: true,
+          }}
+        >
+          <Dashboard
+            isDesktop={false}
+            addContainer={addContainer}
+            panelRight={panelRight}
+          />
+        </Drawer>
+      ) : (
+        <Dashboard
+          isDesktop
+          addContainer={addContainer}
+          panelRight={panelRight}
+        />
+      )}
+    </BuilderContainer>
   );
 };
 

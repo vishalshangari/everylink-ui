@@ -33,7 +33,7 @@ import {
 import { IconContext } from "react-icons";
 
 interface DashboardProps {
-  addBlock: () => void;
+  addContainer: () => void;
   panelRight: boolean;
   isDesktop: boolean;
 }
@@ -47,7 +47,7 @@ const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
 };
 
 const Dashboard: React.FC<DashboardProps> = ({
-  addBlock,
+  addContainer,
   panelRight,
   isDesktop,
 }) => {
