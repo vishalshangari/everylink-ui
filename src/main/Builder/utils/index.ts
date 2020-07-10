@@ -31,3 +31,74 @@ export const getElementPathById = (
 
   return path;
 };
+
+export const createDefaultElement = (
+  type: ElementType,
+  idIncrement: number,
+  containerWidth?: number
+) => {
+  const id = `${type}-${idIncrement}`;
+  let newElement: Element<ElementType>;
+  switch (type) {
+    case ElementType.BUTTON:
+      newElement = {
+        id,
+        type: ElementType.BUTTON,
+        position: {
+          top: 0,
+          left: 0,
+          width: 50,
+          height: 20,
+        },
+        style: { label: "fs", link: "sfsa" },
+      };
+      break;
+    case ElementType.IMAGE:
+      newElement = {
+        id,
+        type: ElementType.IMAGE,
+        position: {
+          top: 0,
+          left: 0,
+          width: 50,
+          height: 50,
+        },
+        style: { src: "fs" },
+      };
+      break;
+    case ElementType.TEXTBOX:
+      newElement = {
+        id,
+        type: ElementType.TEXTBOX,
+        position: {
+          top: 0,
+          left: 0,
+          width: 50,
+          height: 20,
+        },
+        style: { content: "fs" },
+      };
+      break;
+    case ElementType.CONTAINER:
+      newElement = {
+        id,
+        type: ElementType.CONTAINER,
+        position: {
+          top: 0,
+          left: 0,
+          width: containerWidth!,
+          height: 50,
+        },
+        style: {
+          backgroundColor: "darkblue",
+        },
+        elements: [],
+      };
+      break;
+    default:
+      throw new Error("what");
+      break;
+  }
+
+  return newElement;
+};

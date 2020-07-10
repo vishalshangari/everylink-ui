@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
 import { DndElement } from "../DndElement";
 import { ElementType, Element } from "../../Builder/models";
 import { ContainerProps } from "./models";
 import { DndContainer } from "../DndContainer";
+import { DraggableContainer } from "./components";
 
 export const Container: React.FC<ContainerProps> = ({
   container,
@@ -118,13 +118,3 @@ export const Container: React.FC<ContainerProps> = ({
   );
   return renderContainer(container);
 };
-
-const DraggableContainer = styled.div<{
-  newStyle: unknown;
-}>`
-  width: 100%;
-  height: 100%;
-  border: 1px solid black;
-  ${(props) => props.theme.flex.column}
-  ${(props) => props.theme.flex.centered}
-`;

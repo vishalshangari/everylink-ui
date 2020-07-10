@@ -31,7 +31,7 @@ import {
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 import _ from "lodash";
 import { ContainerList } from "../Shared/ContainerList";
-import { getElementPathById } from "./utils";
+import { getElementPathById, createDefaultElement } from "./utils";
 
 const device = {
   width: 375,
@@ -41,7 +41,6 @@ const device = {
 const Builder: React.FC<BuilderProps> = (props) => {
   const { displaySize, handleThemeChange, currentTheme } = props;
 
-  const containerIdIncrement = useRef(0);
   const elementIdIncrement = useRef(0);
   const [panelRight, setPanelRight] = useState(true);
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
@@ -50,8 +49,8 @@ const Builder: React.FC<BuilderProps> = (props) => {
   >([]);
 
   const createDefaultContainer = useCallback(() => {
-    const id = `container-${containerIdIncrement.current}`;
-    containerIdIncrement.current++;
+    const id = `container-${elementIdIncrement.current}`;
+    elementIdIncrement.current++;
     const newContainer: Element<ElementType.CONTAINER> = {
       id,
       type: ElementType.CONTAINER,
@@ -69,76 +68,6 @@ const Builder: React.FC<BuilderProps> = (props) => {
     return newContainer;
   }, []);
 
-  const createDefaultElement = useCallback((type: ElementType) => {
-    let id = `${type}-${elementIdIncrement.current}`;
-    elementIdIncrement.current++;
-    let newElement: Element<ElementType>;
-    switch (type) {
-      case ElementType.BUTTON:
-        newElement = {
-          id,
-          type: ElementType.BUTTON,
-          position: {
-            top: 0,
-            left: 0,
-            width: 50,
-            height: 20,
-          },
-          style: { label: "fs", link: "sfsa" },
-        };
-        break;
-      case ElementType.IMAGE:
-        newElement = {
-          id,
-          type: ElementType.IMAGE,
-          position: {
-            top: 0,
-            left: 0,
-            width: 50,
-            height: 50,
-          },
-          style: { src: "fs" },
-        };
-        break;
-      case ElementType.TEXTBOX:
-        newElement = {
-          id,
-          type: ElementType.TEXTBOX,
-          position: {
-            top: 0,
-            left: 0,
-            width: 50,
-            height: 20,
-          },
-          style: { content: "fs" },
-        };
-        break;
-      case ElementType.CONTAINER:
-        id = `container2-${containerIdIncrement.current}`;
-        containerIdIncrement.current++;
-        newElement = {
-          id,
-          type: ElementType.CONTAINER,
-          position: {
-            top: 0,
-            left: 0,
-            width: device.width,
-            height: 50,
-          },
-          style: {
-            backgroundColor: "darkblue",
-          },
-          elements: [],
-        };
-        break;
-      default:
-        throw new Error("what");
-        break;
-    }
-
-    return newElement;
-  }, []);
-
   const addContainer = useCallback(() => {
     const newContainer = createDefaultContainer();
     setContainers((prevContainers) => {
@@ -150,7 +79,12 @@ const Builder: React.FC<BuilderProps> = (props) => {
     (id: string, type: ElementType) => {
       const elementPath = getElementPathById(id, containers);
       const foundContainer = _.get(containers, elementPath);
-      const newContainer = createDefaultElement(type);
+      const newContainer = createDefaultElement(
+        type,
+        elementIdIncrement.current,
+        type === ElementType.CONTAINER ? device.width : undefined
+      );
+      elementIdIncrement.current++;
       setContainers((prevContainers) => {
         const newContainers = [...prevContainers];
         _.set(newContainers, elementPath, {
@@ -160,7 +94,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
         return [...newContainers];
       });
     },
-    [containers, createDefaultElement]
+    [containers]
   );
 
   const handleFindElement = useCallback(

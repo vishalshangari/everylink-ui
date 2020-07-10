@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
-import styled from "styled-components";
 import { useResize } from "../../../hooks/useResize";
 import { DndElementItem, DndElementProps } from "./models";
 import { ElementType } from "../../Builder/models";
-import _ from "lodash";
+import { DndElementContainer, Resizer } from "./components";
 
 export const DndElement: React.FC<DndElementProps> = ({
   id,
@@ -106,52 +105,3 @@ export const DndElement: React.FC<DndElementProps> = ({
     </DndElementContainer>
   );
 };
-
-const Resizer = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 10px;
-  height: 10px;
-  background-color: blue;
-`;
-
-const DndElementContainer = styled.div.attrs(
-  ({
-    width,
-    height,
-    top,
-    left,
-    isDragging,
-    type,
-  }: {
-    width: number;
-    height: number;
-    top?: number;
-    left?: number;
-    isDragging: boolean;
-    type: ElementType;
-  }) => ({
-    style: {
-      transform:
-        type === ElementType.CONTAINER
-          ? "translate3d(" + left + "px," + top + "px, 0)"
-          : "none",
-      position: type === ElementType.CONTAINER ? "relative" : "absolute",
-      background: isDragging ? "yellow" : "transparent",
-      width: width + "px",
-      height: height,
-
-      overflow: "hidden",
-      top,
-      left,
-    },
-  })
-)<{
-  width: number;
-  height: number;
-  top?: number;
-  left?: number;
-  isDragging: boolean;
-  type: ElementType;
-}>``;
