@@ -56,7 +56,7 @@ type ImageStyle = {
 };
 
 interface Container {
-  elements: Element<Exclude<ElementType, ElementType.CONTAINER>>[];
+  elements: Element<ElementType>[];
 }
 
 export type Element<T> = T extends ElementType.CONTAINER

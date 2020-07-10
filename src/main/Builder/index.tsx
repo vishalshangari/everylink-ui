@@ -31,6 +31,7 @@ import {
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 import _ from "lodash";
 import { ContainerList } from "../Shared/ContainerList";
+import { getElementPathById } from "./utils";
 
 const device = {
   width: 375,
@@ -69,12 +70,12 @@ const Builder: React.FC<BuilderProps> = (props) => {
   }, []);
 
   const createDefaultElement = useCallback((type: ElementType) => {
-    const id = `${type}-${elementIdIncrement.current}`;
+    let id = `${type}-${elementIdIncrement.current}`;
     elementIdIncrement.current++;
-    let newContainer: Element<Exclude<ElementType, ElementType.CONTAINER>>;
+    let newElement: Element<ElementType>;
     switch (type) {
       case ElementType.BUTTON:
-        newContainer = {
+        newElement = {
           id,
           type: ElementType.BUTTON,
           position: {
@@ -87,7 +88,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
         };
         break;
       case ElementType.IMAGE:
-        newContainer = {
+        newElement = {
           id,
           type: ElementType.IMAGE,
           position: {
@@ -100,7 +101,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
         };
         break;
       case ElementType.TEXTBOX:
-        newContainer = {
+        newElement = {
           id,
           type: ElementType.TEXTBOX,
           position: {
@@ -112,12 +113,30 @@ const Builder: React.FC<BuilderProps> = (props) => {
           style: { content: "fs" },
         };
         break;
+      case ElementType.CONTAINER:
+        id = `container2-${containerIdIncrement.current}`;
+        containerIdIncrement.current++;
+        newElement = {
+          id,
+          type: ElementType.CONTAINER,
+          position: {
+            top: 0,
+            left: 0,
+            width: device.width,
+            height: 50,
+          },
+          style: {
+            backgroundColor: "darkblue",
+          },
+          elements: [],
+        };
+        break;
       default:
         throw new Error("what");
         break;
     }
 
-    return newContainer;
+    return newElement;
   }, []);
 
   const addContainer = useCallback(() => {
@@ -128,137 +147,93 @@ const Builder: React.FC<BuilderProps> = (props) => {
   }, [createDefaultContainer]);
 
   const addElement = useCallback(
-    (containerId: string, type: ElementType) => {
-      const foundContainer = _.find(containers, { id: containerId });
-      const foundContainerIndex = _.findIndex(containers, { id: containerId });
-      if (foundContainer) {
-        const newElement = createDefaultElement(type);
-        setContainers((prevContainers) => {
-          const newContainers = [...prevContainers];
-          newContainers[foundContainerIndex].elements.push(newElement);
-          return [...newContainers];
+    (id: string, type: ElementType) => {
+      const elementPath = getElementPathById(id, containers);
+      const foundContainer = _.get(containers, elementPath);
+      const newContainer = createDefaultElement(type);
+      setContainers((prevContainers) => {
+        const newContainers = [...prevContainers];
+        _.set(newContainers, elementPath, {
+          ...foundContainer,
+          elements: [...foundContainer.elements, newContainer],
         });
-      }
+        return [...newContainers];
+      });
     },
     [containers, createDefaultElement]
   );
 
-  const handleFindContainer = useCallback(
-    (id: string) => {
-      const foundContainer = _.find(containers, { id });
-      const foundContainerIndex = _.findIndex(containers, { id });
-      return {
-        container: foundContainer,
-        index: foundContainerIndex,
-      };
-    },
-    [containers]
-  );
-
   const handleFindElement = useCallback(
     (id: string) => {
-      const foundContainer = _.find(containers, { elements: [{ id }] });
-      const foundContainerIndex = _.findIndex(containers, {
-        elements: [{ id }],
-      });
-      const foundElement = _.find(foundContainer?.elements, { id });
-      const foundContainerElementIndex = _.findIndex(foundContainer?.elements, {
-        id,
-      });
+      const elementPath = getElementPathById(id, containers);
+      const foundElement = _.get(containers, elementPath);
+      const parentPath = elementPath.substring(0, elementPath.length - 2);
+      const parentContainer = _.get(containers, parentPath, containers);
+      const foundElementIndex = _.findIndex(parentContainer, foundElement);
       return {
-        container: foundContainer,
-        containerIndex: foundContainerIndex,
+        parentPath,
+        parentContainer,
+        elementPath,
         element: foundElement,
-        index: foundContainerElementIndex,
+        index: foundElementIndex,
       };
     },
     [containers]
   );
 
   const handleMoveElement = useCallback(
-    (id: string, left: number, top: number) => {
-      console.log(id, left);
-      const foundContainer = _.find(containers, { elements: [{ id }] });
-      const foundContainerIndex = _.findIndex(containers, {
-        elements: [{ id }],
-      });
-      const foundElement = _.find(foundContainer?.elements, { id });
-      const foundContainerElementIndex = _.findIndex(foundContainer?.elements, {
-        id,
-      });
-      if (foundElement) {
-        setContainers((prevContainers) => {
-          const newContainers = [...prevContainers];
-          newContainers[foundContainerIndex].elements[
-            foundContainerElementIndex
-          ] = {
-            ...foundElement,
-            position: { ...foundElement.position, left, top },
+    (
+      id: string,
+      { index, top, left }: { index?: number; top?: number; left?: number }
+    ) => {
+      const elementPath = getElementPathById(id, containers);
+      console.log(elementPath);
+      setContainers((prevContainers) => {
+        let newContainers = [...prevContainers];
+        const foundElement = _.get(newContainers, elementPath);
+        const parentPath = elementPath.substring(0, elementPath.length - 2);
+        console.log(parentPath);
+        const parentContainer = _.get(newContainers, parentPath, newContainers);
+        console.log(parentContainer);
+        const foundElementIndex = _.findIndex(parentContainer, foundElement);
+        if (_.isNumber(index)) {
+          parentContainer.splice(foundElementIndex, 1);
+          parentContainer.splice(index, 0, foundElement);
+          newContainers = _.set(newContainers, parentPath, parentContainer);
+        } else {
+          parentContainer[foundElementIndex] = {
+            ...parentContainer[foundElementIndex],
+            position: {
+              ...parentContainer[foundElementIndex].position,
+              top,
+              left,
+            },
           };
-          console.log(newContainers[foundContainerIndex]);
-          return [...newContainers];
-        });
-      }
+        }
+        console.log(newContainers);
+        return [...newContainers];
+      });
     },
     [containers]
   );
 
   const handleResizeElement = useCallback(
     (id: string, width: number, height: number) => {
-      const foundContainer = _.find(containers, { elements: [{ id }] });
-      const foundContainerIndex = _.findIndex(containers, {
-        elements: [{ id }],
+      const elementPath = getElementPathById(id, containers);
+      console.log(elementPath);
+      setContainers((prevContainers) => {
+        let newContainers = [...prevContainers];
+        const foundElement = _.get(newContainers, elementPath);
+        newContainers = _.set(newContainers, elementPath, {
+          ...foundElement,
+          position: {
+            ...foundElement.position,
+            width,
+            height,
+          },
+        });
+        return [...newContainers];
       });
-      const foundElement = _.find(foundContainer?.elements, { id });
-      const foundContainerElementIndex = _.findIndex(foundContainer?.elements, {
-        id,
-      });
-      if (foundElement) {
-        setContainers((prevContainers) => {
-          const newContainers = [...prevContainers];
-          newContainers[foundContainerIndex].elements[
-            foundContainerElementIndex
-          ] = {
-            ...foundElement,
-            position: { ...foundElement.position, width, height },
-          };
-          return [...newContainers];
-        });
-      }
-    },
-    [containers]
-  );
-
-  const handleMoveContainer = useCallback(
-    (id: string, atIndex: number) => {
-      const foundContainer = _.find(containers, { id });
-      const foundContainerIndex = _.findIndex(containers, { id });
-      if (foundContainer) {
-        setContainers((prevContainers) => {
-          const newContainers = [...prevContainers];
-          newContainers.splice(foundContainerIndex, 1);
-          newContainers.splice(atIndex, 0, foundContainer);
-          return [...newContainers];
-        });
-      }
-    },
-    [containers]
-  );
-
-  const handleResizeContainer = useCallback(
-    (id: string, width: number, height: number) => {
-      const foundContainer = _.find(containers, { id });
-      const foundContainerIndex = _.findIndex(containers, { id });
-      if (foundContainer) {
-        setContainers((prevContainers) => {
-          const newContainers = [...prevContainers];
-          newContainers[foundContainerIndex] = {
-            ...foundContainer,
-            position: { ...foundContainer.position, width, height },
-          };
-          return [...newContainers];
-        });
-      }
     },
     [containers]
   );
@@ -383,9 +358,6 @@ const Builder: React.FC<BuilderProps> = (props) => {
         <DeviceSimulator>
           <ContainerList
             addElement={addElement}
-            handleMoveContainer={handleMoveContainer}
-            handleFindContainer={handleFindContainer}
-            handleResizeContainer={handleResizeContainer}
             handleMoveElement={handleMoveElement}
             handleResizeElement={handleResizeElement}
             handleFindElement={handleFindElement}

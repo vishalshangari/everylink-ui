@@ -1,4 +1,4 @@
-import { ElementType } from "../../../Builder/models";
+import { ElementType, Element } from "../../../Builder/models";
 
 export interface DndElementProps {
   id: string;
@@ -9,8 +9,19 @@ export interface DndElementProps {
   originIndex?: number;
   acceptDrop?: ElementType[];
   type: ElementType;
-  moveElementByIndex: (id: string, to: number) => void;
-  findElement: (id: string) => { index: number };
+  moveElement: (
+    id: string,
+    { index, left, top }: { index?: number; left?: number; top?: number }
+  ) => void;
+  findElement: (
+    id: string
+  ) => {
+    index: number;
+    parentPath: string;
+    parentContainer: Element<ElementType.CONTAINER>;
+    elementPath: string;
+    element: Element<ElementType>;
+  };
   resizeElement: (id: string, width: number, height: number) => void;
 }
 

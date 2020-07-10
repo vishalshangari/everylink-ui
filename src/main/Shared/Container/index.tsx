@@ -1,89 +1,122 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { DndElement } from "../DndElement";
-import { ElementType } from "../../Builder/models";
+import { ElementType, Element } from "../../Builder/models";
 import { ContainerProps } from "./models";
 import { DndContainer } from "../DndContainer";
 
 export const Container: React.FC<ContainerProps> = ({
   container,
-  moveContainer,
-  findContainer,
-  resizeContainer,
   moveElement,
   findElement,
   resizeElement,
   addElement,
 }) => {
-  const { id, type, position, style } = container;
-  const { width, height, left, top } = position;
-  return (
-    <DndElement
-      acceptDrop={[ElementType.CONTAINER, ElementType.TEXTBOX]}
-      id={id}
-      width={width}
-      height={height}
-      left={left}
-      top={top}
-      type={type}
-      moveElementByIndex={moveContainer}
-      findElement={findContainer}
-      resizeElement={resizeContainer}
-    >
-      <DraggableContainer newStyle={style}>
-        <div style={{ position: "absolute", bottom: 0, left: 0, zIndex: 1 }}>
-          <button onClick={() => addElement(id, ElementType.TEXTBOX)}>
-            txt
-          </button>
-
-          <button onClick={() => addElement(id, ElementType.BUTTON)}>
-            btn
-          </button>
-
-          <button onClick={() => addElement(id, ElementType.IMAGE)}>img</button>
-        </div>
-        <DndContainer
-          accept={[ElementType.TEXTBOX, ElementType.BUTTON, ElementType.IMAGE]}
+  const renderContainer = useCallback(
+    (currentContainer: Element<ElementType.CONTAINER>) => {
+      const { id, type, position, style } = currentContainer;
+      const { width, height, left, top } = position;
+      return (
+        <DndElement
+          acceptDrop={[
+            ElementType.TEXTBOX,
+            ElementType.BUTTON,
+            ElementType.IMAGE,
+            ElementType.CONTAINER,
+          ]}
+          id={id}
+          width={width}
+          height={height}
+          left={left}
+          top={top}
+          type={type}
           moveElement={moveElement}
+          findElement={findElement}
+          resizeElement={resizeElement}
         >
-          {container.elements.map((element) => {
-            const { id, type, position, style } = element;
-            const { height, width, left, top } = position;
-            return (
-              <DndElement
-                id={id}
-                key={id}
-                type={type}
-                width={width}
-                height={height}
-                left={left}
-                top={top}
-                moveElementByIndex={moveContainer}
-                findElement={findElement}
-                resizeElement={resizeElement}
-              >
-                {type === ElementType.TEXTBOX ? (
-                  <div>textbox{id}</div>
-                ) : type === ElementType.IMAGE ? (
-                  <img
-                    style={{
-                      backgroundColor: "red",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
-                ) : type === ElementType.BUTTON ? (
-                  <div>button{id}</div>
-                ) : (
-                  <div>error</div>
-                )}
-              </DndElement>
-            );
-          })}
-        </DndContainer>
-      </DraggableContainer>
-    </DndElement>
+          <DraggableContainer newStyle={style}>
+            <div
+              style={{ position: "absolute", bottom: 0, left: 0, zIndex: 1 }}
+            >
+              <button onClick={() => addElement(id, ElementType.CONTAINER)}>
+                cnt
+              </button>
+              <button onClick={() => addElement(id, ElementType.TEXTBOX)}>
+                txt
+              </button>
+
+              <button onClick={() => addElement(id, ElementType.BUTTON)}>
+                btn
+              </button>
+
+              <button onClick={() => addElement(id, ElementType.IMAGE)}>
+                img
+              </button>
+            </div>
+            <DndContainer
+              accept={[
+                ElementType.TEXTBOX,
+                ElementType.BUTTON,
+                ElementType.IMAGE,
+                ElementType.CONTAINER,
+              ]}
+              moveElement={moveElement}
+            >
+              {currentContainer.elements.map((element) => {
+                const {
+                  id: elementId,
+                  type: elementType,
+                  position: elementPosition,
+                  style: elementStyle,
+                } = element;
+                const {
+                  height: elementHeight,
+                  width: elementWidth,
+                  left: elementLeft,
+                  top: elementTop,
+                } = elementPosition;
+                const elementRender = (
+                  <DndElement
+                    id={elementId}
+                    key={elementId}
+                    type={elementType}
+                    width={elementWidth}
+                    height={elementHeight}
+                    left={elementLeft}
+                    top={elementTop}
+                    moveElement={moveElement}
+                    findElement={findElement}
+                    resizeElement={resizeElement}
+                  >
+                    {elementType === ElementType.TEXTBOX ? (
+                      <div>textbox{id}</div>
+                    ) : elementType === ElementType.IMAGE ? (
+                      <img
+                        style={{
+                          backgroundColor: "red",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      />
+                    ) : elementType === ElementType.BUTTON ? (
+                      <div>button{id}</div>
+                    ) : elementType === ElementType.CONTAINER ? (
+                      renderContainer(element as Element<ElementType.CONTAINER>)
+                    ) : (
+                      <div>error</div>
+                    )}
+                  </DndElement>
+                );
+                return elementRender;
+              })}
+            </DndContainer>
+          </DraggableContainer>
+        </DndElement>
+      );
+    },
+    [addElement, findElement, moveElement, resizeElement]
   );
+  return renderContainer(container);
 };
 
 const DraggableContainer = styled.div<{
@@ -91,7 +124,6 @@ const DraggableContainer = styled.div<{
 }>`
   width: 100%;
   height: 100%;
-  background: lightblue;
   border: 1px solid black;
   ${(props) => props.theme.flex.column}
   ${(props) => props.theme.flex.centered}

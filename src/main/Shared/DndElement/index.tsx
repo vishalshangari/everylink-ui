@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import styled from "styled-components";
 import { useResize } from "../../../hooks/useResize";
 import { DndElementItem, DndElementProps } from "./models";
 import { ElementType } from "../../Builder/models";
+import _ from "lodash";
 
 export const DndElement: React.FC<DndElementProps> = ({
   id,
@@ -14,7 +15,7 @@ export const DndElement: React.FC<DndElementProps> = ({
   acceptDrop,
   type,
   originIndex,
-  moveElementByIndex,
+  moveElement,
   findElement,
   resizeElement,
   children,
@@ -29,7 +30,7 @@ export const DndElement: React.FC<DndElementProps> = ({
       const { id: droppedId, originalIndex } = monitor.getItem();
       const didDrop = monitor.didDrop();
       if (!didDrop) {
-        moveElementByIndex(droppedId, originalIndex);
+        moveElement(droppedId, { index: originalIndex });
       }
     },
   });
@@ -48,15 +49,20 @@ export const DndElement: React.FC<DndElementProps> = ({
             x: offset.x - bounds.left,
             y: offset.y - bounds.top,
           };
-          if (delta.y < 0) {
-            if (trueDelta.y <= 0) {
-              const { index: overIndex } = findElement(id);
-              moveElementByIndex(item.id, overIndex);
-            }
-          } else {
-            if (trueDelta.y >= height - item.height) {
-              const { index: overIndex } = findElement(id);
-              moveElementByIndex(item.id, overIndex);
+
+          const { index: overIndex, parentPath: hoverParentPath } = findElement(
+            id
+          );
+          const { parentPath: dragParentPath } = findElement(item.id);
+          if (hoverParentPath === dragParentPath) {
+            if (delta.y < 0) {
+              if (trueDelta.y <= 0) {
+                moveElement(item.id, { index: overIndex });
+              }
+            } else {
+              if (trueDelta.y >= height - item.height) {
+                moveElement(item.id, { index: overIndex });
+              }
             }
           }
         }
@@ -110,24 +116,42 @@ const Resizer = styled.div`
   background-color: blue;
 `;
 
-const DndElementContainer = styled.div<{
+const DndElementContainer = styled.div.attrs(
+  ({
+    width,
+    height,
+    top,
+    left,
+    isDragging,
+    type,
+  }: {
+    width: number;
+    height: number;
+    top?: number;
+    left?: number;
+    isDragging: boolean;
+    type: ElementType;
+  }) => ({
+    style: {
+      transform:
+        type === ElementType.CONTAINER
+          ? "translate3d(" + left + "px," + top + "px, 0)"
+          : "none",
+      position: type === ElementType.CONTAINER ? "relative" : "absolute",
+      background: isDragging ? "yellow" : "transparent",
+      width: width + "px",
+      height: height,
+
+      overflow: "hidden",
+      top,
+      left,
+    },
+  })
+)<{
   width: number;
   height: number;
   top?: number;
   left?: number;
   isDragging: boolean;
   type: ElementType;
-}>`
-position: relative;
-  ${(props) =>
-    props.type !== ElementType.CONTAINER &&
-    "transform: translate3d(" +
-      props.left +
-      "px," +
-      props.top +
-      "px, 0);position:absolute;"}
-  opacity: ${(props) => (props.isDragging ? 0.5 : 1)};
-  width: ${(props) => props.width}px;
-  height: ${(props) => props.height}px;
-  overflow: hidden;
-`;
+}>``;

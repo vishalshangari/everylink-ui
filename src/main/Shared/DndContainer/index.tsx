@@ -23,7 +23,7 @@ export const DndContainer: React.FC<DndContainerProps> = ({
           case ElementType.CONTAINER:
             break;
           default:
-            moveElement(id, newLeft, newTop);
+            moveElement(id, { left: newLeft, top: newTop });
             break;
         }
       }
