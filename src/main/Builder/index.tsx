@@ -121,14 +121,11 @@ const Builder: React.FC<BuilderProps> = (props) => {
       { index, top, left }: { index?: number; top?: number; left?: number }
     ) => {
       const elementPath = getElementPathById(id, containers);
-      console.log(elementPath);
       setContainers((prevContainers) => {
         let newContainers = [...prevContainers];
         const foundElement = _.get(newContainers, elementPath);
         const parentPath = elementPath.substring(0, elementPath.length - 2);
-        console.log(parentPath);
         const parentContainer = _.get(newContainers, parentPath, newContainers);
-        console.log(parentContainer);
         const foundElementIndex = _.findIndex(parentContainer, foundElement);
         if (_.isNumber(index)) {
           parentContainer.splice(foundElementIndex, 1);
@@ -144,7 +141,6 @@ const Builder: React.FC<BuilderProps> = (props) => {
             },
           };
         }
-        console.log(newContainers);
         return [...newContainers];
       });
     },
@@ -154,7 +150,6 @@ const Builder: React.FC<BuilderProps> = (props) => {
   const handleResizeElement = useCallback(
     (id: string, width: number, height: number) => {
       const elementPath = getElementPathById(id, containers);
-      console.log(elementPath);
       setContainers((prevContainers) => {
         let newContainers = [...prevContainers];
         const foundElement = _.get(newContainers, elementPath);

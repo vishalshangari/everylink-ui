@@ -17,17 +17,14 @@ export const getElementPathById = (
   elementArray: Element<ElementType>[]
 ) => {
   let path = "";
-  const paths = traverse(elementArray).map(function () {
+  traverse(elementArray).map(function () {
     if (this.node === id) {
       const pathArray = [...this.path];
-      console.log(pathArray);
       pathArray.pop();
       path = pathArray.join(".");
       this.update(pathArray.join("."));
     }
   });
-
-  console.log(paths);
 
   return path;
 };
