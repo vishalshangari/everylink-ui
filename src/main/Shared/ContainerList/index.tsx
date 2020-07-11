@@ -12,6 +12,8 @@ export const ContainerList: React.FC<ContainerListProps> = ({
   handleMoveElement,
   handleResizeElement,
   handleFindElement,
+  selectedElement,
+  updateSelectedElement,
   containers,
 }) => {
   return (
@@ -29,6 +31,8 @@ export const ContainerList: React.FC<ContainerListProps> = ({
                 moveElement={handleMoveElement}
                 resizeElement={handleResizeElement}
                 findElement={handleFindElement}
+                selectedElement={selectedElement}
+                updateSelectedElement={updateSelectedElement}
                 container={container}
               />
             );

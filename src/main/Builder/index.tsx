@@ -18,6 +18,7 @@ import {
   Element,
   ControlPanelActions,
   ElementType,
+  ElementList,
 } from "./models";
 import {
   MdAddCircle,
@@ -44,65 +45,59 @@ const Builder: React.FC<BuilderProps> = (props) => {
   const elementIdIncrement = useRef(0);
   const [panelRight, setPanelRight] = useState(true);
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
-  const [containers, setContainers] = useState<
-    Element<ElementType.CONTAINER>[]
-  >([]);
-
-  const createDefaultContainer = useCallback(() => {
-    const id = `container-${elementIdIncrement.current}`;
-    elementIdIncrement.current++;
-    const newContainer: Element<ElementType.CONTAINER> = {
-      id,
-      type: ElementType.CONTAINER,
-      position: {
-        top: 0,
-        left: 0,
-        width: device.width,
-        height: device.height / 10,
-      },
-      style: {
-        backgroundColor: "blue",
-      },
-      elements: [],
-    };
-    return newContainer;
-  }, []);
-
-  const addContainer = useCallback(() => {
-    const newContainer = createDefaultContainer();
-    setContainers((prevContainers) => {
-      return [...prevContainers, newContainer];
-    });
-  }, [createDefaultContainer]);
+  const [elements, setElements] = useState<Element<ElementType>[]>([]);
+  const [selectedElement, setSelectedElement] = useState<
+    Element<ElementType>
+  >();
 
   const addElement = useCallback(
     (id: string, type: ElementType) => {
-      const elementPath = getElementPathById(id, containers);
-      const foundContainer = _.get(containers, elementPath);
+      let containerIndex;
+      if (type === ElementType.CONTAINER) {
+        if (id === "root") {
+          containerIndex = elements.length;
+        } else {
+          const elementPath = getElementPathById(id, elements);
+          const foundContainer = _.get(elements, elementPath);
+          containerIndex = foundContainer.length;
+        }
+      }
       const newContainer = createDefaultElement(
         type,
         elementIdIncrement.current,
-        type === ElementType.CONTAINER ? device.width : undefined
+        type === ElementType.CONTAINER ? device.width : undefined,
+        id === "root" ? 100 : 50,
+        containerIndex
       );
       elementIdIncrement.current++;
-      setContainers((prevContainers) => {
-        const newContainers = [...prevContainers];
-        _.set(newContainers, elementPath, {
-          ...foundContainer,
-          elements: [...foundContainer.elements, newContainer],
+      if (id === "root") {
+        setElements((prevElements) => {
+          const newElements = [...prevElements];
+          return [...newElements, newContainer];
         });
-        return [...newContainers];
-      });
+      } else {
+        const elementPath = getElementPathById(id, elements);
+        const foundContainer = _.get(elements, elementPath);
+        elementIdIncrement.current++;
+        setElements((prevElements) => {
+          const newElements = [...prevElements];
+          _.set(newElements, elementPath, {
+            ...foundContainer,
+            elements: [...foundContainer.elements, newContainer],
+          });
+          return [...newElements];
+        });
+      }
     },
-    [containers]
+    [elements]
   );
 
   const handleFindElement = useCallback(
     (id: string) => {
-      const elementPath = getElementPathById(id, containers);
-      const foundElement = _.get(containers, elementPath);
+      const elementPath = getElementPathById(id, elements);
+      const foundElement = _.get(elements, elementPath);
       const parentPath = elementPath.substring(0, elementPath.length - 2);
-      const parentContainer = _.get(containers, parentPath, containers);
+      const parentContainer = _.get(elements, parentPath, elements);
       const foundElementIndex = _.findIndex(parentContainer, foundElement);
       return {
         parentPath,
@@ -112,25 +107,40 @@ const Builder: React.FC<BuilderProps> = (props) => {
         index: foundElementIndex,
       };
     },
-    [containers]
+    [elements]
   );
+
+  const updateElement = (updateElement: Element<ElementType>) => {
+    const { element: foundElement, elementPath } = handleFindElement(
+      updateElement.id
+    );
+    setElements((prevElements) => {
+      const newElements = [...prevElements];
+      _.set(newElements, elementPath, {
+        ...foundElement,
+        ...updateElement,
+      });
+      return [...newElements];
+    });
+  };
 
   const handleMoveElement = useCallback(
     (
       id: string,
       { index, top, left }: { index?: number; top?: number; left?: number }
     ) => {
-      const elementPath = getElementPathById(id, containers);
-      setContainers((prevContainers) => {
-        let newContainers = [...prevContainers];
-        const foundElement = _.get(newContainers, elementPath);
-        const parentPath = elementPath.substring(0, elementPath.length - 2);
-        const parentContainer = _.get(newContainers, parentPath, newContainers);
-        const foundElementIndex = _.findIndex(parentContainer, foundElement);
+      setElements((prevElements) => {
+        let newElements = [...prevElements];
+        const {
+          element: foundElement,
+          parentPath,
+          parentContainer,
+          index: foundElementIndex,
+        } = handleFindElement(id);
         if (_.isNumber(index)) {
           parentContainer.splice(foundElementIndex, 1);
           parentContainer.splice(index, 0, foundElement);
-          newContainers = _.set(newContainers, parentPath, parentContainer);
+          newElements = _.set(newElements, parentPath, parentContainer);
         } else {
           parentContainer[foundElementIndex] = {
             ...parentContainer[foundElementIndex],
@@ -141,19 +151,19 @@ const Builder: React.FC<BuilderProps> = (props) => {
             },
           };
         }
-        return [...newContainers];
+        return [...newElements];
       });
     },
-    [containers]
+    [handleFindElement]
   );
 
   const handleResizeElement = useCallback(
     (id: string, width: number, height: number) => {
-      const elementPath = getElementPathById(id, containers);
-      setContainers((prevContainers) => {
-        let newContainers = [...prevContainers];
-        const foundElement = _.get(newContainers, elementPath);
-        newContainers = _.set(newContainers, elementPath, {
+      const elementPath = getElementPathById(id, elements);
+      setElements((prevElements) => {
+        let newElements = [...prevElements];
+        const foundElement = _.get(newElements, elementPath);
+        newElements = _.set(newElements, elementPath, {
           ...foundElement,
           position: {
             ...foundElement.position,
@@ -161,10 +171,19 @@ const Builder: React.FC<BuilderProps> = (props) => {
             height,
           },
         });
-        return [...newContainers];
+        return [...newElements];
       });
     },
-    [containers]
+    [elements]
+  );
+
+  const updateSelectedElement = useCallback(
+    (id: string) => {
+      const { element } = handleFindElement(id);
+      setMobileDashboardOpen(true);
+      setSelectedElement(element);
+    },
+    [handleFindElement]
   );
 
   const log = console.log;
@@ -174,7 +193,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
       type: "Add",
       description: "Add a new container",
       icon: <MdAddCircle />,
-      action: () => addContainer(),
+      action: () => addElement("root", ElementType.CONTAINER),
     },
     {
       type: "Publish",
@@ -290,7 +309,9 @@ const Builder: React.FC<BuilderProps> = (props) => {
             handleMoveElement={handleMoveElement}
             handleResizeElement={handleResizeElement}
             handleFindElement={handleFindElement}
-            containers={containers}
+            containers={elements as Element<ElementType.CONTAINER>[]}
+            selectedElement={selectedElement}
+            updateSelectedElement={updateSelectedElement}
           />
         </DeviceSimulator>
       </ViewContainer>
@@ -311,15 +332,17 @@ const Builder: React.FC<BuilderProps> = (props) => {
         >
           <Dashboard
             isDesktop={false}
-            addContainer={addContainer}
             panelRight={panelRight}
+            selectedElement={selectedElement}
+            updateElement={updateElement}
           />
         </Drawer>
       ) : (
         <Dashboard
           isDesktop
-          addContainer={addContainer}
           panelRight={panelRight}
+          selectedElement={selectedElement}
+          updateElement={updateElement}
         />
       )}
     </BuilderContainer>

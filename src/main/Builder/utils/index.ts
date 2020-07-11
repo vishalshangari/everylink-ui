@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { ElementType, Element } from "../models";
+import { ElementType, Element, ElementStyle } from "../models";
 import traverse from "traverse";
 
 export const getElementById = (
@@ -29,68 +29,60 @@ export const getElementPathById = (
   return path;
 };
 
+const defaultElement = (
+  id: string,
+  type: ElementType,
+  style: ElementStyle,
+  width: number,
+  height: number,
+  index?: number
+) => {
+  const element: Element<ElementType> = {
+    id,
+    type,
+    position: {
+      top: 0,
+      left: 0,
+      width,
+      height,
+    },
+    style,
+  };
+  if (type === ElementType.CONTAINER) {
+    element.elements = [];
+    element.position.index = index;
+  }
+  return element;
+};
+
 export const createDefaultElement = (
   type: ElementType,
   idIncrement: number,
-  containerWidth?: number
+  containerWidth?: number,
+  containerHeight?: number,
+  containerIndex?: number
 ) => {
   const id = `${type}-${idIncrement}`;
   let newElement: Element<ElementType>;
   switch (type) {
     case ElementType.BUTTON:
-      newElement = {
-        id,
-        type: ElementType.BUTTON,
-        position: {
-          top: 0,
-          left: 0,
-          width: 50,
-          height: 20,
-        },
-        style: { label: "fs", link: "sfsa" },
-      };
+      newElement = defaultElement(id, type, { fontSize: 20 }, 50, 20);
       break;
     case ElementType.IMAGE:
-      newElement = {
-        id,
-        type: ElementType.IMAGE,
-        position: {
-          top: 0,
-          left: 0,
-          width: 50,
-          height: 50,
-        },
-        style: { src: "fs" },
-      };
+      newElement = defaultElement(id, type, { fontSize: 20 }, 50, 50);
       break;
     case ElementType.TEXTBOX:
-      newElement = {
-        id,
-        type: ElementType.TEXTBOX,
-        position: {
-          top: 0,
-          left: 0,
-          width: 50,
-          height: 20,
-        },
-        style: { content: "fs" },
-      };
+      newElement = defaultElement(id, type, { fontSize: 20 }, 50, 20);
       break;
     case ElementType.CONTAINER:
-      newElement = {
+      newElement = defaultElement(
         id,
-        type: ElementType.CONTAINER,
-        position: {
-          top: 0,
-          left: 0,
-          width: containerWidth!,
-          height: 50,
-        },
-        style: {
-          backgroundColor: "darkblue",
-        },
-        elements: [],
-      };
+        type,
+        { fontSize: 20 },
+        containerWidth!,
+        containerHeight!,
+        containerIndex!
+      );
       break;
     default:
       throw new Error("what");

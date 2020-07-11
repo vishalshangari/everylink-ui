@@ -17,6 +17,8 @@ export const DndElement: React.FC<DndElementProps> = ({
   moveElement,
   findElement,
   resizeElement,
+  selectedElement,
+  updateSelectedElement,
   children,
 }) => {
   const elementRef = useRef<HTMLDivElement>();
@@ -84,6 +86,7 @@ export const DndElement: React.FC<DndElementProps> = ({
     },
   });
 
+  const selected = selectedElement ? id === selectedElement.id : false;
   return (
     <DndElementContainer
       ref={(node) => {
@@ -99,6 +102,14 @@ export const DndElement: React.FC<DndElementProps> = ({
       left={left}
       id={id}
       type={type}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        updateSelectedElement(id);
+      }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onMouseUp={(e) => e.stopPropagation()}
+      selected={selected}
     >
       {children}
       <Resizer ref={resize} />

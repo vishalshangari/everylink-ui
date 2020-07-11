@@ -16,52 +16,30 @@ export type Position = {
   left: number;
   height: number;
   width: number;
+  index?: number;
 };
 
 export type ElementList = {
-  [id: string]: Element<ElementType>;
+  id: string;
+  elements: Element<ElementType>[];
 };
 
-interface BaseElement<T> {
+export interface Element<T> {
   id: string;
   type: T;
   position: Position;
-  style: StyleMap<T>;
-}
-type StyleMap<T> = T extends ElementType.CONTAINER
-  ? ContainerStyle
-  : T extends ElementType.TEXTBOX
-  ? TextboxStyle
-  : T extends ElementType.BUTTON
-  ? ButtonStyle
-  : T extends ElementType.IMAGE
-  ? ImageStyle
-  : unknown;
-
-type ContainerStyle = {
-  backgroundColor: string;
-};
-
-type TextboxStyle = {
-  content: string;
-};
-
-type ButtonStyle = {
-  label: string;
-  link: string;
-};
-
-type ImageStyle = {
-  src: string;
-};
-
-interface Container {
-  elements: Element<ElementType>[];
+  style: ElementStyle;
+  elements?: T extends ElementType.CONTAINER ? Element<ElementType>[] : never;
 }
 
-export type Element<T> = T extends ElementType.CONTAINER
-  ? BaseElement<T> & Container
-  : BaseElement<T>;
+export type ElementStyle = {
+  backgroundColor?: string;
+  content?: string;
+  label?: string;
+  link?: string;
+  src?: string;
+  fontSize?: number;
+};
 
 export interface Data {
   type: string;

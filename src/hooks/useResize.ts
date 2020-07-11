@@ -10,12 +10,13 @@ export const useResize = (spec: UseResizeSpec) => {
   useEffect(() => {
     const handleMouseDown = (e: MouseEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       setMouseDown(true);
     };
 
     const handleMouseUp = (e: MouseEvent) => {
       e.preventDefault();
-
+      e.stopPropagation();
       const { item, handleSizeChange } = specRef.current;
       const { id } = item;
       const element = document.getElementById(id);
@@ -50,6 +51,7 @@ export const useResize = (spec: UseResizeSpec) => {
 
     const handleMouseMove = (e: MouseEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       const { item, handleSizeChange } = specRef.current;
       const { id } = item;
       const element = document.getElementById(id);

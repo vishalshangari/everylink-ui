@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { Panel, PanelInnerContainer } from "../Panel";
-import ContentPane from "./components/ContentPane";
-import AppearancePane from "./components/AppearancePane";
-import SettingsPane from "./components/SettingsPane";
-import { Tab } from "react-tabs";
 import {
   TabIcon,
   DashTab,
@@ -19,40 +15,25 @@ import {
   DashboardTitle,
   DashboardTextboxSmall,
   DashboardTitleDisplay,
-  PanelTopShadow,
 } from "./components/index";
 import {
   MdFormatPaint,
-  MdSettings,
-  MdTextFields,
   MdDelete,
   MdFilterNone,
   MdCheckCircle,
   MdModeEdit,
 } from "react-icons/md";
 import { IconContext } from "react-icons";
-
-interface DashboardProps {
-  addContainer: () => void;
-  panelRight: boolean;
-  isDesktop: boolean;
-}
-
-interface StateDashTab extends Tab {
-  isActive: boolean;
-}
-
-const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
-  return <DashTab isActive={isActive} {...props} />;
-};
+import { DashboardProps } from "./models";
+import { AppearanceForm } from "./components/AppearanceForm";
 
 const Dashboard: React.FC<DashboardProps> = ({
-  addContainer,
   panelRight,
   isDesktop,
+  selectedElement,
+  updateElement,
 }) => {
-  const [activeTab, setActiveTab] = useState(1);
-
+  const [activeTab, setActiveTab] = useState(0);
   return (
     <Panel isDesktop={isDesktop} panelRight={panelRight}>
       <PanelInnerContainer isDesktop={isDesktop}>
@@ -67,42 +48,28 @@ const Dashboard: React.FC<DashboardProps> = ({
         </DashboardTitleDisplay>
 
         <StyledTabs
-          selectedIndex={activeTab}
+          defaultIndex={0}
           onSelect={(tabIndex) => setActiveTab(tabIndex)}
         >
           <DashTabList>
             <IconContext.Provider value={{ size: "1rem" }}>
-              <DashTab tabIndex="0" isActive={activeTab === 0}>
-                <TabIcon>
-                  <MdTextFields />
-                </TabIcon>
-                <TabTitle>Textbox</TabTitle>
-              </DashTab>
-              <DashTab tabIndex="1" isActive={activeTab === 1}>
+              <DashTab isActive={activeTab === 0}>
                 <TabIcon>
                   <MdFormatPaint />
                 </TabIcon>
                 <TabTitle>Appearance</TabTitle>
-              </DashTab>
-              <DashTab tabIndex="2" isActive={activeTab === 2}>
-                <TabIcon>
-                  <MdSettings />
-                </TabIcon>
-                <TabTitle>Settings</TabTitle>
               </DashTab>
             </IconContext.Provider>
           </DashTabList>
 
           <DashPanelsContainer>
             <StyledTabPanel>
-              <ContentPane />
-            </StyledTabPanel>
-            <StyledTabPanel>
-              {/* <PanelTopShadow /> */}
-              <AppearancePane />
-            </StyledTabPanel>
-            <StyledTabPanel>
-              <SettingsPane />
+              {selectedElement && (
+                <AppearanceForm
+                  element={selectedElement}
+                  updateElement={updateElement}
+                />
+              )}
             </StyledTabPanel>
           </DashPanelsContainer>
         </StyledTabs>

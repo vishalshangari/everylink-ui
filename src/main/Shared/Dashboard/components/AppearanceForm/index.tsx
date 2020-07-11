@@ -1,35 +1,53 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import {
-  DashboardHeader,
-  DashboardTextbox,
   DashboardViewWrap,
-  DashboardTextboxSmall,
-  PaddedDashboardContainer,
-  DashboardTextEditor,
-  DashboardElementActions,
-  DashboardDoneBtn,
-  DashboardDeleteBtn,
-  DashboardDuplicateBtn,
   SettingsGrid,
-  SimpleSliderSettingGrid,
-  SliderValueDisplay,
-  ColorSetting,
-  FontFamilySetting,
-  CustomGridItem,
+  SingleSelectSetting,
+  SettingsHeader,
   BorderedGrid,
   StyledMuiGridItem,
-  SettingsHeader,
-  SingleSelectSetting,
-} from "../../index";
-import {
-  MdDelete,
-  MdFilterNone,
-  MdCheckCircle,
-  MdModeEdit,
-} from "react-icons/md";
-import Grid from "@material-ui/core/Grid";
+  ColorSetting,
+  SimpleSliderSettingGrid,
+  SliderValueDisplay,
+} from "..";
+import { Grid } from "@material-ui/core";
+import { useForm } from "react-hook-form";
+import { Element, ElementType } from "../../../../Builder/models";
 
-const Textbox = () => {
+export const AppearanceForm: React.FC<{
+  element: Element<ElementType>;
+  updateElement: (updateElement: Element<ElementType>) => void;
+}> = ({ element, updateElement }) => {
+  const { register, unregister, setValue, watch } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      ...element.style,
+    },
+  });
+
+  const fontSize = watch("fontSize") || element.style.fontSize;
+
+  useEffect(() => {
+    register("fontSize");
+    return () => {
+      unregister("fontSize");
+    };
+  }, [register, unregister]);
+
+  const handleChange = useCallback(
+    (e) => {
+      const newElement = {
+        ...element,
+        style: {
+          ...element.style,
+          fontSize,
+        },
+      };
+      updateElement(newElement);
+      setValue("fontSize", parseInt(e.target.value));
+    },
+    [element, fontSize, setValue, updateElement]
+  );
   return (
     <DashboardViewWrap>
       <form>
@@ -84,11 +102,19 @@ const Textbox = () => {
         <SettingsGrid>
           <BorderedGrid container spacing={0}>
             <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Size</label>
-                <SliderValueDisplay>1.25</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
+              {fontSize && (
+                <SimpleSliderSettingGrid>
+                  <label htmlFor="fontSize">Size</label>
+                  <SliderValueDisplay>{fontSize}</SliderValueDisplay>
+                  <input
+                    id="fontSize"
+                    type="range"
+                    onChange={handleChange}
+                    defaultValue={fontSize}
+                    value={fontSize}
+                  ></input>
+                </SimpleSliderSettingGrid>
+              )}
             </StyledMuiGridItem>
             <StyledMuiGridItem item xs={6}>
               <SimpleSliderSettingGrid>
@@ -189,5 +215,3 @@ const Textbox = () => {
     </DashboardViewWrap>
   );
 };
-
-export default Textbox;

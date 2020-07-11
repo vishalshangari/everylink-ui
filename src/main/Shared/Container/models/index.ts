@@ -17,4 +17,6 @@ export interface ContainerProps {
     element: Element<ElementType>;
   };
   resizeElement: (id: string, width: number, height: number) => void;
+  selectedElement: Element<ElementType> | undefined;
+  updateSelectedElement: (id: string) => void;
 }
