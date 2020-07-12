@@ -35,6 +35,7 @@ export const AppearanceForm: React.FC<{
           [property]: value,
         },
       };
+      console.log(newElement);
       updateElement(newElement);
       setValue(property, value);
     },

@@ -299,6 +299,36 @@ const Builder: React.FC<BuilderProps> = (props) => {
           </MobileControlCenter>
         ) : null}
 
+        {selectedElement && (
+          <div style={{ textAlign: "center", width: "100%" }}>
+            <button
+              onClick={() =>
+                addElement(selectedElement.id, ElementType.CONTAINER)
+              }
+            >
+              cnt
+            </button>
+            <button
+              onClick={() =>
+                addElement(selectedElement.id, ElementType.TEXTBOX)
+              }
+            >
+              txt
+            </button>
+
+            <button
+              onClick={() => addElement(selectedElement.id, ElementType.BUTTON)}
+            >
+              btn
+            </button>
+
+            <button
+              onClick={() => addElement(selectedElement.id, ElementType.IMAGE)}
+            >
+              img
+            </button>
+          </div>
+        )}
         <DeviceSimulator>
           <ContainerList
             addElement={addElement}

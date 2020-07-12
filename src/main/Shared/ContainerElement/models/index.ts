@@ -1,7 +1,7 @@
 import { ElementType, Element } from "../../../Builder/models";
 
 export interface ContainerProps {
-  container: Element<ElementType.CONTAINER>;
+  element: Element<ElementType.CONTAINER>;
   addElement: (containerId: string, type: ElementType) => void;
   moveElement: (
     id: string,

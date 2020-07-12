@@ -49,6 +49,7 @@ export const BaseElement: React.FC<ElementProps> = ({
     left: elementLeft,
     top: elementTop,
   } = elementPosition;
+  console.log(elementStyle);
   const renderElement =
     elementType === ElementType.TEXTBOX ? (
       <TextboxElement newStyle={elementStyle}>
@@ -72,7 +73,7 @@ export const BaseElement: React.FC<ElementProps> = ({
         findElement={findElement}
         selectedElement={selectedElement}
         updateSelectedElement={updateSelectedElement}
-        container={element as Element<ElementType.CONTAINER>}
+        element={element as Element<ElementType.CONTAINER>}
       />
     ) : (
       <div>error</div>
