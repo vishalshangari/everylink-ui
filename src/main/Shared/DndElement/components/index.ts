@@ -17,7 +17,6 @@ export const DndElementContainer = styled.div.attrs(
     top,
     left,
     isDragging,
-    type,
     selected,
   }: {
     width: number;
@@ -29,19 +28,15 @@ export const DndElementContainer = styled.div.attrs(
     selected: boolean;
   }) => ({
     style: {
-      transform:
-        type === ElementType.CONTAINER
-          ? "translate3d(" + left + "px," + top + "px, 0)"
-          : "none",
-      position: type === ElementType.CONTAINER ? "relative" : "absolute",
+      transform: "translate3d(" + left + "px," + top + "px, 0)",
+      transition: "transform 0.5s",
+      position: "absolute",
       background: isDragging ? "yellow" : "transparent",
       width: width + "px",
       height: height,
 
       overflow: "hidden",
-      top,
-      left,
-      border: selected ? "2px solid blue" : "none",
+      border: selected ? "1px solid blue" : "1px solid black",
     },
   })
 )<{
@@ -50,6 +45,7 @@ export const DndElementContainer = styled.div.attrs(
   top?: number;
   left?: number;
   isDragging: boolean;
-  type: ElementType;
   selected: boolean;
-}>``;
+}>`
+  box-sizing: border-box;
+`;

@@ -25,7 +25,7 @@ import {
 } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { DashboardProps } from "./models";
-import { AppearanceForm } from "./components/AppearanceForm";
+import { AppearanceForm } from "../AppearanceForm";
 
 const Dashboard: React.FC<DashboardProps> = ({
   panelRight,

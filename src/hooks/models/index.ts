@@ -22,5 +22,7 @@ export interface UseResizeSpec {
     width: number;
     height: number;
   };
+  mouseDown?: boolean;
+  node?: HTMLDivElement;
   handleSizeChange: (id: string, width: number, height: number) => void;
 }

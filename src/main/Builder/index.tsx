@@ -35,8 +35,8 @@ import { ContainerList } from "../Shared/ContainerList";
 import { getElementPathById, createDefaultElement } from "./utils";
 
 const device = {
-  width: 375,
-  height: 812,
+  width: 450,
+  height: 800,
 };
 
 const Builder: React.FC<BuilderProps> = (props) => {
@@ -125,32 +125,28 @@ const Builder: React.FC<BuilderProps> = (props) => {
   };
 
   const handleMoveElement = useCallback(
-    (
-      id: string,
-      { index, top, left }: { index?: number; top?: number; left?: number }
-    ) => {
+    (id: string, { top, left }: { top?: number; left?: number }) => {
       setElements((prevElements) => {
-        let newElements = [...prevElements];
+        const newElements = [...prevElements];
         const {
           element: foundElement,
           parentPath,
           parentContainer,
           index: foundElementIndex,
         } = handleFindElement(id);
-        if (_.isNumber(index)) {
-          parentContainer.splice(foundElementIndex, 1);
-          parentContainer.splice(index, 0, foundElement);
-          newElements = _.set(newElements, parentPath, parentContainer);
-        } else {
-          parentContainer[foundElementIndex] = {
-            ...parentContainer[foundElementIndex],
-            position: {
-              ...parentContainer[foundElementIndex].position,
-              top,
-              left,
-            },
-          };
+        const newParentContainer = [...parentContainer];
+        newParentContainer[foundElementIndex] = {
+          ...parentContainer[foundElementIndex],
+          position: {
+            ...parentContainer[foundElementIndex].position,
+            top,
+            left,
+          },
+        };
+        if (!parentPath) {
+          return [...newParentContainer];
         }
+        _.set(newElements, parentPath, newParentContainer);
         return [...newElements];
       });
     },

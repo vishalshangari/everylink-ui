@@ -4,7 +4,7 @@ import styled from "styled-components";
 const DeviceSimulator: React.FC = ({ children }) => {
   return (
     <DeviceSimulatorContainer>
-      <div className="device-simulator iphone-x">
+      {/* <div className="device-simulator iphone-x">
         <div className="notch">
           <div className="camera"></div>
           <div className="speaker"></div>
@@ -21,7 +21,8 @@ const DeviceSimulator: React.FC = ({ children }) => {
         </div>
         <div className="inner-shadow"></div>
         <div className="screen">{children}</div>
-      </div>
+      </div> */}
+      <ScreenContainer> {children}</ScreenContainer>
     </DeviceSimulatorContainer>
   );
 };
@@ -32,6 +33,11 @@ const DeviceSimulatorContainer = styled.div`
   width: 100%;
   zoom: 0.85;
   flex-grow: 1;
+`;
+const ScreenContainer = styled.div`
+  position: relative;
+  width: 450px;
+  height: 800px;
 `;
 
 export default DeviceSimulator;

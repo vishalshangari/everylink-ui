@@ -4,59 +4,72 @@ import { UseResizeSpec } from "./models";
 export const useResize = (spec: UseResizeSpec) => {
   const specRef = useRef(spec);
   specRef.current = spec;
-  const [node, setNode] = useState<HTMLDivElement>();
-  const [mouseDown, setMouseDown] = useState(false);
+  specRef.current.mouseDown = false;
 
   useEffect(() => {
     const handleMouseDown = (e: MouseEvent) => {
       e.preventDefault();
-      e.stopPropagation();
-      setMouseDown(true);
+      document.addEventListener("mousemove", handleMouseMove, false);
+      document.addEventListener("mouseup", handleMouseUp, false);
+      specRef.current.mouseDown = true;
+      e.stopImmediatePropagation();
     };
 
     const handleMouseUp = (e: MouseEvent) => {
       e.preventDefault();
+      document.removeEventListener("mousemove", handleMouseMove, false);
+      document.removeEventListener("mouseup", handleMouseUp, false);
+
       e.stopPropagation();
+      e.stopImmediatePropagation();
+      // const { item, handleSizeChange } = specRef.current;
+      // const { id } = item;
+      // const element = document.getElementById(id);
+      // let width;
+      // let height;
+
+      // if (element && element.parentElement) {
+      //   const styles = document.defaultView?.getComputedStyle(element);
+      //   if (styles) {
+      //     width = parseInt(styles.width);
+      //     height = parseInt(styles.height);
+      //   }
+      //   const parentStyles = document.defaultView?.getComputedStyle(
+      //     element.parentElement
+      //   );
+      //   if (width && height && parentStyles) {
+      //     const parentWidth = parseInt(parentStyles.width);
+      //     const parentHeight = parseInt(parentStyles.height);
+      //     const newWidth =
+      //       Math.floor(width / (parentWidth / 25)) * (parentWidth / 25);
+      //     const newHeight =
+      //       Math.floor(height / (parentHeight / 25)) * (parentHeight / 25);
+      //     if (!handleSizeChange) {
+      //       element.style.height = `${newHeight}px`;
+      //     } else {
+      //       handleSizeChange(id, newWidth, newHeight);
+      //     }
+      //   }
+      // }
+
       const { item, handleSizeChange } = specRef.current;
       const { id } = item;
-      const element = document.getElementById(id);
-      let width;
-      let height;
 
-      if (element && element.parentElement) {
-        const styles = document.defaultView?.getComputedStyle(element);
-        if (styles) {
-          width = parseInt(styles.width);
-          height = parseInt(styles.height);
-        }
-        const parentStyles = document.defaultView?.getComputedStyle(
-          element.parentElement
-        );
-        if (width && height && parentStyles) {
-          const parentWidth = parseInt(parentStyles.width);
-          const parentHeight = parseInt(parentStyles.height);
-          const newWidth =
-            Math.floor(width / (parentWidth / 25)) * (parentWidth / 25);
-          const newHeight =
-            Math.floor(height / (parentHeight / 25)) * (parentHeight / 25);
-          if (!handleSizeChange) {
-            element.style.height = `${newHeight}px`;
-          } else {
-            handleSizeChange(id, newWidth, newHeight);
-          }
-        }
-      }
-      setMouseDown(false);
+      handleSizeChange(
+        id,
+        specRef.current.item.width,
+        specRef.current.item.height
+      );
+      specRef.current.mouseDown = false;
     };
 
     const handleMouseMove = (e: MouseEvent) => {
       e.preventDefault();
-      e.stopPropagation();
       const { item, handleSizeChange } = specRef.current;
       const { id } = item;
       const element = document.getElementById(id);
       let { width, height } = item;
-      if (element && mouseDown) {
+      if (element && specRef.current.mouseDown) {
         const styles = document.defaultView?.getComputedStyle(element);
         if (styles && handleSizeChange) {
           width = parseInt(styles.width);
@@ -81,28 +94,19 @@ export const useResize = (spec: UseResizeSpec) => {
             }
           }
         }
-        if (!handleSizeChange) {
-          element.style.width = `${newWidth}px`;
-          element.style.height = `${newHeight}px`;
-        } else {
-          handleSizeChange(id, newWidth, newHeight);
-        }
+        element.style.width = `${newWidth}px`;
+        element.style.height = `${newHeight}px`;
+        specRef.current.item.width = Math.round(newWidth / 10) * 10;
+
+        specRef.current.item.height = Math.round(newHeight / 10) * 10;
       }
     };
-    if (mouseDown) {
-      document.addEventListener("mousemove", handleMouseMove, false);
-      document.addEventListener("mouseup", handleMouseUp, false);
-    }
-    node?.addEventListener("mousedown", handleMouseDown);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove, false);
-      document.removeEventListener("mouseup", handleMouseUp, false);
-    };
-  }, [node, mouseDown]);
+    specRef.current.node?.addEventListener("mousedown", handleMouseDown);
+  });
 
   const resize = (refNode: HTMLDivElement) => {
-    if (refNode) {
-      setNode(refNode);
+    if (refNode && refNode !== specRef.current.node) {
+      specRef.current.node = refNode;
     }
   };
 
