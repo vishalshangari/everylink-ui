@@ -44,6 +44,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
 
   const elementIdIncrement = useRef(0);
   const [panelRight, setPanelRight] = useState(true);
+  const [publish, setPublish] = useState(false);
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
   const [elements, setElements] = useState<Element<ElementType>[]>([]);
   const [selectedElement, setSelectedElement] = useState<
@@ -176,7 +177,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
   const updateSelectedElement = useCallback(
     (id: string) => {
       const { element } = handleFindElement(id);
-      setMobileDashboardOpen(true);
+      //setMobileDashboardOpen(true);
       setSelectedElement(element);
     },
     [handleFindElement]
@@ -195,7 +196,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
       type: "Publish",
       description: "Publish site",
       icon: <MdSave />,
-      action: () => log("publish"),
+      action: () => setPublish(!publish),
     },
     {
       type: "Undo",
@@ -255,6 +256,24 @@ const Builder: React.FC<BuilderProps> = (props) => {
         : {}),
     };
   };
+
+  const renderElements = (elements) => {
+    return elements.map((element) => {
+      let childElements = null;
+      if (element.elements) {
+        childElements = renderElements(element.elements);
+      }
+      return (
+        <div style={{ ...element.style, ...element.position }}>
+          {childElements}
+        </div>
+      );
+    });
+  };
+
+  if (publish) {
+    return <div>{renderElements(elements)}</div>;
+  }
 
   return (
     <BuilderContainer>
