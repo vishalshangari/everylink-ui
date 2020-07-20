@@ -111,25 +111,25 @@ export const scales: Scales = {
   xl: {
     panel: "32rem",
     display: {
-      controlCenter: "",
+      controlCenter: "visible",
     },
     fontSize: {
       controlCenterButton: "2rem",
     },
     padding: {
-      controlCenterButton: "0.75rem 2rem",
+      controlCenterButton: "1rem 1.5rem",
     },
   },
   lg: {
     panel: "26rem",
     display: {
-      controlCenter: "",
+      controlCenter: "visible",
     },
     fontSize: {
-      controlCenterButton: "1.5rem",
+      controlCenterButton: "1.25rem",
     },
     padding: {
-      controlCenterButton: "1rem 1.25rem",
+      controlCenterButton: "1rem",
     },
   },
   md: {
