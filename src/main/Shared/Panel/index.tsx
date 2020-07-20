@@ -24,6 +24,7 @@ const StyledPanelInnerContainer = styled.div<{ isDesktop: boolean }>`
       : `border-radius: 0; border: none`};
   box-shadow: 0px 0px 5px #000;
   overflow: hidden;
+  width: calc(${(props) => props.theme.scales.panel} - 1rem);
 `;
 
 export const PanelInnerContainer = ({
@@ -45,10 +46,6 @@ const PanelContainer = styled.div<{
   transition: .5s ease all;
   z-index: 5;
   ${(props) =>
-    props.dashboardHidden
-      ? `margin-right: -${props.theme.scales.panel};`
-      : `margin-right: 0;`}
-  ${(props) =>
     props.isDesktop
       ? `padding-top: ${props.theme.padding.base}; padding-bottom: ${props.theme.padding.base};`
       : `border-${props.panelRight ? `left` : `right`}: 1px solid ${
@@ -65,8 +62,13 @@ const PanelContainer = styled.div<{
     props.isDesktop &&
     `order: -1; padding-left: ${props.theme.padding.base};`}
 
+  
+  ${(props) =>
+    props.dashboardHidden
+      ? `width: 0; padding-left: 0; padding-right: 0;`
+      : `width: ${props.theme.scales.panel};`}
+  overflow: hidden;
   max-height: 100vh;
-  width: ${(props) => props.theme.scales.panel};
 `;
 
 export const Panel = ({
