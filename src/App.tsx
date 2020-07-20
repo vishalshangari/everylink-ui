@@ -5,6 +5,7 @@ import Builder from "./main/Builder";
 import styled, { ThemeProvider } from "styled-components";
 import useTheme from "./hooks/useTheme";
 import useDisplaySize from "./hooks/useDisplaySize";
+import { GlobalStyles } from "./GlobalStyle";
 
 const App = () => {
   const [displaySize] = useDisplaySize();
@@ -15,6 +16,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={getNewTheme(currentTheme)}>
+      <GlobalStyles />
       <AppContainer>
         <BrowserRouter>
           <Switch>

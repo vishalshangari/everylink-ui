@@ -5,6 +5,7 @@ interface PanelProps {
   panelRight: boolean;
   children?: ReactNode;
   isDesktop: boolean;
+  dashboardHidden: boolean;
 }
 
 interface PanelInnerContainerProps {
@@ -23,6 +24,7 @@ const StyledPanelInnerContainer = styled.div<{ isDesktop: boolean }>`
       : `border-radius: 0; border: none`};
   box-shadow: 0px 0px 5px #000;
   overflow: hidden;
+  width: calc(${(props) => props.theme.scales.panel} - 1rem);
 `;
 
 export const PanelInnerContainer = ({
@@ -36,7 +38,13 @@ export const PanelInnerContainer = ({
   );
 };
 
-const PanelContainer = styled.div<{ panelRight: boolean; isDesktop: boolean }>`
+const PanelContainer = styled.div<{
+  panelRight: boolean;
+  isDesktop: boolean;
+  dashboardHidden: boolean;
+}>`
+  transition: .5s ease all;
+  z-index: 5;
   ${(props) =>
     props.isDesktop
       ? `padding-top: ${props.theme.padding.base}; padding-bottom: ${props.theme.padding.base};`
@@ -54,13 +62,27 @@ const PanelContainer = styled.div<{ panelRight: boolean; isDesktop: boolean }>`
     props.isDesktop &&
     `order: -1; padding-left: ${props.theme.padding.base};`}
 
+  
+  ${(props) =>
+    props.dashboardHidden
+      ? `width: 0; padding-left: 0; padding-right: 0;`
+      : `width: ${props.theme.scales.panel};`}
+  overflow: hidden;
   max-height: 100vh;
-  width: ${(props) => props.theme.scales.panel};
 `;
 
-export const Panel = ({ children, panelRight, isDesktop }: PanelProps) => {
+export const Panel = ({
+  children,
+  panelRight,
+  isDesktop,
+  dashboardHidden,
+}: PanelProps) => {
   return (
-    <PanelContainer isDesktop={isDesktop} panelRight={panelRight}>
+    <PanelContainer
+      dashboardHidden={dashboardHidden}
+      isDesktop={isDesktop}
+      panelRight={panelRight}
+    >
       {children}
     </PanelContainer>
   );

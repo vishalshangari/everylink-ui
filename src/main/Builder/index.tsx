@@ -2,18 +2,8 @@ import React, { useState, createContext } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
 import Drawer from "@material-ui/core/Drawer";
-import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
-import {
-  Box,
-  BuilderContainer,
-  ViewContainer,
-  ControlCenter,
-  ControlCenterButton,
-  ControlCenterMainActions,
-  ControlCenterSettings,
-  MobileControlCenter,
-} from "./components";
+import { Box, BuilderContainer, ViewContainer } from "./components";
 import { Block, BuilderProps, Data, ControlPanelActions } from "./models";
 import { dataImport } from "../../data/test";
 import {
@@ -23,9 +13,14 @@ import {
   MdSave,
   MdUndo,
   MdRedo,
-  MdClose,
+  MdViewHeadline,
+  MdAccountCircle,
 } from "react-icons/md";
+import { IoMdSunny } from "react-icons/io";
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
+import { ResponsiveControlCenter } from "../Shared/ResponsiveControlPanel";
+import { ControlCenterActionDef } from "../Shared/ResponsiveControlPanel/models";
+import { AnchoredActionButton } from "../Shared/AnchoredActionButton";
 
 const data: Data = dataImport;
 
@@ -35,6 +30,7 @@ export const BuilderContext = createContext<Data>({} as Data);
 
 const Builder: React.FC<BuilderProps> = (props) => {
   const [panelRight, setPanelRight] = useState(true);
+  const [dashboardHidden, setDashboardHidden] = useState(false);
   const { displaySize, handleThemeChange, currentTheme } = props;
   const [blocks, setBlocks] = useState(InitialElements);
   const addBlock = () => {
@@ -46,123 +42,104 @@ const Builder: React.FC<BuilderProps> = (props) => {
 
   const [mobileDashboardOpen, setMobileDashboardOpen] = useState(false);
 
-  const log = console.log;
+  const controlCenterActions: ControlCenterActionDef[][] = [
+    [
+      {
+        type: "Add",
+        description: "Add a new container",
+        icon: <MdAddCircle />,
+        action: addBlock,
+      },
+      {
+        type: "Publish",
+        description: "Publish site",
+        icon: <MdSave />,
+        action: () => console.log("Publish"),
+      },
+      {
+        type: "Undo",
+        description: "Undo last change",
+        icon: <MdUndo />,
+        action: () => console.log("Undo"),
+      },
+      {
+        type: "Redo",
+        description: "Redo last change",
+        icon: <MdRedo />,
+        action: () => console.log("Redo"),
+      },
+    ],
+    [
+      {
+        type: "Mode",
+        description: `Switch to ${
+          currentTheme === `dark` ? `default` : `dark`
+        } mode`,
+        icon:
+          currentTheme === `dark` ? (
+            <IoMdSunny />
+          ) : (
+            <WiMoonAltWaningCrescent4 />
+          ),
+        action: () => handleThemeChange(currentTheme === "dark" ? "" : "dark"),
+      },
+      {
+        type: "Switch",
+        description: "Switch editor layout",
+        icon: <MdSwapHoriz />,
+        action: () => setPanelRight(!panelRight),
+      },
+    ],
+  ];
 
-  const controlPanelActions: ControlPanelActions[] = [
+  const mobileControlCenterActions: ControlCenterActionDef[] = [
     {
       type: "Add",
       description: "Add a new container",
       icon: <MdAddCircle />,
-      action: () => addBlock(),
     },
     {
       type: "Publish",
       description: "Publish site",
       icon: <MdSave />,
-      action: () => log("publish"),
     },
     {
       type: "Undo",
       description: "Undo last change",
       icon: <MdUndo />,
-      action: () => log("undo"),
     },
     {
       type: "Redo",
       description: "Redo last change",
       icon: <MdRedo />,
-      action: () => log("redo"),
-    },
-    {
-      type: "Exit",
-      description: "Exit builder",
-      icon: <MdClose />,
-      action: () => log("exit"),
     },
   ];
-
-  const controlPanelSettingsOptions: ControlPanelActions[] = [
-    {
-      type: "Color mode",
-      description: `Switch to ${
-        currentTheme === "dark" ? "default" : "dark"
-      } theme`,
-      icon:
-        currentTheme === "dark" ? <MdWbSunny /> : <WiMoonAltWaningCrescent4 />,
-      action: () => handleThemeChange(currentTheme === "dark" ? "" : "dark"),
-    },
-    {
-      type: "Editor layout",
-      description: "Switch editor layout",
-      icon: <MdSwapHoriz />,
-      action: () => setPanelRight(!panelRight),
-    },
-  ];
-
-  const ResponsiveControlCenterType: React.FC<{
-    children: React.ReactNode;
-  }> = ({ children }) => {
-    return displaySize == "xl" || displaySize == "lg" ? (
-      <ControlCenter>{children}</ControlCenter>
-    ) : (
-      <MobileControlCenter>{children}</MobileControlCenter>
-    );
-  };
-
-  const createControlPanelTooltipProps = () => {
-    return {
-      mouseEnterDelay: 0.75,
-      mouseLeaveDelay: 0,
-      placement: "bottom",
-      ...(displaySize !== "xl" && displaySize !== "lg"
-        ? { visible: false }
-        : {}),
-    };
-  };
 
   return (
     <BuilderContext.Provider value={data as Data}>
       <BuilderContainer>
         <ViewContainer>
-          <ResponsiveControlCenterType>
-            <ControlCenterMainActions>
-              {controlPanelActions.map((option, index) => {
-                return (
-                  <Tooltip
-                    {...createControlPanelTooltipProps()}
-                    key={index}
-                    overlay={option.description}
-                  >
-                    <ControlCenterButton onClick={option.action}>
-                      {option.icon}
-                    </ControlCenterButton>
-                  </Tooltip>
-                );
-              })}
-            </ControlCenterMainActions>
-            <ControlCenterSettings>
-              {controlPanelSettingsOptions.map((option, index) => {
-                return (
-                  <Tooltip
-                    {...createControlPanelTooltipProps()}
-                    key={index}
-                    overlay={option.description}
-                  >
-                    <ControlCenterButton onClick={option.action}>
-                      {option.icon}
-                    </ControlCenterButton>
-                  </Tooltip>
-                );
-              })}
-            </ControlCenterSettings>
-          </ResponsiveControlCenterType>
-          {displaySize !== "xl" && displaySize !== "lg" ? (
-            <MobileControlCenter>
-              <Drawer anchor={"top"}>
-                <div>hello, world</div>
-              </Drawer>
-            </MobileControlCenter>
-          ) : null}
+          <AnchoredActionButton
+            displaySize={displaySize}
+            type="User page"
+            side={panelRight ? "left" : "right"}
+            description="Back to user page"
+            icon={<MdAccountCircle />}
+            action={() => console.log("Back to user page")}
+          />
+          <AnchoredActionButton
+            displaySize={displaySize}
+            type="Show dashboard"
+            side={panelRight ? "right" : "left"}
+            description="Show dashboard"
+            icon={<MdViewHeadline />}
+            action={() => setDashboardHidden(false)}
+          />
+          <ResponsiveControlCenter
+            displaySize={displaySize}
+            options={controlCenterActions}
+            mobileOptions={mobileControlCenterActions}
+          />
           <DeviceSimulator>{blocks}</DeviceSimulator>
         </ViewContainer>
         {/* Mobile Temporary Drawer Dashboard */}
@@ -184,10 +161,18 @@ const Builder: React.FC<BuilderProps> = (props) => {
               isDesktop={false}
               addBlock={addBlock}
               panelRight={panelRight}
+              dashboardHidden={false}
+              setDashboardHidden={setDashboardHidden}
             />
           </Drawer>
         ) : (
-          <Dashboard isDesktop addBlock={addBlock} panelRight={panelRight} />
+          <Dashboard
+            isDesktop
+            addBlock={addBlock}
+            panelRight={panelRight}
+            dashboardHidden={dashboardHidden}
+            setDashboardHidden={setDashboardHidden}
+          />
         )}
       </BuilderContainer>
     </BuilderContext.Provider>

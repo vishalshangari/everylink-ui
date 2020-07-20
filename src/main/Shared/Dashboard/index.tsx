@@ -36,6 +36,8 @@ interface DashboardProps {
   addBlock: () => void;
   panelRight: boolean;
   isDesktop: boolean;
+  dashboardHidden: boolean;
+  setDashboardHidden: (prevDashboardHidden: boolean) => void;
 }
 
 interface StateDashTab extends Tab {
@@ -50,11 +52,17 @@ const Dashboard: React.FC<DashboardProps> = ({
   addBlock,
   panelRight,
   isDesktop,
+  dashboardHidden,
+  setDashboardHidden,
 }) => {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <Panel isDesktop={isDesktop} panelRight={panelRight}>
+    <Panel
+      dashboardHidden={dashboardHidden}
+      isDesktop={isDesktop}
+      panelRight={panelRight}
+    >
       <PanelInnerContainer isDesktop={isDesktop}>
         <DashboardTitleDisplay>
           <DashboardTitle>
@@ -107,7 +115,9 @@ const Dashboard: React.FC<DashboardProps> = ({
           </DashPanelsContainer>
         </StyledTabs>
         <DashboardElementActions>
-          <DashboardDoneBtn>
+          <DashboardDoneBtn
+            onClick={() => setDashboardHidden(!dashboardHidden)}
+          >
             <span>
               <MdCheckCircle />
             </span>
