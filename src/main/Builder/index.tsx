@@ -1,7 +1,7 @@
 import React, { useState, createContext } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
-import Drawer from "@material-ui/core/Drawer";
+import { Drawer, Dialog } from "@material-ui/core";
 import "rc-tooltip/assets/bootstrap.css";
 import { Box, BuilderContainer, ViewContainer } from "./components";
 import { Block, BuilderProps, Data, ControlPanelActions } from "./models";
@@ -21,6 +21,8 @@ import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 import { ResponsiveControlCenter } from "../Shared/ResponsiveControlPanel";
 import { ControlCenterActionDef } from "../Shared/ResponsiveControlPanel/models";
 import { AnchoredActionButton } from "../Shared/AnchoredActionButton";
+import { CustomDialog } from "../Shared/CustomDialog";
+import ElementSelector from "../Shared/ElementSelector";
 
 const data: Data = dataImport;
 
@@ -31,6 +33,14 @@ export const BuilderContext = createContext<Data>({} as Data);
 const Builder: React.FC<BuilderProps> = (props) => {
   const [panelRight, setPanelRight] = useState(true);
   const [dashboardHidden, setDashboardHidden] = useState(false);
+  const [elementDialogOpen, setElementDialogOpen] = useState(false);
+  const handleElementDialogOpen = () => {
+    setElementDialogOpen(true);
+  };
+
+  const handleElementDialogClose = () => {
+    setElementDialogOpen(false);
+  };
   const { displaySize, handleThemeChange, currentTheme } = props;
   const [blocks, setBlocks] = useState(InitialElements);
   const addBlock = () => {
@@ -48,7 +58,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
         type: "Add",
         description: "Add a new container",
         icon: <MdAddCircle />,
-        action: addBlock,
+        action: handleElementDialogOpen,
       },
       {
         type: "Publish",
@@ -97,6 +107,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
       type: "Add",
       description: "Add a new container",
       icon: <MdAddCircle />,
+      action: handleElementDialogOpen,
     },
     {
       type: "Publish",
@@ -174,6 +185,16 @@ const Builder: React.FC<BuilderProps> = (props) => {
             setDashboardHidden={setDashboardHidden}
           />
         )}
+        <CustomDialog
+          title="Add new element"
+          open={elementDialogOpen}
+          onClose={handleElementDialogClose}
+          handleElementDialogClose={handleElementDialogClose}
+          maxWidth="md"
+          fullScreen={displaySize !== "xl" && displaySize !== "lg"}
+        >
+          <ElementSelector container={addBlock} text={addBlock} />
+        </CustomDialog>
       </BuilderContainer>
     </BuilderContext.Provider>
   );

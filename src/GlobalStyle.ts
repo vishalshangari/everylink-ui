@@ -12,6 +12,10 @@ export const GlobalStyles = createGlobalStyle`
           
     }
 
+    .MuiPaper-root {
+      background-color: transparent;
+    }
+
     body {
       background: #121416;
     }

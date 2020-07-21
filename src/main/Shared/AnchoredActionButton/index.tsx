@@ -40,7 +40,7 @@ const AnchoredActionButtonStyled = styled.button<{ side: string }>`
     `${props.side === `right` ? `right:` : `left:`} ${
       props.theme.margin.base
     };`}
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   &:hover {
     background: ${(props) => props.theme.colors.controlCenterButtonHover};
   }

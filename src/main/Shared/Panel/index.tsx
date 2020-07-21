@@ -20,7 +20,7 @@ const StyledPanelInnerContainer = styled.div<{ isDesktop: boolean }>`
 
   ${(props) =>
     props.isDesktop
-      ? `border-radius: 1rem; border: 1px solid #31363c;`
+      ? `border-radius: 0.5rem; border: 1px solid #31363c;`
       : `border-radius: 0; border: none`};
   box-shadow: 0px 0px 5px #000;
   overflow: hidden;

@@ -27,6 +27,8 @@ const colors: Colors = {
 // Color assignment object def
 interface ThemeColors {
   builderBg: string;
+  elementDialogBg: string;
+  elementButtonBg: string;
   controlCenterButtonDef: string;
   controlCenterButtonHover: string;
   controlCenterButtonBorder: string;
@@ -46,6 +48,8 @@ interface ThemeColors {
 // Color assignment object
 const themeColors: ThemeColors = {
   builderBg: colors.grey[9],
+  elementDialogBg: colors.grey[10],
+  elementButtonBg: colors.grey[7],
   controlCenterButtonDef: colors.grey[5],
   controlCenterButtonHover: colors.grey[6],
   controlCenterButtonBorder: colors.grey[3],
@@ -58,6 +62,9 @@ const themeColors: ThemeColors = {
     },
     dark: {
       builderBg: colors.grey[2],
+      elementDialogBg: colors.grey[3],
+      elementButtonBg: colors.grey[4],
+      elementButtonBorder: colors.grey[6],
     },
   },
 };
@@ -110,6 +117,7 @@ export interface Scales {
 export const scales: Scales = {
   xl: {
     panel: "32rem",
+    builderDialog: "680px",
     display: {
       controlCenter: "visible",
     },
@@ -122,6 +130,7 @@ export const scales: Scales = {
   },
   lg: {
     panel: "26rem",
+    builderDialog: "600px",
     display: {
       controlCenter: "visible",
     },
