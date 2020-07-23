@@ -1,14 +1,8 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
-import { ControlCenterActionDef } from "./models";
+import { ControlCenterActionDef, ResponsiveControlCenterProps } from "./models";
 import Tooltip from "rc-tooltip";
 import { controlCenterButtonBaseStyle } from "../Button";
-
-interface ResponsiveControlCenterProps {
-  displaySize: string;
-  options: Array<ControlCenterActionDef> | Array<Array<ControlCenterActionDef>>;
-  mobileOptions: Array<ControlCenterActionDef>;
-}
 
 export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = ({
   displaySize,
@@ -89,7 +83,7 @@ export const ControlCenter = styled.div`
   display: ${(props) => props.theme.scales.display.controlCenter};
 
   ${ControlCenterGroup} {
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     box-shadow: 0px 0px 5px
       ${(props) => props.theme.colors.controlCenterButtonShadow};
     margin-right: ${(props) => props.theme.margin.doubleBase};
@@ -100,12 +94,12 @@ export const ControlCenter = styled.div`
   ${ControlCenterButton} {
     transition: 0.1s;
     &:first-child {
-      border-top-left-radius: 1rem;
-      border-bottom-left-radius: 1rem;
+      border-top-left-radius: 0.5rem;
+      border-bottom-left-radius: 0.5rem;
     }
     &:last-child {
-      border-top-right-radius: 1rem;
-      border-bottom-right-radius: 1rem;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
       border-right: none;
     }
     &:hover {

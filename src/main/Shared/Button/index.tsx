@@ -40,6 +40,8 @@ export const TransparentButton = styled.button`
 export const controlCenterButtonBaseStyle = css`
   color: #fff;
   cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
   padding: ${(props) => props.theme.scales.padding.controlCenterButton};
   border: 0;
   outline: 0;
