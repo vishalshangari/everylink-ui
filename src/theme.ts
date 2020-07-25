@@ -1,44 +1,35 @@
 // Color list def
 interface Colors {
-  [key: string]: {
-    [key: number]: string;
-  };
+  [key: string]: string;
 }
 
 // Colors list
 const colors: Colors = {
-  grey: {
-    0: "#000000",
-    1: "#090a0b",
-    2: "#121416",
-    3: "#1c1f22",
-    4: "#212529",
-    5: "#343A40",
-    6: "#495057",
-    7: "#6C757D",
-    8: "#ADB5BD",
-    9: "#CED4DA",
-    10: "#DEE2E6",
-    11: "#E9ECEF",
-    12: "#F8F9FA",
-  },
+  grey0: "#000000",
+  grey1: "#090a0b",
+  grey2: "#121416",
+  grey3: "#1c1f22",
+  grey4: "#212529",
+  grey5: "#30363C",
+  grey6: "#495057",
+  grey7: "#6C757D",
+  grey8: "#ADB5BD",
+  grey9: "#CED4DA",
+  grey10: "#DEE2E6",
+  grey11: "#E9ECEF",
+  grey12: "#F8F9FA",
+  blackFogra: "#161c23",
+  burntSienna: "#e76f51",
+  bottleGreen: "#2E7054",
+  bottleGreenDim: "#265D46",
 };
 
 // Color assignment object def
 interface ThemeColors {
-  builderBg: string;
-  elementDialogBg: string;
-  elementButtonBg: string;
-  controlCenterButtonDef: string;
-  controlCenterButtonHover: string;
-  controlCenterButtonBorder: string;
-  controlCenterButtonShadow: string;
+  [key: string]: string | { dark: { [key: string]: string } };
   // TODO add modes here i.e.:
   // modes: { dark: { [key: string]: string }, light: { [key: string]: string } }
   modes: {
-    light: {
-      [key: string]: string;
-    };
     dark: {
       [key: string]: string;
     };
@@ -47,24 +38,47 @@ interface ThemeColors {
 
 // Color assignment object
 const themeColors: ThemeColors = {
-  builderBg: colors.grey[9],
-  elementDialogBg: colors.grey[10],
-  elementButtonBg: colors.grey[7],
-  controlCenterButtonDef: colors.grey[5],
-  controlCenterButtonHover: colors.grey[6],
-  controlCenterButtonBorder: colors.grey[3],
-  controlCenterButtonShadow: colors.grey[0],
+  builderBg: colors.grey2,
+  elementDialogBg: colors.grey10,
+  elementButtonBg: colors.grey7,
+  controlCenterButtonDef: colors.grey5,
+  controlCenterButtonHover: colors.grey6,
+  controlCenterButtonBorder: colors.grey3,
+  controlCenterButtonShadow: colors.grey0,
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
-    light: {
-      builderBg: colors.grey[6],
-    },
     dark: {
-      builderBg: colors.grey[2],
-      elementDialogBg: colors.grey[3],
-      elementButtonBg: colors.grey[4],
-      elementButtonBorder: colors.grey[6],
+      // Text
+      textPrimary: colors.grey11,
+      textSecondary: colors.grey9,
+      textTertiary: colors.grey7,
+
+      // Builder general
+      builderBg: colors.grey2,
+
+      // Dashboard general
+      dashboardBg: colors.grey3,
+      dashboardBorders: colors.grey5,
+
+      // Dashboard components
+      dashboardTitleBg: colors.grey3,
+      dashboardActiveTab: colors.grey4,
+      styleSelectorBg: colors.grey4,
+
+      // Buttons, etc.
+      elementDialogBg: colors.grey3,
+      elementButtonBg: colors.grey4,
+      elementButtonBorder: colors.grey6,
+      dashboardDoneBtn: colors.bottleGreen,
+      dashboardDoneBtnHover: colors.bottleGreenDim,
+      dashboardActionBtn: colors.grey5,
+      dashboardActionBtnHover: colors.grey4,
+
+      // Form elements
+      formAccent: colors.burntSienna,
+      dashboardInputBg: colors.grey5,
+      sliderTrack: colors.grey6,
     },
   },
 };
@@ -122,11 +136,14 @@ export const scales: Scales = {
       controlCenter: "visible",
     },
     fontSize: {
+      dashboardTitle: "2rem",
       controlCenterButton: "2rem",
+      styleActionButtons: "1.5rem",
     },
     padding: {
       controlCenterButton: "1rem 1.5rem",
     },
+    settingsGrid: "1fr 1fr",
   },
   lg: {
     panel: "26rem",
@@ -140,6 +157,7 @@ export const scales: Scales = {
     padding: {
       controlCenterButton: "1rem",
     },
+    settingsGrid: "1fr",
   },
   md: {
     panel: "28rem",
@@ -152,9 +170,10 @@ export const scales: Scales = {
     padding: {
       controlCenterButton: "1rem 1.25rem",
     },
+    settingsGrid: "1fr",
   },
   sm: {
-    panel: "22em",
+    panel: "22rem",
     display: {
       controlCenter: "none",
     },
@@ -164,6 +183,7 @@ export const scales: Scales = {
     padding: {
       controlCenterButton: "1rem 1.25rem",
     },
+    settingsGrid: "1fr",
   },
 };
 

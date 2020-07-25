@@ -23,6 +23,7 @@ import { ControlCenterActionDef } from "../Shared/ResponsiveControlPanel/models"
 import { AnchoredActionButton } from "../Shared/AnchoredActionButton";
 import { CustomDialog } from "../Shared/CustomDialog";
 import ElementSelector from "../Shared/ElementSelector";
+import { BsChevronRight } from "react-icons/bs";
 
 const data: Data = dataImport;
 
@@ -133,6 +134,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
           <AnchoredActionButton
             displaySize={displaySize}
             type="User page"
+            tooltip
             side={panelRight ? "left" : "right"}
             description="Back to user page"
             icon={<MdAccountCircle />}
@@ -141,10 +143,13 @@ const Builder: React.FC<BuilderProps> = (props) => {
           <AnchoredActionButton
             displaySize={displaySize}
             type="Show dashboard"
+            tooltip={false}
             side={panelRight ? "right" : "left"}
-            description="Show dashboard"
-            icon={<MdViewHeadline />}
-            action={() => setDashboardHidden(false)}
+            description={dashboardHidden ? "Show dashboard" : "Hide dashboard"}
+            icon={dashboardHidden ? <MdViewHeadline /> : <BsChevronRight />}
+            action={() =>
+              setDashboardHidden((prevDashboardHidden) => !prevDashboardHidden)
+            }
           />
           <ResponsiveControlCenter
             displaySize={displaySize}
@@ -153,7 +158,9 @@ const Builder: React.FC<BuilderProps> = (props) => {
           />
           <DeviceSimulator>{blocks}</DeviceSimulator>
         </ViewContainer>
-        {/* Mobile Temporary Drawer Dashboard */}
+        {/* Mobile Temporary Drawer Dashboard 
+          TODO: add responsive wrapper for Drawer like control center
+        */}
         {displaySize !== "xl" && displaySize !== "lg" ? (
           <Drawer
             open={mobileDashboardOpen}

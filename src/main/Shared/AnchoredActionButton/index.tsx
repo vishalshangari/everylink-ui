@@ -14,18 +14,27 @@ export const AnchoredActionButton: React.FC<AnchoredActionButtonProps> = ({
   description,
   icon,
   displaySize,
+  tooltip,
   action,
 }) => {
   return displaySize == "xl" || displaySize == "lg" ? (
-    <Tooltip
-      {...tooltipProps}
-      placement={side === "left" ? "bottomRight" : "bottomLeft"}
-      overlay={description}
-    >
-      <AnchoredActionButtonStyled side={side} onClick={action}>
-        {icon}
-      </AnchoredActionButtonStyled>
-    </Tooltip>
+    <>
+      {tooltip ? (
+        <Tooltip
+          {...tooltipProps}
+          placement={side === "left" ? "bottomRight" : "bottomLeft"}
+          overlay={description}
+        >
+          <AnchoredActionButtonStyled side={side} onClick={action}>
+            {icon}
+          </AnchoredActionButtonStyled>
+        </Tooltip>
+      ) : (
+        <AnchoredActionButtonStyled side={side} onClick={action}>
+          {icon}
+        </AnchoredActionButtonStyled>
+      )}
+    </>
   ) : null;
 };
 

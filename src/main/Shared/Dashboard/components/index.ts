@@ -15,38 +15,19 @@ export const SidePaddedDashboardContainer = styled.div`
 
 export const DashboardViewWrap = styled.div``;
 
-export const DashboardTitleDisplay = styled.div`
-  padding: ${(props) => props.theme.padding.doubleBase} 0
-    ${(props) => props.theme.padding.base};
-  background: #1f1b24;
-  z-index: 2;
+export const SettingsGroup = styled(SidePaddedDashboardContainer)`
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: ${(props) => props.theme.scales.settingsGrid};
 `;
 
-export const DashboardTitle = styled(SidePaddedDashboardContainer)`
-  color: ${(props) => props.theme.color.offwhiteBright};
-  padding-bottom: ${(props) => props.theme.padding.halfBase};
-  h3 {
-    font-size: ${(props) => props.theme.fontSizes.dashboardHeader};
-  }
-`;
+export const SettingsItem = styled.div``;
 
-export const DashboardHeader = styled(PaddedDashboardContainer)`
-  color: ${(props) => props.theme.color.offwhiteBright};
-  padding-bottom: ${(props) => props.theme.padding.halfBase};
-  h3 {
-    font-size: ${(props) => props.theme.fontSizes.dashboardHeader};
-  }
-`;
-
-export const DashboardTextbox = styled(PaddedDashboardContainer)`
-  color: ${(props) => props.theme.color.offwhite};
-  font-size: ${(props) => props.theme.fontSizes.dashboardText};
-`;
-
-export const DashboardTextboxSmall = styled(SidePaddedDashboardContainer)`
-  padding: 0 ${(props) => props.theme.padding.doubleBase};
-  color: ${(props) => props.theme.color.middleGrey};
-  font-size: ${(props) => props.theme.fontSizes.dashboardTextSmall};
+export const DashboardDivider = styled.div`
+  height: 1px;
+  width: 100%;
+  background: ${(props) => props.theme.colors.dashboardBorders};
+  margin: 2rem 0;
 `;
 
 export const DashboardTextEditor = styled.div`
@@ -71,35 +52,29 @@ export const DashboardButtonBase = styled.button`
   cursor: pointer;
   padding: 1.5rem ${(props) => props.theme.padding.base};
   color: ${(props) => props.theme.color.offwhite};
-  background: ${(props) => props.theme.color.borderGrey};
-  span {
-    line-height: 1.375rem;
-    padding-right: ${(props) => props.theme.padding.halfBase};
+  background: ${(props) => props.theme.colors.dashboardActionBtn};
+  &:hover {
+    background: ${(props) => props.theme.colors.dashboardActionBtnHover};
   }
 `;
 
 /* Content Pane -------- Action Buttons */
 
 export const DashboardDoneBtn = styled(DashboardButtonBase)`
-  background: ${(props) => props.theme.color.doneBtn};
+  flex: 4;
+  background: ${(props) => props.theme.colors.dashboardDoneBtn};
+  span {
+    line-height: 1.375rem;
+    padding-right: ${(props) => props.theme.padding.halfBase};
+  }
   &:hover {
-    background: ${(props) => props.theme.color.doneBtnHover};
+    background: ${(props) => props.theme.colors.dashboardDoneBtnHover};
   }
 `;
 
-export const DashboardDuplicateBtn = styled(DashboardButtonBase)`
-  background: ${(props) => props.theme.color.borderGreyDark};
-  &:hover {
-    background: ${(props) => props.theme.color.borderGrey};
-  }
-`;
+export const DashboardDuplicateBtn = styled(DashboardButtonBase)``;
 
-export const DashboardDeleteBtn = styled(DashboardButtonBase)`
-  background: ${(props) => props.theme.color.deleteBtn};
-  &:hover {
-    background: ${(props) => props.theme.color.deleteBtnHover};
-  }
-`;
+export const DashboardDeleteBtn = styled(DashboardButtonBase)``;
 
 /* Appearance Pane -------- Configuration Options */
 
@@ -208,12 +183,14 @@ export const DashSubSingleSelectSetting = styled.div`
 
 /* Main Dashboard Tabs */
 
-export const DashPanelsContainer = styled.div`
+export const DashboardPanelsContainer = styled.div`
+  padding: 2rem 0;
   flex-grow: 1;
   min-height: 0;
   overflow: auto;
   overflow-x: hidden;
   position: relative;
+  background: ${(props) => props.theme.colors.dashboardActiveTab};
 
   ::-webkit-scrollbar {
     width: 0.5em;
@@ -240,19 +217,20 @@ export const PanelTopShadow = styled.div`
   top: -1px;
   background: linear-gradient(
     180deg,
-    rgba(28, 31, 34, 1) 10%,
-    rgba(255, 255, 255, 0) 100%
+    ${(props) => props.theme.colors.dashboardActiveTab} 5%,
+    rgba(255, 255, 255, 0) 50%
   );
 `;
 
 export const StyledTabs = styled(Tabs)`
+  margin-top: 1rem;
   -webkit-tap-highlight-color: transparent;
   flex-grow: 1;
   min-height: 0;
   ${(props) => props.theme.flex.column}
 `;
 
-export const DashTab = styled(Tab)<{ isActive: boolean }>`
+export const DashboardTab = styled(Tab)<{ isActive: boolean }>`
   justify-content: center;
   list-style: none;
   position: relative;
@@ -317,7 +295,7 @@ export const DashTab = styled(Tab)<{ isActive: boolean }>`
   }
 
   background: ${(props) =>
-    props.isActive ? props.theme.color.darkBackgroundLight : `#1F1B24`};
+    props.isActive ? props.theme.colors.dashboardActiveTab : "transparent"};
 `;
 
 export const TabIcon = styled.div`
@@ -330,14 +308,27 @@ export const TabTitle = styled.div`
   display: inline-block;
 `;
 
-export const DashTabList = styled(TabList)`
+export const DashboardTabList = styled(TabList)`
   padding: 0;
+  position: relative;
   margin: 0;
   ${(props) => props.theme.flex.row}
-  background: #1F1B24;
-  box-shadow: 0px 0px 10px 15px
-    ${(props) => props.theme.color.darkBackgroundLight};
+  background: ${(props) => props.theme.colors.dashboardTitleBg};
   z-index: 1;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: calc(100% - 0.5rem);
+    top: 100%;
+    background: tomato;
+    height: 1em;
+    background: linear-gradient(
+    180deg,
+    ${(props) => props.theme.colors.dashboardActiveTab} 5%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  }
 `;
 
 /* Dashboard sub tabs */

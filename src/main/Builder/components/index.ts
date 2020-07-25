@@ -48,12 +48,14 @@ export const StyledActionPanel = styled.div<{ panelRight: boolean }>`
 `;
 
 export const ViewContainer = styled.div`
+  position: relative;
   height: 100vh;
   flex-grow: 1;
   ${(props) => props.theme.flex.column}
 `;
 
 export const BuilderContainer = styled.div`
+  color: ${(props) => props.theme.colors.textPrimary};
   transition: .5s all cubic-bezier(0.19, 1, 0.22, 1);
   position: relative;
   height: 100vh;

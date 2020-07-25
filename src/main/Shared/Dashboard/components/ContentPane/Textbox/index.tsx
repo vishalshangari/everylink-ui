@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import {
-  DashboardTextbox,
   DashboardViewWrap,
   PaddedDashboardContainer,
   DashboardTextEditor,
@@ -20,9 +19,7 @@ const Textbox = () => {
 
   return (
     <DashboardViewWrap>
-      <DashboardTextbox>
-        <p>{data.textContent}</p>
-      </DashboardTextbox>
+      <p>{data.textContent}</p>
       <PaddedDashboardContainer>
         <DashboardTextEditor>
           <Editor

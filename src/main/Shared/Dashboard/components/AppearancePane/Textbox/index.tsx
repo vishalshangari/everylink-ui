@@ -1,9 +1,9 @@
 import React from "react";
 import {
-  DashboardHeader,
-  DashboardTextbox,
+  SettingsGroup,
+  SettingsItem,
   DashboardViewWrap,
-  DashboardTextboxSmall,
+  DashboardDivider,
   PaddedDashboardContainer,
   DashboardTextEditor,
   DashboardElementActions,
@@ -13,7 +13,6 @@ import {
   SettingsGrid,
   SimpleSliderSettingGrid,
   SliderValueDisplay,
-  ColorSetting,
   FontFamilySetting,
   CustomGridItem,
   BorderedGrid,
@@ -22,6 +21,12 @@ import {
   SingleSelectSetting,
 } from "../../index";
 import {
+  SelectSetting,
+  SliderSetting,
+  SpacingSetting,
+  ColorSetting,
+} from "../../Form";
+import {
   MdDelete,
   MdFilterNone,
   MdCheckCircle,
@@ -29,162 +34,64 @@ import {
 } from "react-icons/md";
 import Grid from "@material-ui/core/Grid";
 
+const fonts = ["Auto", "Helvetica", "Arial", "Times New Roman", "Dax"];
+
 const Textbox = () => {
   return (
     <DashboardViewWrap>
       <form>
-        <SettingsGrid>
-          <Grid container spacing={0}>
-            <Grid item xs={6}>
-              <SingleSelectSetting>
-                <h4>Theme</h4>
-                <select name="cars" id="cars">
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="mercedes">Mercedes</option>
-                  <option value="audi">Audi</option>
-                </select>
-              </SingleSelectSetting>
-            </Grid>
-            <Grid item xs={6}>
-              <SingleSelectSetting>
-                <h4>Font</h4>
-                <select name="cars" id="cars">
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="mercedes">Mercedes</option>
-                  <option value="audi">Audi</option>
-                </select>
-              </SingleSelectSetting>
-            </Grid>
-          </Grid>
-        </SettingsGrid>
-        <SettingsHeader>
-          <h4>Color</h4>
-        </SettingsHeader>
-        <SettingsGrid>
-          <BorderedGrid container spacing={0}>
-            <StyledMuiGridItem item xs={6}>
-              <ColorSetting>
-                <label>Text</label>
-                <div></div>
-              </ColorSetting>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <ColorSetting>
-                <label>Background</label>
-                <div></div>
-              </ColorSetting>
-            </StyledMuiGridItem>
-          </BorderedGrid>
-        </SettingsGrid>
-        <SettingsHeader>
-          <h4>Character</h4>
-        </SettingsHeader>
-        <SettingsGrid>
-          <BorderedGrid container spacing={0}>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Size</label>
-                <SliderValueDisplay>1.25</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Line Height</label>
-                <SliderValueDisplay>1.5</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Weight</label>
-                <SliderValueDisplay>Semi-Bold</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Letter Spacing</label>
-                <SliderValueDisplay>3</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-          </BorderedGrid>
-        </SettingsGrid>
-        <SettingsHeader>
-          <h4>Character</h4>
-        </SettingsHeader>
-        <SettingsGrid>
-          <BorderedGrid container spacing={0}>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Size</label>
-                <SliderValueDisplay>1.25</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Line Height</label>
-                <SliderValueDisplay>1.5</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Weight</label>
-                <SliderValueDisplay>Semi-Bold</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Letter Spacing</label>
-                <SliderValueDisplay>3</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-          </BorderedGrid>
-        </SettingsGrid>
-        <SettingsHeader>
-          <h4>Character</h4>
-        </SettingsHeader>
-        <SettingsGrid>
-          <BorderedGrid container spacing={0}>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Size</label>
-                <SliderValueDisplay>1.25</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Line Height</label>
-                <SliderValueDisplay>1.5</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Weight</label>
-                <SliderValueDisplay>Semi-Bold</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-            <StyledMuiGridItem item xs={6}>
-              <SimpleSliderSettingGrid>
-                <label htmlFor="fontSize">Letter Spacing</label>
-                <SliderValueDisplay>3</SliderValueDisplay>
-                <input id="fontSize" type="range"></input>
-              </SimpleSliderSettingGrid>
-            </StyledMuiGridItem>
-          </BorderedGrid>
-        </SettingsGrid>
-        <br />
-        <br />
+        <SettingsGroup>
+          <SettingsItem>
+            <SelectSetting
+              label="Font"
+              options={fonts}
+              initValue="Auto"
+              autoText="Font will be inherited from the parent block (or site default)."
+            />
+          </SettingsItem>
+        </SettingsGroup>
+
+        <DashboardDivider />
+
+        <SettingsGroup>
+          <ColorSetting label="Text"></ColorSetting>
+          <ColorSetting label="Background"></ColorSetting>
+        </SettingsGroup>
+
+        <DashboardDivider />
+
+        <SettingsGroup>
+          <SettingsItem>
+            <SliderSetting
+              label="Size"
+              min={0}
+              max={10}
+              step={1}
+              initValue={3}
+            />
+          </SettingsItem>
+          <SettingsItem>
+            <SliderSetting
+              label="Weight"
+              min={0}
+              max={10}
+              step={1}
+              initValue={7}
+            />
+          </SettingsItem>
+        </SettingsGroup>
+
+        <DashboardDivider />
+
+        <SettingsGroup>
+          <SpacingSetting type="margin" />
+        </SettingsGroup>
+
+        <DashboardDivider />
+
+        <SettingsGroup>
+          <SpacingSetting type="padding" />
+        </SettingsGroup>
       </form>
     </DashboardViewWrap>
   );

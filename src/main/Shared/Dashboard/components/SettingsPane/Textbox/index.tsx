@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  DashboardTextbox,
-  DashboardViewWrap,
-  DashSubSingleSelectSetting,
-} from "../../index";
+import { DashboardViewWrap, DashSubSingleSelectSetting } from "../../index";
 import { Tab, TabPanel } from "react-tabs";
 import {
   DashSubTab,
@@ -109,11 +105,7 @@ const Textbox = () => {
           </TabPanel>
           <TabPanel>
             <DashboardViewWrap>
-              <form>
-                <DashboardTextbox>
-                  Enter custom HTML and CSS code.
-                </DashboardTextbox>
-              </form>
+              <form>Enter custom HTML and CSS code.</form>
             </DashboardViewWrap>
           </TabPanel>
         </DashSubTabs>

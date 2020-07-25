@@ -16,7 +16,7 @@ interface PanelInnerContainerProps {
 const StyledPanelInnerContainer = styled.div<{ isDesktop: boolean }>`
   ${(props) => props.theme.flex.column}
   height: 100%;
-  background: ${(props) => props.theme.color.darkBackgroundLight};
+  background: ${(props) => props.theme.colors.dashboardBg};
 
   ${(props) =>
     props.isDesktop
