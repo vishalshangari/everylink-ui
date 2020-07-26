@@ -45,6 +45,8 @@ const colors: Colors = {
   burntSienna: "#e76f51",
   bottleGreen: "#2E7054",
   bottleGreenDim: "#265D46",
+  azure: "#1084ff",
+  azureActive: "#3295FF",
 };
 
 // Color assignment object def
@@ -64,10 +66,6 @@ const themeColors: ThemeColors = {
   builderBg: colors.grey2,
   elementDialogBg: colors.grey10,
   elementButtonBg: colors.grey7,
-  controlCenterButtonDef: colors.grey4,
-  controlCenterButtonHover: colors.grey6,
-  controlCenterButtonBorder: colors.grey3,
-  controlCenterButtonShadow: colors.grey1,
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
@@ -101,6 +99,12 @@ const themeColors: ThemeColors = {
       dashboardActionBtnHover: colors.grey4,
       addBlockButton: "#B03618",
       addBlockButtonShadow: colors.grey1,
+      controlCenterButtonBg: colors.grey4,
+      controlCenterButtonHover: colors.grey6,
+      controlCenterButtonBorder: colors.grey2,
+      controlCenterButtonShadow: colors.grey1,
+      controlCenterButtonAccented: colors.azure,
+      controlCenterButtonAccentedActive: colors.azureActive,
 
       // Form elements
       formAccent: colors.burntSienna,
@@ -166,14 +170,11 @@ export const scales: Scales = {
     },
     fontSize: {
       dashboardTitle: "2rem",
-      controlCenterButton: "2rem",
       styleActionButtons: "1.5rem",
-    },
-    padding: {
-      controlCenterButton: "1rem 1.5rem",
     },
     settingsGrid: "1fr 1fr",
     addBlockButton: "padding: 1.5rem",
+    controlCenterButton: "height: 4rem; font-size: 2rem; padding: 0 1.5rem;",
   },
   lg: {
     panel: "26rem",
@@ -183,14 +184,11 @@ export const scales: Scales = {
       addBlockButton: "top: calc(50% - 2.25rem);",
     },
     fontSize: {
-      controlCenterButton: "1.25rem",
       addBlockButton: "1.5rem",
-    },
-    padding: {
-      controlCenterButton: "1rem",
     },
     settingsGrid: "1fr",
     addBlockButton: "padding: 1.25rem",
+    controlCenterButton: "height: 3rem; font-size: 1.25rem; padding: 0 1rem;",
   },
   md: {
     panel: "28rem",
@@ -199,14 +197,11 @@ export const scales: Scales = {
       addBlockButton: "bottom: 1rem;",
     },
     fontSize: {
-      controlCenterButton: "1.5rem",
       addBlockButton: "3rem",
-    },
-    padding: {
-      controlCenterButton: "1rem 1.25rem",
     },
     settingsGrid: "1fr",
     addBlockButton: "padding: 1.5rem",
+    controlCenterButton: "height: 4rem; font-size: 1.5rem; padding: 0 1rem;",
   },
   sm: {
     panel: "22rem",
@@ -216,13 +211,10 @@ export const scales: Scales = {
     },
     fontSize: {
       controlCenterButton: "1.5rem",
-      addBlockButton: "2rem",
-    },
-    padding: {
-      controlCenterButton: "1rem 1.25rem",
     },
     settingsGrid: "1fr",
     addBlockButton: "padding: 1.25rem",
+    controlCenterButton: "height: 4rem; font-size: 1.5rem; padding: 0 1rem;",
   },
 };
 

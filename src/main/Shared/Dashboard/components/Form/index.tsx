@@ -99,7 +99,7 @@ export const SpacingSetting: React.FC<SpacingSettingProps> = ({ type }) => {
   });
   const handleAutoChange = (val: boolean) => setAuto(val);
   const handleAspectRatioToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+    e.persist();
     setAspectRatioLock((prevAspectRatioLock) => !prevAspectRatioLock);
   };
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {

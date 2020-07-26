@@ -57,30 +57,11 @@ const Builder: React.FC<BuilderProps> = (props) => {
   const controlCenterActions: ControlCenterActionDef[][] = [
     [
       {
-        type: "Publish",
-        description: "Publish site",
-        icon: <MdSave />,
-        action: () => console.log("Publish"),
-      },
-      {
-        type: "Undo",
-        description: "Undo last change",
-        icon: <MdUndo />,
-        action: () => console.log("Undo"),
-      },
-      {
-        type: "Redo",
-        description: "Redo last change",
-        icon: <MdRedo />,
-        action: () => console.log("Redo"),
-      },
-    ],
-    [
-      {
         type: "Mode",
         description: `Switch to ${
           currentTheme === `dark` ? `default` : `dark`
         } mode`,
+        displayType: `icon`,
         icon:
           currentTheme === `dark` ? (
             <IoMdSunny />
@@ -92,8 +73,40 @@ const Builder: React.FC<BuilderProps> = (props) => {
       {
         type: "Switch",
         description: "Switch editor layout",
+        displayType: `icon`,
         icon: <MdSwapHoriz />,
         action: () => setPanelRight(!panelRight),
+      },
+    ],
+    [
+      {
+        type: "Undo",
+        description: "Undo last change",
+        displayType: `icon`,
+        icon: <MdUndo />,
+        action: () => console.log("Undo"),
+      },
+      {
+        type: "Redo",
+        description: "Redo last change",
+        displayType: `icon`,
+        icon: <MdRedo />,
+        action: () => console.log("Redo"),
+      },
+      {
+        type: "Save",
+        description: "Save changes",
+        displayType: `string`,
+        icon: "Save",
+        action: () => console.log("Save"),
+      },
+      {
+        type: "Publish",
+        description: "Publish page",
+        displayType: `string`,
+        publish: true,
+        icon: "Publish",
+        action: () => console.log("Publish"),
       },
     ],
   ];
@@ -102,21 +115,25 @@ const Builder: React.FC<BuilderProps> = (props) => {
     {
       type: "Publish",
       description: "Publish site",
+      displayType: `icon`,
       icon: <MdSave />,
     },
     {
       type: "Undo",
       description: "Undo last change",
+      displayType: `icon`,
       icon: <MdUndo />,
     },
     {
       type: "Redo",
       description: "Redo last change",
+      displayType: `icon`,
       icon: <MdRedo />,
     },
     {
       type: "Dashboard",
       description: "Show dashboard",
+      displayType: `icon`,
       icon: <MdViewHeadline />,
       action: () =>
         setMobileDashboardOpen(
@@ -140,6 +157,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
             tooltip
             side={panelRight ? "left" : "right"}
             description="Back to user page"
+            displayType="icon"
             icon={<MdAccountCircle />}
             action={() => console.log("Back to user page")}
           />
@@ -149,6 +167,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
             tooltip={false}
             side={panelRight ? "right" : "left"}
             description={dashboardHidden ? "Show dashboard" : "Hide dashboard"}
+            displayType="icon"
             icon={dashboardHidden ? <MdViewHeadline /> : <BsChevronRight />}
             action={() =>
               setDashboardHidden((prevDashboardHidden) => !prevDashboardHidden)

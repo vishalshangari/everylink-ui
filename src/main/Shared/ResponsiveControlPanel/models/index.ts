@@ -3,6 +3,8 @@ import { ReactNode, Dispatch, SetStateAction } from "react";
 export interface ControlCenterActionDef {
   type: string;
   description: string;
+  displayType: "icon" | "string";
+  publish?: boolean;
   icon: ReactNode;
   action?: () => void;
 }

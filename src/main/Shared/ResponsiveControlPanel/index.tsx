@@ -2,7 +2,10 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 import { ControlCenterActionDef, ResponsiveControlCenterProps } from "./models";
 import Tooltip from "rc-tooltip";
-import { controlCenterButtonBaseStyle } from "../Button";
+import {
+  controlCenterButtonBaseStyle,
+  controlCenterButtonAccentedStyle,
+} from "../Button";
 
 export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = ({
   displaySize,
@@ -42,8 +45,15 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
             key={index}
             overlay={action.description}
           >
-            <ControlCenterButton onClick={action.action}>
-              {action.icon}
+            <ControlCenterButton
+              publish={action.publish ? true : undefined}
+              onClick={action.action}
+            >
+              {action.displayType === `icon` ? (
+                action.icon
+              ) : (
+                <ControlCenterButtonText>{action.icon}</ControlCenterButtonText>
+              )}
             </ControlCenterButton>
           </Tooltip>
         ))}
@@ -74,10 +84,16 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
 };
 
 // Desktop Control Center styles
-export const ControlCenterGroup = styled.div``;
-export const ControlCenterButton = styled.button`
+export const ControlCenterGroup = styled.div`
+  display: flex;
+`;
+export const ControlCenterButton = styled.button<{ publish?: boolean }>`
   ${controlCenterButtonBaseStyle}
   font-size: ${(props) => props.theme.scales.fontSize.controlCenterButton};
+  ${({ publish }) => (publish ? controlCenterButtonAccentedStyle : ``)};
+`;
+export const ControlCenterButtonText = styled.span`
+  font-size: 1rem;
 `;
 export const ControlCenter = styled.div`
   position: relative;
@@ -104,9 +120,6 @@ export const ControlCenter = styled.div`
       border-top-right-radius: 0.5rem;
       border-bottom-right-radius: 0.5rem;
       border-right: none;
-    }
-    &:hover {
-      background: ${(props) => props.theme.colors.controlCenterButtonHover};
     }
   }
 `;
