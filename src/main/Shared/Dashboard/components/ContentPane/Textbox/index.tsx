@@ -1,14 +1,11 @@
 import React, { useContext } from "react";
-import {
-  DashboardViewWrap,
-  PaddedDashboardContainer,
-  DashboardTextEditor,
-} from "../../index";
+import { DashboardViewWrap, DashboardTextEditor } from "../../index";
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 
 import { BuilderContext } from "../../../../../Builder";
 import { Data } from "../../../../../Builder/models";
+import { TextAreaInput } from "../../Form";
 
 const Textbox = () => {
   const [editorState, setEditorState] = React.useState(() =>
@@ -19,16 +16,7 @@ const Textbox = () => {
 
   return (
     <DashboardViewWrap>
-      <p>{data.textContent}</p>
-      <PaddedDashboardContainer>
-        <DashboardTextEditor>
-          <Editor
-            editorState={editorState}
-            onChange={setEditorState}
-            placeholder="Enter text here..."
-          />
-        </DashboardTextEditor>
-      </PaddedDashboardContainer>
+      <TextAreaInput />
     </DashboardViewWrap>
   );
 };

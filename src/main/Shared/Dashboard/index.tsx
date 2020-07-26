@@ -39,11 +39,11 @@ interface DashboardProps {
 }
 
 interface StateDashTab extends Tab {
-  isActive: boolean;
+  isactive: boolean;
 }
 
-const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
-  return <DashboardTab isActive={isActive} {...props} />;
+const StateDashTab = ({ isactive, ...props }: StateDashTab) => {
+  return <DashboardTab isactive={isactive} {...props} />;
 };
 
 const Dashboard: React.FC<DashboardProps> = ({
@@ -100,7 +100,7 @@ const Dashboard: React.FC<DashboardProps> = ({
           <DashboardTabList>
             <IconContext.Provider value={{ size: "1rem" }}>
               {tabs.map((tab, index) => (
-                <DashboardTab key={index} isActive={activeTab === index}>
+                <DashboardTab key={index} isactive={activeTab === index}>
                   <TabIcon>{tab.icon}</TabIcon>
                   <TabTitle>{tab.title}</TabTitle>
                 </DashboardTab>

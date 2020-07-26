@@ -5,19 +5,42 @@ interface Colors {
 
 // Colors list
 const colors: Colors = {
-  grey0: "#000000",
-  grey1: "#090a0b",
-  grey2: "#121416",
-  grey3: "#1c1f22",
-  grey4: "#212529",
-  grey5: "#30363C",
-  grey6: "#495057",
-  grey7: "#6C757D",
-  grey8: "#ADB5BD",
-  grey9: "#CED4DA",
-  grey10: "#DEE2E6",
-  grey11: "#E9ECEF",
-  grey12: "#F8F9FA",
+  grey0: "rgb(0, 0, 0)",
+  grey1: "rgb(9, 10, 11)",
+  grey2: "rgb(18, 20, 22)",
+  grey3: "rgb(25, 27, 29)",
+  grey4: "rgb(32, 34, 36)",
+  grey5: "rgb(39, 41, 43)",
+  grey6: "rgb(46, 48, 50)",
+  grey7: "rgb(53, 55, 57)",
+  grey8: "rgb(60, 62, 64)",
+  grey9: "rgb(67, 69, 71)",
+  grey10: "rgb(74, 76, 78)",
+  grey11: "rgb(81, 83, 85)",
+  grey12: "rgb(88, 90, 92)",
+  grey13: "rgb(95, 97, 99)",
+  grey14: "rgb(102, 104, 106)",
+  grey15: "rgb(109, 111, 113)",
+  grey16: "rgb(116, 118, 120)",
+  grey17: "rgb(123, 125, 127)",
+  grey18: "rgb(130, 132, 134)",
+  grey19: "rgb(137, 139, 141)",
+  grey20: "rgb(144, 146, 148)",
+  grey21: "rgb(151, 153, 155)",
+  grey22: "rgb(158, 160, 162)",
+  grey23: "rgb(165, 167, 169)",
+  grey24: "rgb(172, 174, 176)",
+  grey25: "rgb(179, 181, 183)",
+  grey26: "rgb(186, 188, 190)",
+  grey27: "rgb(193, 195, 197)",
+  grey28: "rgb(200, 202, 204)",
+  grey29: "rgb(207, 209, 211)",
+  grey30: "rgb(214, 216, 218)",
+  grey31: "rgb(221, 223, 225)",
+  grey32: "rgb(228, 230, 232)",
+  grey33: "rgb(235, 237, 239)",
+  grey34: "rgb(242, 244, 246)",
+  grey35: "rgb(255, 255, 255)",
   blackFogra: "#161c23",
   burntSienna: "#e76f51",
   bottleGreen: "#2E7054",
@@ -41,25 +64,27 @@ const themeColors: ThemeColors = {
   builderBg: colors.grey2,
   elementDialogBg: colors.grey10,
   elementButtonBg: colors.grey7,
-  controlCenterButtonDef: colors.grey5,
+  controlCenterButtonDef: colors.grey4,
   controlCenterButtonHover: colors.grey6,
   controlCenterButtonBorder: colors.grey3,
-  controlCenterButtonShadow: colors.grey0,
+  controlCenterButtonShadow: colors.grey1,
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
     dark: {
       // Text
-      textPrimary: colors.grey11,
-      textSecondary: colors.grey9,
-      textTertiary: colors.grey7,
+      textPrimary: colors.grey32,
+      textSecondary: colors.grey24,
+      textSecondaryRGB: "#acaeb0",
+      textTertiary: colors.grey16,
 
       // Builder general
       builderBg: colors.grey2,
 
       // Dashboard general
       dashboardBg: colors.grey3,
-      dashboardBorders: colors.grey5,
+      dashboardBorders: colors.grey6,
+      dashboardScrollbarHover: colors.grey8,
 
       // Dashboard components
       dashboardTitleBg: colors.grey3,
@@ -74,11 +99,14 @@ const themeColors: ThemeColors = {
       dashboardDoneBtnHover: colors.bottleGreenDim,
       dashboardActionBtn: colors.grey5,
       dashboardActionBtnHover: colors.grey4,
+      addBlockButton: "#B03618",
+      addBlockButtonShadow: colors.grey1,
 
       // Form elements
       formAccent: colors.burntSienna,
-      dashboardInputBg: colors.grey5,
-      sliderTrack: colors.grey6,
+      dashboardInputBg: colors.grey6,
+      sliderTrack: colors.grey7,
+      dashboardSettingsButtonActive: colors.grey8,
     },
   },
 };
@@ -134,6 +162,7 @@ export const scales: Scales = {
     builderDialog: "680px",
     display: {
       controlCenter: "visible",
+      addBlockButton: "top: calc(50% - 2.25rem);",
     },
     fontSize: {
       dashboardTitle: "2rem",
@@ -144,46 +173,56 @@ export const scales: Scales = {
       controlCenterButton: "1rem 1.5rem",
     },
     settingsGrid: "1fr 1fr",
+    addBlockButton: "padding: 1.5rem",
   },
   lg: {
     panel: "26rem",
     builderDialog: "600px",
     display: {
       controlCenter: "visible",
+      addBlockButton: "top: calc(50% - 2.25rem);",
     },
     fontSize: {
       controlCenterButton: "1.25rem",
+      addBlockButton: "1.5rem",
     },
     padding: {
       controlCenterButton: "1rem",
     },
     settingsGrid: "1fr",
+    addBlockButton: "padding: 1.25rem",
   },
   md: {
     panel: "28rem",
     display: {
       controlCenter: "none",
+      addBlockButton: "bottom: 1rem;",
     },
     fontSize: {
       controlCenterButton: "1.5rem",
+      addBlockButton: "3rem",
     },
     padding: {
       controlCenterButton: "1rem 1.25rem",
     },
     settingsGrid: "1fr",
+    addBlockButton: "padding: 1.5rem",
   },
   sm: {
     panel: "22rem",
     display: {
       controlCenter: "none",
+      addBlockButton: "bottom: 1rem;",
     },
     fontSize: {
       controlCenterButton: "1.5rem",
+      addBlockButton: "2rem",
     },
     padding: {
       controlCenterButton: "1rem 1.25rem",
     },
     settingsGrid: "1fr",
+    addBlockButton: "padding: 1.25rem",
   },
 };
 
@@ -291,7 +330,7 @@ export const theme: Theme = {
   flex: {
     column: "display: flex; flex-direction: column;",
     row: "display: flex; flex-direction: row;",
-    centered: "justify-content: center; align-items: center;",
+    centered: "display: flex; justify-content: center; align-items: center;",
     grow: "flex-grow: 1;",
   },
 };

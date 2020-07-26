@@ -25,6 +25,7 @@ import {
   SliderSetting,
   SpacingSetting,
   ColorSetting,
+  AlignmentSetting,
 } from "../../Form";
 import {
   MdDelete,
@@ -49,6 +50,7 @@ const Textbox = () => {
               autoText="Font will be inherited from the parent block (or site default)."
             />
           </SettingsItem>
+          <AlignmentSetting label="Justify" />
         </SettingsGroup>
 
         <DashboardDivider />

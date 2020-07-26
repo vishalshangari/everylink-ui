@@ -21,7 +21,9 @@ export const SettingsGroup = styled(SidePaddedDashboardContainer)`
   grid-template-columns: ${(props) => props.theme.scales.settingsGrid};
 `;
 
-export const SettingsItem = styled.div``;
+export const SettingsItem = styled.div<{ flex?: boolean }>`
+  ${({ flex, theme }) => (flex ? theme.flex.centered : ``)};
+`;
 
 export const DashboardDivider = styled.div`
   height: 1px;
@@ -30,7 +32,7 @@ export const DashboardDivider = styled.div`
   margin: 2rem 0;
 `;
 
-export const DashboardTextEditor = styled.div`
+export const DashboardTextEditor = styled(SidePaddedDashboardContainer)`
   min-height: 150px;
   background: ${(props) => props.theme.color.offwhite};
   padding: ${(props) => props.theme.padding.base};
@@ -39,7 +41,7 @@ export const DashboardTextEditor = styled.div`
 
 export const DashboardElementActions = styled.div`
   ${(props) => props.theme.flex.row};
-  border-top: 1px solid ${(props) => props.theme.color.borderGreyDark};
+  border-top: 1px solid ${(props) => props.theme.colors.dashboardBorders};
   }
 `;
 
@@ -196,14 +198,14 @@ export const DashboardPanelsContainer = styled.div`
     width: 0.5em;
   }
   ::-webkit-scrollbar-track {
-    background: ${(props) => props.theme.color.darkBackgroundLight};
-    border-left: 1px solid ${(props) => props.theme.color.borderGreyDark};
+    background: ${(props) => props.theme.colors.dashboardBg};
+    border-left: 1px solid ${(props) => props.theme.colors.dashboardBorders};
   }
   ::-webkit-scrollbar-thumb {
-    background: ${(props) => props.theme.color.borderGreyDark};
+    background: ${(props) => props.theme.colors.dashboardBorders};
     -webkit-transition: 0.3s ease all;
     &:hover {
-      background: ${(props) => props.theme.color.borderGrey};
+      background: ${(props) => props.theme.colors.dashboardScrollbarHover};
     }
   }
 `;
@@ -230,7 +232,7 @@ export const StyledTabs = styled(Tabs)`
   ${(props) => props.theme.flex.column}
 `;
 
-export const DashboardTab = styled(Tab)<{ isActive: boolean }>`
+export const DashboardTab = styled(Tab)<{ isactive: boolean }>`
   justify-content: center;
   list-style: none;
   position: relative;
@@ -238,9 +240,14 @@ export const DashboardTab = styled(Tab)<{ isActive: boolean }>`
   ${(props) => props.theme.flex.row}
   cursor: pointer;
   flex: 1;
-  color: ${(props) => props.theme.color.offwhiteBright};
+  color: ${(props) => props.theme.colors.textTertiary};
   > * {
-    opacity: ${(props) => (props.isActive ? 1 : 0.5)};
+    transition: 0.2s ease all;
+    ${(props) =>
+      props.isactive
+        ? `
+  color: ${props.theme.colors.textPrimary};`
+        : ``};
   }
 
   border-top-right-radius: 4px;
@@ -256,7 +263,7 @@ export const DashboardTab = styled(Tab)<{ isActive: boolean }>`
 
   &:hover {
     > * {
-      opacity: 1;
+      color: ${(props) => props.theme.colors.textPrimary};
     }
   }
   &:focus {
@@ -267,35 +274,47 @@ export const DashboardTab = styled(Tab)<{ isActive: boolean }>`
 
   border-top: ${(props) =>
     `1px solid ` +
-    (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
+    (props.isactive
+      ? `${props.theme.colors.dashboardBorders}`
+      : `transparent`)};
 
   border-bottom: ${(props) =>
     `1px solid ` +
-    (!props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
+    (!props.isactive
+      ? `${props.theme.colors.dashboardBorders}`
+      : `transparent`)};
 
   &:first-child {
     border-right: ${(props) =>
       `1px solid ` +
-      (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
+      (props.isactive
+        ? `${props.theme.colors.dashboardBorders}`
+        : `transparent`)};
   }
 
   &:nth-child(2) {
     border-right: ${(props) =>
       `1px solid ` +
-      (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
+      (props.isactive
+        ? `${props.theme.colors.dashboardBorders}`
+        : `transparent`)};
     border-left: ${(props) =>
       `1px solid ` +
-      (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
+      (props.isactive
+        ? `${props.theme.colors.dashboardBorders}`
+        : `transparent`)};
   }
 
   &:last-child {
     border-left: ${(props) =>
       `1px solid ` +
-      (props.isActive ? `${props.theme.color.borderGreyDark}` : `transparent`)};
+      (props.isactive
+        ? `${props.theme.colors.dashboardBorders}`
+        : `transparent`)};
   }
 
   background: ${(props) =>
-    props.isActive ? props.theme.colors.dashboardActiveTab : "transparent"};
+    props.isactive ? props.theme.colors.dashboardActiveTab : "transparent"};
 `;
 
 export const TabIcon = styled.div`

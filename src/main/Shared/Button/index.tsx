@@ -38,7 +38,7 @@ export const TransparentButton = styled.button`
 `;
 
 export const controlCenterButtonBaseStyle = css`
-  color: #fff;
+  color: ${(props) => props.theme.colors.textPrimary};
   cursor: pointer;
   display: inline-flex;
   justify-content: center;

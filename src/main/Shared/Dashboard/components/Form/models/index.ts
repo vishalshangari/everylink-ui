@@ -21,3 +21,7 @@ export interface SpacingSettingProps {
 export interface ColorSettingProps {
   label: string;
 }
+
+export interface AlignmentSettingProps {
+  label: string;
+}

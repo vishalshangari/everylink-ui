@@ -20,7 +20,7 @@ const StyledPanelInnerContainer = styled.div<{ isDesktop: boolean }>`
 
   ${(props) =>
     props.isDesktop
-      ? `border-radius: 0.5rem; border: 1px solid #31363c;`
+      ? `border-radius: 0.5rem; border: 1px solid ${props.theme.colors.dashboardBorders};`
       : `border-radius: 0; border: none`};
   box-shadow: 0px 0px 5px #000;
   overflow: hidden;
@@ -43,7 +43,7 @@ const PanelContainer = styled.div<{
   isDesktop: boolean;
   dashboardHidden: boolean;
 }>`
-  transition: .5s ease all;
+  transition: .5s ease width;
   z-index: 5;
   ${(props) =>
     props.isDesktop

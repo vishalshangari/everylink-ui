@@ -24,6 +24,7 @@ import { AnchoredActionButton } from "../Shared/AnchoredActionButton";
 import { CustomDialog } from "../Shared/CustomDialog";
 import ElementSelector from "../Shared/ElementSelector";
 import { BsChevronRight } from "react-icons/bs";
+import AddBlockButton from "../Shared/AddBlockButton";
 
 const data: Data = dataImport;
 
@@ -55,12 +56,6 @@ const Builder: React.FC<BuilderProps> = (props) => {
 
   const controlCenterActions: ControlCenterActionDef[][] = [
     [
-      {
-        type: "Add",
-        description: "Add a new container",
-        icon: <MdAddCircle />,
-        action: handleElementDialogOpen,
-      },
       {
         type: "Publish",
         description: "Publish site",
@@ -105,12 +100,6 @@ const Builder: React.FC<BuilderProps> = (props) => {
 
   const mobileControlCenterActions: ControlCenterActionDef[] = [
     {
-      type: "Add",
-      description: "Add a new container",
-      icon: <MdAddCircle />,
-      action: handleElementDialogOpen,
-    },
-    {
       type: "Publish",
       description: "Publish site",
       icon: <MdSave />,
@@ -125,11 +114,25 @@ const Builder: React.FC<BuilderProps> = (props) => {
       description: "Redo last change",
       icon: <MdRedo />,
     },
+    {
+      type: "Dashboard",
+      description: "Show dashboard",
+      icon: <MdViewHeadline />,
+      action: () =>
+        setMobileDashboardOpen(
+          (prevMobileDashboardOpen) => !prevMobileDashboardOpen
+        ),
+    },
   ];
 
   return (
     <BuilderContext.Provider value={data as Data}>
       <BuilderContainer>
+        <AddBlockButton
+          displaySize={displaySize}
+          side={panelRight ? "left" : "right"}
+          handleAddBlock={handleElementDialogOpen}
+        ></AddBlockButton>
         <ViewContainer>
           <AnchoredActionButton
             displaySize={displaySize}
@@ -200,7 +203,11 @@ const Builder: React.FC<BuilderProps> = (props) => {
           maxWidth="md"
           fullScreen={displaySize !== "xl" && displaySize !== "lg"}
         >
-          <ElementSelector container={addBlock} text={addBlock} />
+          <ElementSelector
+            container={addBlock}
+            text={addBlock}
+            closeElementDialog={handleElementDialogClose}
+          />
         </CustomDialog>
       </BuilderContainer>
     </BuilderContext.Provider>

@@ -7,22 +7,27 @@ import { MdTextFields } from "react-icons/md";
 const ElementSelector: React.FC<ElementSelectorProps> = ({
   container,
   text,
+  closeElementDialog,
 }) => {
+  const handleNewContainer = () => {
+    container();
+    closeElementDialog();
+  };
   return (
     <ElementSelectorWrap>
-      <ElementButton onClick={container}>
+      <ElementButton onClick={handleNewContainer}>
         <ElementLogo>
           <BsBoundingBoxCircles />
         </ElementLogo>
         <ElementLabel>Container</ElementLabel>
       </ElementButton>
-      <ElementButton onClick={text}>
+      <ElementButton onClick={handleNewContainer}>
         <ElementLogo>
           <MdTextFields />
         </ElementLogo>
         <ElementLabel>Text</ElementLabel>
       </ElementButton>
-      <ElementButton onClick={container}>
+      <ElementButton onClick={handleNewContainer}>
         <ElementLogo>
           <BsImage />
         </ElementLogo>

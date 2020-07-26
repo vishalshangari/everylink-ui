@@ -31,10 +31,11 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
   }
 
   const generateControlCenterGroup = (
-    list: Array<ControlCenterActionDef>
+    list: Array<ControlCenterActionDef>,
+    index?: number
   ): ReactNode => {
     return (
-      <ControlCenterGroup>
+      <ControlCenterGroup key={index}>
         {list.map((action, index) => (
           <Tooltip
             {...createControlCenterTooltipProps()}
@@ -56,7 +57,9 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
       | Array<Array<ControlCenterActionDef>>
   ): ReactNode => {
     if (isArrayOfArrays(options)) {
-      return options.map((list) => generateControlCenterGroup(list));
+      return options.map((list, index) =>
+        generateControlCenterGroup(list, index)
+      );
     }
     return generateControlCenterGroup(options);
   };
