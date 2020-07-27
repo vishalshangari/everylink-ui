@@ -21,7 +21,7 @@ const AddBlockButton: React.FC<AddBlockButtonProps> = ({
       </button>
     </AddBlockButtonInner>
   );
-  return displaySize == "xl" || displaySize == "lg" ? (
+  return displaySize === "xl" || displaySize === "lg" ? (
     <>
       <Tooltip
         {...tooltipProps}
@@ -55,7 +55,7 @@ const AddBlockButtonInner = styled.div<{ side: string; displaySize: string }>`
     outline: none;
     background: ${(props) => props.theme.colors.addBlockButton};
     ${(props) => props.theme.scales.addBlockButton};
-    font-size: 2rem;
+    font-size: 1.5rem;
     ${(props) => props.theme.flex.centered};
     border-radius: 50%;
     ${(props) => props.theme.colors.addBlockButtonShadow}

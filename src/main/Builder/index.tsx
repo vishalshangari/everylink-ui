@@ -1,14 +1,12 @@
 import React, { useState, createContext } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
-import { Drawer, Dialog } from "@material-ui/core";
+import { Drawer } from "@material-ui/core";
 import "rc-tooltip/assets/bootstrap.css";
 import { Box, BuilderContainer, ViewContainer } from "./components";
-import { Block, BuilderProps, Data, ControlPanelActions } from "./models";
+import { Block, BuilderProps, Data } from "./models";
 import { dataImport } from "../../data/test";
 import {
-  MdAddCircle,
-  MdWbSunny,
   MdSwapHoriz,
   MdSave,
   MdUndo,

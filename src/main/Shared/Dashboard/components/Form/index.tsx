@@ -9,7 +9,6 @@ import {
 import styled, { css } from "styled-components";
 import { SettingsItem, SidePaddedDashboardContainer } from "..";
 import { SketchPicker, ColorResult } from "react-color";
-import { EditableInput } from "react-color/lib/components/common";
 import { useClickAway } from "react-use";
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
@@ -30,12 +29,8 @@ export const SelectSetting: React.FC<SelectSettingProps> = ({
   const [value, setValue] = useState(initValue);
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setValue(e.target.value);
-    {
-      handleAutoChange &&
-        handleAutoChange(
-          e.target.value === `Auto (recommended)` ? true : false
-        );
-    }
+    handleAutoChange &&
+      handleAutoChange(e.target.value === `Auto (recommended)` ? true : false);
   };
   return (
     <>
@@ -333,9 +328,10 @@ export const TextAreaInput: React.FC = () => {
 
 // Generic components
 
-const DashboardDescription = styled(SidePaddedDashboardContainer)`
-  color: ${({ theme }) => theme.colors.textSecondary};
-`;
+// Generic text box component
+// const DashboardDescription = styled(SidePaddedDashboardContainer)`
+//   color: ${({ theme }) => theme.colors.textSecondary};
+// `;
 
 const CustomCheckbox = styled.label`
   color: ${({ theme }) => theme.colors.textSecondary};
@@ -435,6 +431,7 @@ const BaseSelect = styled.select`
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+  cursor: pointer;
   ${SelectArrow};
   ${BaseFormFocusStyles};
 `;
@@ -597,10 +594,10 @@ const ColorSettingInner = styled.div`
 const ColorDisplay = styled.button<{ color: string }>`
   border: none;
   outline: none;
-  width: 2.125em;
-  height: 2.125em;
+  width: 1.875em;
+  height: 1.875em;
   position: absolute;
-  left: 0.5em;
+  left: 0.625em;
   background: ${({ color }) => color};
   border-radius: 0.25em;
   cursor: pointer;

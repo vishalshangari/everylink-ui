@@ -29,7 +29,7 @@ export const AnchoredActionButton: React.FC<AnchoredActionButtonProps> = ({
       {icon}
     </AnchoredActionButtonStyled>
   );
-  return displaySize == "xl" || displaySize == "lg" ? (
+  return displaySize === "xl" || displaySize === "lg" ? (
     <>
       {tooltip ? (
         <Tooltip

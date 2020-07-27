@@ -4,21 +4,6 @@ import {
   SettingsItem,
   DashboardViewWrap,
   DashboardDivider,
-  PaddedDashboardContainer,
-  DashboardTextEditor,
-  DashboardElementActions,
-  DashboardDoneBtn,
-  DashboardDeleteBtn,
-  DashboardDuplicateBtn,
-  SettingsGrid,
-  SimpleSliderSettingGrid,
-  SliderValueDisplay,
-  FontFamilySetting,
-  CustomGridItem,
-  BorderedGrid,
-  StyledMuiGridItem,
-  SettingsHeader,
-  SingleSelectSetting,
 } from "../../index";
 import {
   SelectSetting,
@@ -27,13 +12,6 @@ import {
   ColorSetting,
   AlignmentSetting,
 } from "../../Form";
-import {
-  MdDelete,
-  MdFilterNone,
-  MdCheckCircle,
-  MdModeEdit,
-} from "react-icons/md";
-import Grid from "@material-ui/core/Grid";
 
 const fonts = ["Auto", "Helvetica", "Arial", "Times New Roman", "Dax"];
 

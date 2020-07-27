@@ -25,7 +25,6 @@ import {
   MdTextFields,
   MdDelete,
   MdFilterNone,
-  MdCheckCircle,
 } from "react-icons/md";
 import { IconContext } from "react-icons";
 import StyleSelector from "./components/StyleSelector";
@@ -82,7 +81,7 @@ const Dashboard: React.FC<DashboardProps> = ({
       <PanelInnerContainer isDesktop={isDesktop}>
         <DashboardHeader
           title="Textbox"
-          style="Default"
+          styleApplied="Default"
           handleStyleSelectorExpanded={handleStyleSelectorExpanded}
           styleSelectorExpanded={styleSelectorExpanded}
         />

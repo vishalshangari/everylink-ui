@@ -1,13 +1,7 @@
 import styled from "styled-components";
-import Grid from "@material-ui/core/Grid";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 
 /* General Dashboard Components */
-
-export const PaddedDashboardContainer = styled.div`
-  padding: ${(props) => props.theme.padding.base}
-    ${(props) => props.theme.padding.doubleBase};
-`;
 
 export const SidePaddedDashboardContainer = styled.div`
   padding: 0 ${(props) => props.theme.padding.doubleBase};
@@ -31,14 +25,6 @@ export const DashboardDivider = styled.div`
   background: ${(props) => props.theme.colors.dashboardBorders};
   margin: 2rem 0;
 `;
-
-export const DashboardTextEditor = styled(SidePaddedDashboardContainer)`
-  min-height: 150px;
-  background: ${(props) => props.theme.color.offwhite};
-  padding: ${(props) => props.theme.padding.base};
-  border-radius: ${(props) => props.theme.borderRadius.small};
-`;
-
 export const DashboardElementActions = styled.div`
   ${(props) => props.theme.flex.row};
   border-top: 1px solid ${(props) => props.theme.colors.dashboardBorders};
@@ -77,111 +63,6 @@ export const DashboardDoneBtn = styled(DashboardButtonBase)`
 export const DashboardDuplicateBtn = styled(DashboardButtonBase)``;
 
 export const DashboardDeleteBtn = styled(DashboardButtonBase)``;
-
-/* Appearance Pane -------- Configuration Options */
-
-export const SettingsGrid = styled.div`
-  flex-grow: 1;
-`;
-
-export const BorderedGrid = styled(Grid)`
-  border-top: 1px solid ${(props) => props.theme.color.borderGreyDark};
-`;
-
-export const SettingsHeader = styled(PaddedDashboardContainer)`
-  h4 {
-    ${(props) => props.theme.fonts.dashSettingsHeader}
-    color: ${(props) => props.theme.color.offwhite}
-  }
-  padding-bottom: ${(props) => props.theme.padding.base};
-  margin-top: ${(props) => props.theme.margin.base};
-`;
-
-export const SingleSelectSetting = styled(PaddedDashboardContainer)`
-  h4 {
-    ${(props) => props.theme.fonts.dashSettingsHeader}
-    color: ${(props) => props.theme.color.offwhite};
-    margin-bottom: ${(props) => props.theme.margin.base};
-  };
-  select {
-    width: 100%;
-    padding: ${(props) => props.theme.padding.halfBase} ${(props) =>
-  props.theme.padding.base};
-    background-color: ${(props) => props.theme.color.darkBackgroundLighter};
-    border: 1px solid ${(props) => props.theme.color.borderGreyDark};
-    border-radius: ${(props) => props.theme.borderRadius.small};
-    color: ${(props) => props.theme.color.offwhite};
-  }
-`;
-
-export const StyledMuiGridItem = styled(Grid)`
-  border-bottom: 1px solid ${(props) => props.theme.color.borderGreyDark};
-  &:nth-child(odd) {
-    border-right: 1px solid ${(props) => props.theme.color.borderGreyDark};
-  }
-  background: ${(props) => props.theme.color.darkBackgroundLighter};
-`;
-
-export const CustomGridItem = styled.div`
-  padding: ${(props) => props.theme.padding.base}
-    ${(props) => props.theme.padding.doubleBase};
-`;
-export const ColorSetting = styled(CustomGridItem)`
-  color: ${(props) => props.theme.color.offwhite};
-  ${(props) => props.theme.fonts.dashSetting}
-  div {
-    float: right;
-    width: 3rem;
-    height: 1rem;
-    background: coral;
-    border-radius: ${(props) => props.theme.borderRadius.xsmall};
-  }
-`;
-
-export const FontFamilySetting = styled.div`
-  color: ${(props) => props.theme.color.offwhite};
-  ${(props) => props.theme.fonts.dashSetting}
-`;
-
-export const SimpleSliderSettingGrid = styled(CustomGridItem)`
-  color: ${(props) => props.theme.color.offwhite};
-  ${(props) => props.theme.fonts.dashSetting};
-
-  input {
-    display: block;
-    width: 100%;
-    margin-top: ${(props) => props.theme.margin.base};
-  }
-`;
-
-export const SliderValueDisplay = styled.div`
-  font-weight: normal;
-  color: ${(props) => props.theme.color.middleGrey};
-  float: right;
-`;
-
-/* Settings Pane ------------- */
-
-export const DashSubSingleSelectSetting = styled.div`
-    padding: ${(props) => props.theme.padding.base} 0 0;
-    h4 {
-    ${(props) => props.theme.fonts.dashSettingsHeader}
-    color: ${(props) => props.theme.color.offwhite};
-    margin-bottom: ${(props) => props.theme.margin.base};
-    display: inline-block;
-    line-height: 2.625rem;
-  };
-  select {
-    padding: ${(props) => props.theme.padding.halfBase} ${(props) =>
-  props.theme.padding.base};
-  float: right;
-  min-width: 250px;
-    background-color: ${(props) => props.theme.color.darkBackgroundLighter};
-    border: 1px solid ${(props) => props.theme.color.borderGreyDark};
-    border-radius: ${(props) => props.theme.borderRadius.small};
-    color: ${(props) => props.theme.color.offwhite};
-  }
-`;
 
 /* Main Dashboard Tabs */
 

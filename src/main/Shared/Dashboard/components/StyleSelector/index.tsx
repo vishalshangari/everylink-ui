@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSelectorProps } from "./models";
 import styled from "styled-components";
 import { SidePaddedDashboardContainer } from "..";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineDelete } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
 
 const StyleSelector: React.FC<StyleSelectorProps> = ({ styles, state }) => {

@@ -56,6 +56,7 @@ export const controlCenterButtonBaseStyle = css`
 export const controlCenterButtonAccentedStyle = css`
   color: white;
   background: ${(props) => props.theme.colors.controlCenterButtonAccented};
+
   border: 1px solid ${({ theme }) => theme.colors.controlCenterButtonAccented};
   &:hover {
     background: ${(props) => props.theme.colors.controlCenterButtonAccented};

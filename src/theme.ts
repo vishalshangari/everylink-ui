@@ -228,7 +228,7 @@ export const scales: Scales = {
       addBlockButton: "top: calc(50% - 2.25rem);",
     },
     fontSize: {
-      addBlockButton: "1.5rem",
+      addBlockButton: "1rem",
     },
     settingsGrid: "1fr",
     addBlockButton: "padding: 1.25rem",

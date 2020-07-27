@@ -74,7 +74,7 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
     return generateControlCenterGroup(options);
   };
 
-  return displaySize == "xl" || displaySize == "lg" ? (
+  return displaySize === "xl" || displaySize === "lg" ? (
     <ControlCenter>{renderControlCenterGroup(options)}</ControlCenter>
   ) : (
     <MobileControlCenter>
@@ -95,6 +95,9 @@ export const ControlCenterButton = styled.button<{ publish?: boolean }>`
   ${controlCenterButtonBaseStyle}
   font-size: ${(props) => props.theme.scales.fontSize.controlCenterButton};
   ${({ publish }) => (publish ? controlCenterButtonAccentedStyle : ``)};
+  ${ControlCenterButtonText} {
+      border-bottom: 1px solid transparent
+  }
   &:hover {
     ${ControlCenterButtonText} {
       border-bottom: 1px solid ${({ theme, publish }) =>

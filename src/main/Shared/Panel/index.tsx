@@ -1,4 +1,4 @@
-import React, { ReactNode, FC } from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
 
 interface PanelProps {

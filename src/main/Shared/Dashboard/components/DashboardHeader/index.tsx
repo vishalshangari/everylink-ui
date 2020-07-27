@@ -7,7 +7,7 @@ import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   children,
   title,
-  style,
+  styleApplied,
   styleSelectorExpanded,
   handleStyleSelectorExpanded,
 }) => {
@@ -15,7 +15,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     <DashboardHeaderInner>
       <h2>{title}</h2>
       <StyleSelectorDisplay onClick={handleStyleSelectorExpanded}>
-        <span>{style}</span>
+        <span>{styleApplied}</span>
 
         {styleSelectorExpanded ? <BsChevronUp /> : <BsChevronDown />}
       </StyleSelectorDisplay>
