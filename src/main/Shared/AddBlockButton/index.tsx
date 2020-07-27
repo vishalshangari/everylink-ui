@@ -48,9 +48,9 @@ const AddBlockButtonInner = styled.div<{ side: string; displaySize: string }>`
       : `right: 1rem`};
   ${(props) => props.theme.flex.centered};
   button {
-    transition: 0.2s ease all;
+    transition: 0.2s ease color, 0.2s ease box-shadow, 0.2s ease background;
     cursor: pointer;
-    color: ${(props) => props.theme.colors.textPrimary};
+    color: white;
     border: none;
     outline: none;
     background: ${(props) => props.theme.colors.addBlockButton};
@@ -58,11 +58,10 @@ const AddBlockButtonInner = styled.div<{ side: string; displaySize: string }>`
     font-size: 2rem;
     ${(props) => props.theme.flex.centered};
     border-radius: 50%;
-    box-shadow: 0px 0px 5px
-      ${(props) => props.theme.colors.addBlockButtonShadow};
+    ${(props) => props.theme.colors.addBlockButtonShadow}
     &:hover {
       color: ${(props) => props.theme.colors.addBlockButton};
-      background: ${(props) => props.theme.colors.textPrimary};
+      background: ${(props) => props.theme.colors.addBlockButtonHover};
     }
   }
 `;

@@ -47,7 +47,7 @@ const ElementButton = styled.button`
   padding: 1rem;
   border-radius: 0.25rem;
   border: none;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.textPrimary};
   background: none;
   border: 2px dashed ${(props) => props.theme.colors.elementButtonBorder};
   cursor: pointer;
@@ -60,6 +60,9 @@ const ElementButton = styled.button`
     & > * {
       opacity: 1;
     }
+  }
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.colors.formAccent};
   }
 `;
 

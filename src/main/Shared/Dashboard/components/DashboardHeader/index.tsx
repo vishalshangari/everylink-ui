@@ -30,7 +30,6 @@ const DashboardHeaderInner = styled(SidePaddedDashboardContainer)`
   z-index: 3;
   padding-top: 2rem;
 
-  background: ${(props) => props.theme.colors.dashboardTitleBg};
   ${(props) => props.theme.flex.row}
   align-items: center;
   justify-content: space-between;

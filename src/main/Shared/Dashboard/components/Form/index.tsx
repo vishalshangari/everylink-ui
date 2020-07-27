@@ -345,7 +345,7 @@ const CustomCheckbox = styled.label`
   justify-content: center;
   input {
     position: absolute;
-    left: -999px;
+    left: -9999px;
     opacity: 0;
   }
   -webkit-touch-callout: none; /* iOS Safari */

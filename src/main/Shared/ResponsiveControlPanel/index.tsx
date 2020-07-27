@@ -87,13 +87,20 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
 export const ControlCenterGroup = styled.div`
   display: flex;
 `;
+export const ControlCenterButtonText = styled.span`
+  font-size: 1rem;
+  padding-bottom: 0.125rem;
+`;
 export const ControlCenterButton = styled.button<{ publish?: boolean }>`
   ${controlCenterButtonBaseStyle}
   font-size: ${(props) => props.theme.scales.fontSize.controlCenterButton};
   ${({ publish }) => (publish ? controlCenterButtonAccentedStyle : ``)};
-`;
-export const ControlCenterButtonText = styled.span`
-  font-size: 1rem;
+  &:hover {
+    ${ControlCenterButtonText} {
+      border-bottom: 1px solid ${({ theme, publish }) =>
+        publish ? `white` : `transparent`};
+    }
+  }
 `;
 export const ControlCenter = styled.div`
   position: relative;
@@ -111,7 +118,6 @@ export const ControlCenter = styled.div`
     }
   }
   ${ControlCenterButton} {
-    transition: 0.1s;
     &:first-child {
       border-top-left-radius: 0.5rem;
       border-bottom-left-radius: 0.5rem;
@@ -119,6 +125,8 @@ export const ControlCenter = styled.div`
     &:last-child {
       border-top-right-radius: 0.5rem;
       border-bottom-right-radius: 0.5rem;
+    }
+    &:not(:last-child) {
       border-right: none;
     }
   }

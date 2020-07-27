@@ -40,7 +40,6 @@ export const TransparentButton = styled.button`
 export const controlCenterButtonBaseStyle = css`
   color: ${(props) => props.theme.colors.textPrimary};
   cursor: pointer;
-  height: 4rem;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -48,17 +47,17 @@ export const controlCenterButtonBaseStyle = css`
   border: 0;
   outline: 0;
   background: ${(props) => props.theme.colors.controlCenterButtonBg};
-  border-right: 1px solid
-    ${(props) => props.theme.colors.controlCenterButtonBorder};
+  border: 1px solid ${(props) => props.theme.colors.controlCenterButtonBorder};
   &:hover {
     background: ${(props) => props.theme.colors.controlCenterButtonHover};
   }
 `;
 
 export const controlCenterButtonAccentedStyle = css`
+  color: white;
   background: ${(props) => props.theme.colors.controlCenterButtonAccented};
+  border: 1px solid ${({ theme }) => theme.colors.controlCenterButtonAccented};
   &:hover {
     background: ${(props) => props.theme.colors.controlCenterButtonAccented};
-    text-decoration: underline;
   }
 `;

@@ -23,7 +23,7 @@ import { ControlCenterActionDef } from "../Shared/ResponsiveControlPanel/models"
 import { AnchoredActionButton } from "../Shared/AnchoredActionButton";
 import { CustomDialog } from "../Shared/CustomDialog";
 import ElementSelector from "../Shared/ElementSelector";
-import { BsChevronRight } from "react-icons/bs";
+import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import AddBlockButton from "../Shared/AddBlockButton";
 
 const data: Data = dataImport;
@@ -155,6 +155,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
             displaySize={displaySize}
             type="User page"
             tooltip
+            panelRight={panelRight}
             side={panelRight ? "left" : "right"}
             description="Back to user page"
             displayType="icon"
@@ -165,10 +166,20 @@ const Builder: React.FC<BuilderProps> = (props) => {
             displaySize={displaySize}
             type="Show dashboard"
             tooltip={false}
+            panelRight={panelRight}
             side={panelRight ? "right" : "left"}
+            dashboardHidden={dashboardHidden}
             description={dashboardHidden ? "Show dashboard" : "Hide dashboard"}
             displayType="icon"
-            icon={dashboardHidden ? <MdViewHeadline /> : <BsChevronRight />}
+            icon={
+              dashboardHidden ? (
+                <MdViewHeadline />
+              ) : panelRight ? (
+                <BsChevronRight />
+              ) : (
+                <BsChevronLeft />
+              )
+            }
             action={() =>
               setDashboardHidden((prevDashboardHidden) => !prevDashboardHidden)
             }

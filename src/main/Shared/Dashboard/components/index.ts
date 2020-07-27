@@ -203,7 +203,7 @@ export const DashboardPanelsContainer = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     background: ${(props) => props.theme.colors.dashboardBorders};
-    -webkit-transition: 0.3s ease all;
+    -webkit-transition: 0.2s ease all;
     &:hover {
       background: ${(props) => props.theme.colors.dashboardScrollbarHover};
     }

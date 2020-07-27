@@ -4,4 +4,6 @@ export interface AnchoredActionButtonProps extends ControlCenterActionDef {
   side: string;
   displaySize: string;
   tooltip: boolean;
+  panelRight: boolean;
+  dashboardHidden?: boolean;
 }
