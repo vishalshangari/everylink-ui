@@ -195,7 +195,9 @@ export const DashboardTab = styled(Tab)<{ isactive: boolean }>`
   }
 
   background: ${(props) =>
-    props.isactive ? props.theme.colors.dashboardActiveTab : "transparent"};
+    props.isactive
+      ? props.theme.colors.dashboardActiveTabButton
+      : "transparent"};
 `;
 
 export const TabIcon = styled.div`
@@ -219,14 +221,8 @@ export const DashboardTabList = styled(TabList)`
     content: '';
     display: block;
     position: absolute;
-    width: calc(100% - 0.5rem);
     top: 100%;
-    background: tomato;
-    height: 1em;
-    background: linear-gradient(
-    180deg,
-    ${(props) => props.theme.colors.dashboardActiveTab} 5%,
-    rgba(255, 255, 255, 0) 50%
+    ${(props) => props.theme.colors.dashboardTabsStyle};
   );
   }
 `;

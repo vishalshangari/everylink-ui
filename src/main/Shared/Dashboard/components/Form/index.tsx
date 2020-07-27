@@ -317,6 +317,7 @@ export const TextAreaInput: React.FC = () => {
                 editorState={editorState}
                 onChange={setEditorState}
                 placeholder="Enter text here..."
+                onFocus={() => setEditorInFocus(true)}
               />
             </EditorWrap>
           </EditorInnerWrap>

@@ -83,7 +83,9 @@ const themeColors: ThemeColors = {
   // Dashboard components
   dashboardTitleBg: colors.grey33,
   dashboardActiveTab: colors.grey32,
+  dashboardActiveTabButton: colors.grey30,
   styleSelectorBg: colors.grey32,
+  dashboardTabsStyle: `height: 1px; background: ${colors.grey30}; width: 100%; top: calc(100% - 1px);`,
 
   // Buttons, etc.
   elementDialogBg: colors.grey33,
@@ -98,7 +100,7 @@ const themeColors: ThemeColors = {
   addBlockButtonShadow: `&:hover {box-shadow: 0 0 0.5rem ${colors.grey26};}`,
   controlCenterButtonBg: colors.grey33,
   controlCenterButtonHover: colors.grey30,
-  controlCenterButtonBorder: colors.grey29,
+  controlCenterButtonBorder: colors.grey30,
   controlCenterButtonShadow: colors.transparent,
   controlCenterButtonAccented: colors.azure,
   controlCenterButtonAccentedActive: colors.azureActive,
@@ -130,7 +132,9 @@ const themeColors: ThemeColors = {
       // Dashboard components
       dashboardTitleBg: colors.grey3,
       dashboardActiveTab: colors.grey4,
+      dashboardActiveTabButton: colors.grey4,
       styleSelectorBg: colors.grey4,
+      dashboardTabsStyle: `height: 1em; background: linear-gradient(180deg, ${colors.grey4} 5%, rgba(255, 255, 255, 0) 50%); width: calc(100% - 0.5em);`,
 
       // Buttons, etc.
       elementDialogBg: colors.grey3,
