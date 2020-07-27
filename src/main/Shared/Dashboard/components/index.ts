@@ -28,7 +28,6 @@ export const DashboardDivider = styled.div`
 export const DashboardElementActions = styled.div`
   ${(props) => props.theme.flex.row};
   border-top: 1px solid ${(props) => props.theme.colors.dashboardBorders};
-  }
 `;
 
 export const DashboardButtonBase = styled.button`
@@ -223,7 +222,6 @@ export const DashboardTabList = styled(TabList)`
     position: absolute;
     top: 100%;
     ${(props) => props.theme.colors.dashboardTabsStyle};
-  );
   }
 `;
 
