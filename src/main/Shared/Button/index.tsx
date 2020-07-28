@@ -38,14 +38,27 @@ export const TransparentButton = styled.button`
 `;
 
 export const controlCenterButtonBaseStyle = css`
-  color: #fff;
+  color: ${(props) => props.theme.colors.textPrimary};
   cursor: pointer;
   display: inline-flex;
   justify-content: center;
-  padding: ${(props) => props.theme.scales.padding.controlCenterButton};
+  align-items: center;
+  ${(props) => props.theme.scales.controlCenterButton};
   border: 0;
   outline: 0;
-  background: ${(props) => props.theme.colors.controlCenterButtonDef};
-  border-right: 1px solid
-    ${(props) => props.theme.colors.controlCenterButtonBorder};
+  background: ${(props) => props.theme.colors.controlCenterButtonBg};
+  border: 1px solid ${(props) => props.theme.colors.controlCenterButtonBorder};
+  &:hover {
+    background: ${(props) => props.theme.colors.controlCenterButtonHover};
+  }
+`;
+
+export const controlCenterButtonAccentedStyle = css`
+  color: white;
+  background: ${(props) => props.theme.colors.controlCenterButtonAccented};
+
+  border: 1px solid ${({ theme }) => theme.colors.controlCenterButtonAccented};
+  &:hover {
+    background: ${(props) => props.theme.colors.controlCenterButtonAccented};
+  }
 `;

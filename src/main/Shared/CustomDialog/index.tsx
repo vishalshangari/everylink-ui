@@ -48,10 +48,11 @@ const DialogHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+  color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
 const DialogCloseBtn = styled.button`
-  color: white;
+  color: ${({ theme }) => theme.colors.textPrimary};
   font-size: 2rem;
   background: none;
   border: none;

@@ -1,14 +1,12 @@
 import React, { useState, createContext } from "react";
 import DeviceSimulator from "../Shared/DeviceSimulator";
 import Dashboard from "../Shared/Dashboard";
-import { Drawer, Dialog } from "@material-ui/core";
+import { Drawer } from "@material-ui/core";
 import "rc-tooltip/assets/bootstrap.css";
 import { Box, BuilderContainer, ViewContainer } from "./components";
-import { Block, BuilderProps, Data, ControlPanelActions } from "./models";
+import { Block, BuilderProps, Data } from "./models";
 import { dataImport } from "../../data/test";
 import {
-  MdAddCircle,
-  MdWbSunny,
   MdSwapHoriz,
   MdSave,
   MdUndo,
@@ -23,6 +21,8 @@ import { ControlCenterActionDef } from "../Shared/ResponsiveControlPanel/models"
 import { AnchoredActionButton } from "../Shared/AnchoredActionButton";
 import { CustomDialog } from "../Shared/CustomDialog";
 import ElementSelector from "../Shared/ElementSelector";
+import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import AddBlockButton from "../Shared/AddBlockButton";
 
 const data: Data = dataImport;
 
@@ -55,36 +55,11 @@ const Builder: React.FC<BuilderProps> = (props) => {
   const controlCenterActions: ControlCenterActionDef[][] = [
     [
       {
-        type: "Add",
-        description: "Add a new container",
-        icon: <MdAddCircle />,
-        action: handleElementDialogOpen,
-      },
-      {
-        type: "Publish",
-        description: "Publish site",
-        icon: <MdSave />,
-        action: () => console.log("Publish"),
-      },
-      {
-        type: "Undo",
-        description: "Undo last change",
-        icon: <MdUndo />,
-        action: () => console.log("Undo"),
-      },
-      {
-        type: "Redo",
-        description: "Redo last change",
-        icon: <MdRedo />,
-        action: () => console.log("Redo"),
-      },
-    ],
-    [
-      {
         type: "Mode",
         description: `Switch to ${
           currentTheme === `dark` ? `default` : `dark`
         } mode`,
+        displayType: `icon`,
         icon:
           currentTheme === `dark` ? (
             <IoMdSunny />
@@ -96,55 +71,116 @@ const Builder: React.FC<BuilderProps> = (props) => {
       {
         type: "Switch",
         description: "Switch editor layout",
+        displayType: `icon`,
         icon: <MdSwapHoriz />,
         action: () => setPanelRight(!panelRight),
+      },
+    ],
+    [
+      {
+        type: "Undo",
+        description: "Undo last change",
+        displayType: `icon`,
+        icon: <MdUndo />,
+        action: () => console.log("Undo"),
+      },
+      {
+        type: "Redo",
+        description: "Redo last change",
+        displayType: `icon`,
+        icon: <MdRedo />,
+        action: () => console.log("Redo"),
+      },
+      {
+        type: "Save",
+        description: "Save changes",
+        displayType: `string`,
+        icon: "Save",
+        action: () => console.log("Save"),
+      },
+      {
+        type: "Publish",
+        description: "Publish page",
+        displayType: `string`,
+        publish: true,
+        icon: "Publish",
+        action: () => console.log("Publish"),
       },
     ],
   ];
 
   const mobileControlCenterActions: ControlCenterActionDef[] = [
     {
-      type: "Add",
-      description: "Add a new container",
-      icon: <MdAddCircle />,
-      action: handleElementDialogOpen,
-    },
-    {
       type: "Publish",
       description: "Publish site",
+      displayType: `icon`,
       icon: <MdSave />,
     },
     {
       type: "Undo",
       description: "Undo last change",
+      displayType: `icon`,
       icon: <MdUndo />,
     },
     {
       type: "Redo",
       description: "Redo last change",
+      displayType: `icon`,
       icon: <MdRedo />,
+    },
+    {
+      type: "Dashboard",
+      description: "Show dashboard",
+      displayType: `icon`,
+      icon: <MdViewHeadline />,
+      action: () =>
+        setMobileDashboardOpen(
+          (prevMobileDashboardOpen) => !prevMobileDashboardOpen
+        ),
     },
   ];
 
   return (
     <BuilderContext.Provider value={data as Data}>
       <BuilderContainer>
+        <AddBlockButton
+          displaySize={displaySize}
+          side={panelRight ? "left" : "right"}
+          handleAddBlock={handleElementDialogOpen}
+        ></AddBlockButton>
         <ViewContainer>
           <AnchoredActionButton
             displaySize={displaySize}
             type="User page"
+            tooltip
+            panelRight={panelRight}
             side={panelRight ? "left" : "right"}
             description="Back to user page"
+            displayType="icon"
             icon={<MdAccountCircle />}
             action={() => console.log("Back to user page")}
           />
           <AnchoredActionButton
             displaySize={displaySize}
             type="Show dashboard"
+            tooltip={false}
+            panelRight={panelRight}
             side={panelRight ? "right" : "left"}
-            description="Show dashboard"
-            icon={<MdViewHeadline />}
-            action={() => setDashboardHidden(false)}
+            dashboardHidden={dashboardHidden}
+            description={dashboardHidden ? "Show dashboard" : "Hide dashboard"}
+            displayType="icon"
+            icon={
+              dashboardHidden ? (
+                <MdViewHeadline />
+              ) : panelRight ? (
+                <BsChevronRight />
+              ) : (
+                <BsChevronLeft />
+              )
+            }
+            action={() =>
+              setDashboardHidden((prevDashboardHidden) => !prevDashboardHidden)
+            }
           />
           <ResponsiveControlCenter
             displaySize={displaySize}
@@ -153,7 +189,9 @@ const Builder: React.FC<BuilderProps> = (props) => {
           />
           <DeviceSimulator>{blocks}</DeviceSimulator>
         </ViewContainer>
-        {/* Mobile Temporary Drawer Dashboard */}
+        {/* Mobile Temporary Drawer Dashboard 
+          TODO: add responsive wrapper for Drawer like control center
+        */}
         {displaySize !== "xl" && displaySize !== "lg" ? (
           <Drawer
             open={mobileDashboardOpen}
@@ -193,7 +231,11 @@ const Builder: React.FC<BuilderProps> = (props) => {
           maxWidth="md"
           fullScreen={displaySize !== "xl" && displaySize !== "lg"}
         >
-          <ElementSelector container={addBlock} text={addBlock} />
+          <ElementSelector
+            container={addBlock}
+            text={addBlock}
+            closeElementDialog={handleElementDialogClose}
+          />
         </CustomDialog>
       </BuilderContainer>
     </BuilderContext.Provider>

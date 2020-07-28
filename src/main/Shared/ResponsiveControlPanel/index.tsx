@@ -2,7 +2,10 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 import { ControlCenterActionDef, ResponsiveControlCenterProps } from "./models";
 import Tooltip from "rc-tooltip";
-import { controlCenterButtonBaseStyle } from "../Button";
+import {
+  controlCenterButtonBaseStyle,
+  controlCenterButtonAccentedStyle,
+} from "../Button";
 
 export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = ({
   displaySize,
@@ -31,18 +34,26 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
   }
 
   const generateControlCenterGroup = (
-    list: Array<ControlCenterActionDef>
+    list: Array<ControlCenterActionDef>,
+    index?: number
   ): ReactNode => {
     return (
-      <ControlCenterGroup>
+      <ControlCenterGroup key={index}>
         {list.map((action, index) => (
           <Tooltip
             {...createControlCenterTooltipProps()}
             key={index}
             overlay={action.description}
           >
-            <ControlCenterButton onClick={action.action}>
-              {action.icon}
+            <ControlCenterButton
+              publish={action.publish ? true : undefined}
+              onClick={action.action}
+            >
+              {action.displayType === `icon` ? (
+                action.icon
+              ) : (
+                <ControlCenterButtonText>{action.icon}</ControlCenterButtonText>
+              )}
             </ControlCenterButton>
           </Tooltip>
         ))}
@@ -56,12 +67,14 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
       | Array<Array<ControlCenterActionDef>>
   ): ReactNode => {
     if (isArrayOfArrays(options)) {
-      return options.map((list) => generateControlCenterGroup(list));
+      return options.map((list, index) =>
+        generateControlCenterGroup(list, index)
+      );
     }
     return generateControlCenterGroup(options);
   };
 
-  return displaySize == "xl" || displaySize == "lg" ? (
+  return displaySize === "xl" || displaySize === "lg" ? (
     <ControlCenter>{renderControlCenterGroup(options)}</ControlCenter>
   ) : (
     <MobileControlCenter>
@@ -71,10 +84,26 @@ export const ResponsiveControlCenter: React.FC<ResponsiveControlCenterProps> = (
 };
 
 // Desktop Control Center styles
-export const ControlCenterGroup = styled.div``;
-export const ControlCenterButton = styled.button`
+export const ControlCenterGroup = styled.div`
+  display: flex;
+`;
+export const ControlCenterButtonText = styled.span`
+  font-size: 1rem;
+  padding-bottom: 0.125rem;
+`;
+export const ControlCenterButton = styled.button<{ publish?: boolean }>`
   ${controlCenterButtonBaseStyle}
   font-size: ${(props) => props.theme.scales.fontSize.controlCenterButton};
+  ${({ publish }) => (publish ? controlCenterButtonAccentedStyle : ``)};
+  ${ControlCenterButtonText} {
+      border-bottom: 1px solid transparent
+  }
+  &:hover {
+    ${ControlCenterButtonText} {
+      border-bottom: 1px solid ${({ theme, publish }) =>
+        publish ? `white` : `transparent`};
+    }
+  }
 `;
 export const ControlCenter = styled.div`
   position: relative;
@@ -92,7 +121,6 @@ export const ControlCenter = styled.div`
     }
   }
   ${ControlCenterButton} {
-    transition: 0.1s;
     &:first-child {
       border-top-left-radius: 0.5rem;
       border-bottom-left-radius: 0.5rem;
@@ -100,10 +128,9 @@ export const ControlCenter = styled.div`
     &:last-child {
       border-top-right-radius: 0.5rem;
       border-bottom-right-radius: 0.5rem;
-      border-right: none;
     }
-    &:hover {
-      background: ${(props) => props.theme.colors.controlCenterButtonHover};
+    &:not(:last-child) {
+      border-right: none;
     }
   }
 `;

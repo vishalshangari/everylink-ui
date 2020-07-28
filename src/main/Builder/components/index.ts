@@ -27,7 +27,6 @@ export const StyledActionPanel = styled.div<{ panelRight: boolean }>`
     color: #fff;
     cursor: pointer;
     margin-bottom: 2px;
-    transition: 0.1s;
     &:hover {
       background: ${(props) => props.theme.color.borderGreyDark};
       color: #fff;
@@ -48,13 +47,15 @@ export const StyledActionPanel = styled.div<{ panelRight: boolean }>`
 `;
 
 export const ViewContainer = styled.div`
+  position: relative;
   height: 100vh;
   flex-grow: 1;
   ${(props) => props.theme.flex.column}
 `;
 
 export const BuilderContainer = styled.div`
-  transition: .5s all cubic-bezier(0.19, 1, 0.22, 1);
+  color: ${(props) => props.theme.colors.textPrimary};
+  transition: 0.2s background ease;
   position: relative;
   height: 100vh;
   width: 100vw;

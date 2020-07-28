@@ -4,33 +4,30 @@ import ContentPane from "./components/ContentPane";
 import AppearancePane from "./components/AppearancePane";
 import SettingsPane from "./components/SettingsPane";
 import { Tab } from "react-tabs";
+import { Transition } from "react-transition-group";
 import {
   TabIcon,
-  DashTab,
-  DashTabList,
+  DashboardTab,
+  DashboardTabList,
   TabTitle,
-  DashPanelsContainer,
+  DashboardPanelsContainer,
   StyledTabs,
   StyledTabPanel,
   DashboardElementActions,
   DashboardDoneBtn,
   DashboardDeleteBtn,
   DashboardDuplicateBtn,
-  DashboardTitle,
-  DashboardTextboxSmall,
-  DashboardTitleDisplay,
-  PanelTopShadow,
 } from "./components/index";
+import DashboardHeader from "./components/DashboardHeader";
 import {
   MdFormatPaint,
   MdSettings,
   MdTextFields,
   MdDelete,
   MdFilterNone,
-  MdCheckCircle,
-  MdModeEdit,
 } from "react-icons/md";
 import { IconContext } from "react-icons";
+import StyleSelector from "./components/StyleSelector";
 
 interface DashboardProps {
   addBlock: () => void;
@@ -41,11 +38,11 @@ interface DashboardProps {
 }
 
 interface StateDashTab extends Tab {
-  isActive: boolean;
+  isactive: boolean;
 }
 
-const StateDashTab = ({ isActive, ...props }: StateDashTab) => {
-  return <DashTab isActive={isActive} {...props} />;
+const StateDashTab = ({ isactive, ...props }: StateDashTab) => {
+  return <DashboardTab isactive={isactive} {...props} />;
 };
 
 const Dashboard: React.FC<DashboardProps> = ({
@@ -56,6 +53,24 @@ const Dashboard: React.FC<DashboardProps> = ({
   setDashboardHidden,
 }) => {
   const [activeTab, setActiveTab] = useState(1);
+  const [styleSelectorExpanded, setStyleSelectorExpanded] = useState(false);
+  const handleStyleSelectorExpanded = () => {
+    setStyleSelectorExpanded(
+      (prevStyleSelectorExpanded) => !prevStyleSelectorExpanded
+    );
+  };
+
+  const styles = ["(none)", "Default", "Heading", "Body", "Footer"];
+
+  const tabs = [
+    { title: "Content", icon: <MdTextFields />, context: <ContentPane /> },
+    {
+      title: "Appearance",
+      icon: <MdFormatPaint />,
+      context: <AppearancePane />,
+    },
+    { title: "Settings", icon: <MdSettings />, context: <SettingsPane /> },
+  ];
 
   return (
     <Panel
@@ -64,76 +79,55 @@ const Dashboard: React.FC<DashboardProps> = ({
       panelRight={panelRight}
     >
       <PanelInnerContainer isDesktop={isDesktop}>
-        <DashboardTitleDisplay>
-          <DashboardTitle>
-            <h3>Textbox</h3>
-          </DashboardTitle>
+        <DashboardHeader
+          title="Textbox"
+          styleApplied="Default"
+          handleStyleSelectorExpanded={handleStyleSelectorExpanded}
+          styleSelectorExpanded={styleSelectorExpanded}
+        />
 
-          <DashboardTextboxSmall>
-            Add label <MdModeEdit />
-          </DashboardTextboxSmall>
-        </DashboardTitleDisplay>
+        <Transition in={styleSelectorExpanded} timeout={500}>
+          {(state) => (
+            <StyleSelector styles={styles} state={state}></StyleSelector>
+          )}
+        </Transition>
 
         <StyledTabs
           selectedIndex={activeTab}
           onSelect={(tabIndex) => setActiveTab(tabIndex)}
         >
-          <DashTabList>
+          <DashboardTabList>
             <IconContext.Provider value={{ size: "1rem" }}>
-              <DashTab tabIndex="0" isActive={activeTab === 0}>
-                <TabIcon>
-                  <MdTextFields />
-                </TabIcon>
-                <TabTitle>Textbox</TabTitle>
-              </DashTab>
-              <DashTab tabIndex="1" isActive={activeTab === 1}>
-                <TabIcon>
-                  <MdFormatPaint />
-                </TabIcon>
-                <TabTitle>Appearance</TabTitle>
-              </DashTab>
-              <DashTab tabIndex="2" isActive={activeTab === 2}>
-                <TabIcon>
-                  <MdSettings />
-                </TabIcon>
-                <TabTitle>Settings</TabTitle>
-              </DashTab>
+              {tabs.map((tab, index) => (
+                <DashboardTab key={index} isactive={activeTab === index}>
+                  <TabIcon>{tab.icon}</TabIcon>
+                  <TabTitle>{tab.title}</TabTitle>
+                </DashboardTab>
+              ))}
             </IconContext.Provider>
-          </DashTabList>
+          </DashboardTabList>
 
-          <DashPanelsContainer>
-            <StyledTabPanel>
-              <ContentPane />
-            </StyledTabPanel>
-            <StyledTabPanel>
-              {/* <PanelTopShadow /> */}
-              <AppearancePane />
-            </StyledTabPanel>
-            <StyledTabPanel>
-              <SettingsPane />
-            </StyledTabPanel>
-          </DashPanelsContainer>
+          <DashboardPanelsContainer>
+            {tabs.map((tab, index) => (
+              <StyledTabPanel key={index}>{tab.context}</StyledTabPanel>
+            ))}
+          </DashboardPanelsContainer>
         </StyledTabs>
         <DashboardElementActions>
           <DashboardDoneBtn
             onClick={() => setDashboardHidden(!dashboardHidden)}
           >
-            <span>
-              <MdCheckCircle />
-            </span>
             Done
           </DashboardDoneBtn>
           <DashboardDuplicateBtn>
             <span>
               <MdFilterNone />
             </span>
-            Duplicate
           </DashboardDuplicateBtn>
           <DashboardDeleteBtn>
             <span>
               <MdDelete />
             </span>
-            Delete
           </DashboardDeleteBtn>
         </DashboardElementActions>
       </PanelInnerContainer>

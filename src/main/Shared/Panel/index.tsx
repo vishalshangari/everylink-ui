@@ -1,4 +1,4 @@
-import React, { ReactNode, FC } from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
 
 interface PanelProps {
@@ -16,15 +16,14 @@ interface PanelInnerContainerProps {
 const StyledPanelInnerContainer = styled.div<{ isDesktop: boolean }>`
   ${(props) => props.theme.flex.column}
   height: 100%;
-  background: ${(props) => props.theme.color.darkBackgroundLight};
-
+  background: ${(props) => props.theme.colors.dashboardBg};
   ${(props) =>
     props.isDesktop
-      ? `border-radius: 0.5rem; border: 1px solid #31363c;`
+      ? `border-radius: 0.5rem; border: 1px solid ${props.theme.colors.dashboardBorders};`
       : `border-radius: 0; border: none`};
-  box-shadow: 0px 0px 5px #000;
+  box-shadow: 0 0 0.25em ${({ theme }) => theme.colors.dashboardShadow};
   overflow: hidden;
-  width: calc(${(props) => props.theme.scales.panel} - 1rem);
+  width: calc(${(props) => props.theme.scales.panel} - 2em);
 `;
 
 export const PanelInnerContainer = ({
@@ -43,32 +42,29 @@ const PanelContainer = styled.div<{
   isDesktop: boolean;
   dashboardHidden: boolean;
 }>`
-  transition: .5s ease all;
+  transition: .5s ease width, .5s ease padding;
   z-index: 5;
   ${(props) =>
     props.isDesktop
-      ? `padding-top: ${props.theme.padding.base}; padding-bottom: ${props.theme.padding.base};`
+      ? `padding: 1em;`
       : `border-${props.panelRight ? `left` : `right`}: 1px solid ${
           props.theme.color.borderGrey
         };`}
 
-  ${(props) =>
-    props.panelRight &&
-    props.isDesktop &&
-    `order: 1; padding-right: ${props.theme.padding.base};`}
+  ${(props) => props.panelRight && props.isDesktop && `order: 1;`}
 
   ${(props) =>
     !props.panelRight &&
     props.isDesktop &&
-    `order: -1; padding-left: ${props.theme.padding.base}; ${StyledPanelInnerContainer} {float: right;}`}
+    `order: -1; ${StyledPanelInnerContainer} {float: right;}`}
 
   
   ${(props) =>
     props.dashboardHidden
       ? `width: 0; padding-left: 0; padding-right: 0;`
-      : `width: ${props.theme.scales.panel};`}
-  overflow: hidden;
+      : `width: calc(${props.theme.scales.panel});`}
   max-height: 100vh;
+  overflow: hidden;
 `;
 
 export const Panel = ({

@@ -14,33 +14,61 @@ export const AnchoredActionButton: React.FC<AnchoredActionButtonProps> = ({
   description,
   icon,
   displaySize,
+  panelRight,
+  dashboardHidden,
+  tooltip,
   action,
 }) => {
-  return displaySize == "xl" || displaySize == "lg" ? (
-    <Tooltip
-      {...tooltipProps}
-      placement={side === "left" ? "bottomRight" : "bottomLeft"}
-      overlay={description}
+  const styledButton = (
+    <AnchoredActionButtonStyled
+      side={side}
+      onClick={action}
+      panelRight={panelRight}
+      dashboardHidden={dashboardHidden}
     >
-      <AnchoredActionButtonStyled side={side} onClick={action}>
-        {icon}
-      </AnchoredActionButtonStyled>
-    </Tooltip>
+      {icon}
+    </AnchoredActionButtonStyled>
+  );
+  return displaySize === "xl" || displaySize === "lg" ? (
+    <>
+      {tooltip ? (
+        <Tooltip
+          {...tooltipProps}
+          placement={side === "left" ? "bottomRight" : "bottomLeft"}
+          overlay={description}
+        >
+          {styledButton}
+        </Tooltip>
+      ) : (
+        <>{styledButton}</>
+      )}
+    </>
   ) : null;
 };
 
-const AnchoredActionButtonStyled = styled.button<{ side: string }>`
-  ${controlCenterButtonBaseStyle}
+const AnchoredActionButtonStyled = styled.button<{
+  side: string;
+  panelRight: boolean;
+  dashboardHidden?: boolean;
+}>`
+  ${controlCenterButtonBaseStyle};
   position: absolute;
   font-size: ${(props) => props.theme.scales.fontSize.controlCenterButton};
   top: ${(props) => props.theme.padding.base};
   box-shadow: 0px 0px 5px ${(props) =>
     props.theme.colors.controlCenterButtonShadow};
-  ${(props) =>
-    `${props.side === `right` ? `right:` : `left:`} ${
-      props.theme.margin.base
-    };`}
+
+  ${({ side, panelRight, dashboardHidden }) => {
+    if (side === `right`) {
+      return `right: ${panelRight && !dashboardHidden ? `0` : `1rem`};`;
+    }
+    if (side === `left`) {
+      return `left: ${!panelRight && !dashboardHidden ? `0` : `1rem`};`;
+    }
+  }}
   border-radius: 0.5rem;
+  border: 1px solid ${({ theme }) => theme.colors.controlCenterButtonBorder};
+  transition: 0.2s ease all;
   &:hover {
     background: ${(props) => props.theme.colors.controlCenterButtonHover};
   }

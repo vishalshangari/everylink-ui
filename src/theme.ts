@@ -1,44 +1,62 @@
 // Color list def
 interface Colors {
-  [key: string]: {
-    [key: number]: string;
-  };
+  [key: string]: string;
 }
 
 // Colors list
 const colors: Colors = {
-  grey: {
-    0: "#000000",
-    1: "#090a0b",
-    2: "#121416",
-    3: "#1c1f22",
-    4: "#212529",
-    5: "#343A40",
-    6: "#495057",
-    7: "#6C757D",
-    8: "#ADB5BD",
-    9: "#CED4DA",
-    10: "#DEE2E6",
-    11: "#E9ECEF",
-    12: "#F8F9FA",
-  },
+  grey0: "rgb(0, 0, 0)",
+  grey1: "rgb(9, 10, 11)",
+  grey2: "rgb(18, 20, 22)",
+  grey3: "rgb(25, 27, 29)",
+  grey4: "rgb(32, 34, 36)",
+  grey5: "rgb(39, 41, 43)",
+  grey6: "rgb(46, 48, 50)",
+  grey7: "rgb(53, 55, 57)",
+  grey8: "rgb(60, 62, 64)",
+  grey9: "rgb(67, 69, 71)",
+  grey10: "rgb(74, 76, 78)",
+  grey11: "rgb(81, 83, 85)",
+  grey12: "rgb(88, 90, 92)",
+  grey13: "rgb(95, 97, 99)",
+  grey14: "rgb(102, 104, 106)",
+  grey15: "rgb(109, 111, 113)",
+  grey16: "rgb(116, 118, 120)",
+  grey17: "rgb(123, 125, 127)",
+  grey18: "rgb(130, 132, 134)",
+  grey19: "rgb(137, 139, 141)",
+  grey20: "rgb(144, 146, 148)",
+  grey21: "rgb(151, 153, 155)",
+  grey22: "rgb(158, 160, 162)",
+  grey23: "rgb(165, 167, 169)",
+  grey24: "rgb(172, 174, 176)",
+  grey25: "rgb(179, 181, 183)",
+  grey26: "rgb(186, 188, 190)",
+  grey27: "rgb(193, 195, 197)",
+  grey28: "rgb(200, 202, 204)",
+  grey29: "rgb(207, 209, 211)",
+  grey30: "rgb(214, 216, 218)",
+  grey31: "rgb(221, 223, 225)",
+  grey32: "rgb(228, 230, 232)",
+  grey33: "rgb(235, 237, 239)",
+  grey34: "rgb(242, 244, 246)",
+  grey35: "rgb(255, 255, 255)",
+  blackFogra: "#161c23",
+  amber: "#FF7D00",
+  amberDim: "#DB6A00",
+  bottleGreen: "#2E7054",
+  bottleGreenDim: "#265D46",
+  azure: "#1084ff",
+  azureActive: "#3295FF",
+  transparent: "rgb(0,0,0,0)",
 };
 
 // Color assignment object def
 interface ThemeColors {
-  builderBg: string;
-  elementDialogBg: string;
-  elementButtonBg: string;
-  controlCenterButtonDef: string;
-  controlCenterButtonHover: string;
-  controlCenterButtonBorder: string;
-  controlCenterButtonShadow: string;
+  [key: string]: string | { dark: { [key: string]: string } };
   // TODO add modes here i.e.:
   // modes: { dark: { [key: string]: string }, light: { [key: string]: string } }
   modes: {
-    light: {
-      [key: string]: string;
-    };
     dark: {
       [key: string]: string;
     };
@@ -47,24 +65,100 @@ interface ThemeColors {
 
 // Color assignment object
 const themeColors: ThemeColors = {
-  builderBg: colors.grey[9],
-  elementDialogBg: colors.grey[10],
-  elementButtonBg: colors.grey[7],
-  controlCenterButtonDef: colors.grey[5],
-  controlCenterButtonHover: colors.grey[6],
-  controlCenterButtonBorder: colors.grey[3],
-  controlCenterButtonShadow: colors.grey[0],
+  // Text
+  textPrimary: colors.grey8,
+  textSecondary: colors.grey14,
+  textSecondaryRGB: "#66686a",
+  textTertiary: colors.grey18,
+
+  // Builder general
+  builderBg: colors.grey34,
+
+  // Dashboard general
+  dashboardBg: colors.grey33,
+  dashboardShadow: colors.transparent,
+  dashboardBorders: colors.grey30,
+  dashboardScrollbarHover: colors.grey26,
+
+  // Dashboard components
+  dashboardTitleBg: colors.grey33,
+  dashboardActiveTab: colors.grey32,
+  dashboardActiveTabButton: colors.grey30,
+  styleSelectorBg: colors.grey32,
+  dashboardTabsStyle: `height: 1px; background: ${colors.grey30}; width: 100%; top: calc(100% - 1px);`,
+
+  // Buttons, etc.
+  elementDialogBg: colors.grey33,
+  elementButtonBg: colors.grey30,
+  elementButtonBorder: colors.grey28,
+  dashboardDoneBtn: colors.bottleGreen,
+  dashboardDoneBtnHover: colors.bottleGreenDim,
+  dashboardActionBtn: colors.grey5,
+  dashboardActionBtnHover: colors.grey4,
+  addBlockButton: colors.amber,
+  addBlockButtonHover: colors.grey35,
+  addBlockButtonShadow: `&:hover {box-shadow: 0 0 0.5rem ${colors.grey26};}`,
+  controlCenterButtonBg: colors.grey33,
+  controlCenterButtonHover: colors.grey30,
+  controlCenterButtonBorder: colors.grey30,
+  controlCenterButtonShadow: colors.transparent,
+  controlCenterButtonAccented: colors.azure,
+  controlCenterButtonAccentedActive: colors.azureActive,
+
+  // Form elements
+  formAccent: colors.amber,
+  dashboardInputBg: colors.grey29,
+  sliderTrack: colors.grey25,
+  dashboardSettingsButtonActive: colors.grey25,
   // TODO add modes here i.e.:
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
-    light: {
-      builderBg: colors.grey[6],
-    },
     dark: {
-      builderBg: colors.grey[2],
-      elementDialogBg: colors.grey[3],
-      elementButtonBg: colors.grey[4],
-      elementButtonBorder: colors.grey[6],
+      // Text
+      textPrimary: colors.grey32,
+      textSecondary: colors.grey24,
+      textSecondaryRGB: "#acaeb0",
+      textTertiary: colors.grey16,
+
+      // Builder general
+      builderBg: colors.grey2,
+
+      // Dashboard general
+      dashboardBg: colors.grey3,
+      dashboardShadow: colors.grey1,
+      dashboardBorders: colors.grey6,
+      dashboardScrollbarHover: colors.grey8,
+
+      // Dashboard components
+      dashboardTitleBg: colors.grey3,
+      dashboardActiveTab: colors.grey4,
+      dashboardActiveTabButton: colors.grey4,
+      styleSelectorBg: colors.grey4,
+      dashboardTabsStyle: `height: 1em; background: linear-gradient(180deg, ${colors.grey4} 5%, rgba(255, 255, 255, 0) 50%); width: calc(100% - 0.5em);`,
+
+      // Buttons, etc.
+      elementDialogBg: colors.grey3,
+      elementButtonBg: colors.grey4,
+      elementButtonBorder: colors.grey6,
+      dashboardDoneBtn: colors.bottleGreen,
+      dashboardDoneBtnHover: colors.bottleGreenDim,
+      dashboardActionBtn: colors.grey5,
+      dashboardActionBtnHover: colors.grey4,
+      addBlockButton: colors.amber,
+      addBlockButtonHover: colors.grey32,
+      addBlockButtonShadow: `box-shadow: 0 0 0.5rem ${colors.grey1};`,
+      controlCenterButtonBg: colors.grey3,
+      controlCenterButtonHover: colors.grey6,
+      controlCenterButtonBorder: colors.grey6,
+      controlCenterButtonShadow: colors.grey1,
+      controlCenterButtonAccented: colors.azure,
+      controlCenterButtonAccentedActive: colors.azureActive,
+
+      // Form elements
+      formAccent: colors.amber,
+      dashboardInputBg: colors.grey6,
+      sliderTrack: colors.grey7,
+      dashboardSettingsButtonActive: colors.grey8,
     },
   },
 };
@@ -120,50 +214,55 @@ export const scales: Scales = {
     builderDialog: "680px",
     display: {
       controlCenter: "visible",
+      addBlockButton: "top: calc(50% - 2.25rem);",
     },
     fontSize: {
-      controlCenterButton: "2rem",
+      dashboardTitle: "2rem",
+      styleActionButtons: "1.5rem",
     },
-    padding: {
-      controlCenterButton: "1rem 1.5rem",
-    },
+    settingsGrid: "1fr 1fr",
+    addBlockButton: "padding: 1.5rem",
+    controlCenterButton: "height: 4rem; font-size: 1.5rem; padding: 0 1.5rem;",
   },
   lg: {
     panel: "26rem",
     builderDialog: "600px",
     display: {
       controlCenter: "visible",
+      addBlockButton: "top: calc(50% - 2.25rem);",
     },
     fontSize: {
-      controlCenterButton: "1.25rem",
+      addBlockButton: "1rem",
     },
-    padding: {
-      controlCenterButton: "1rem",
-    },
+    settingsGrid: "1fr",
+    addBlockButton: "padding: 1.25rem",
+    controlCenterButton: "height: 3rem; font-size: 1.25rem; padding: 0 1rem;",
   },
   md: {
     panel: "28rem",
     display: {
       controlCenter: "none",
+      addBlockButton: "bottom: 1rem;",
     },
     fontSize: {
-      controlCenterButton: "1.5rem",
+      addBlockButton: "3rem",
     },
-    padding: {
-      controlCenterButton: "1rem 1.25rem",
-    },
+    settingsGrid: "1fr",
+    addBlockButton: "padding: 1.5rem",
+    controlCenterButton: "height: 4rem; font-size: 1.5rem; padding: 0 1rem;",
   },
   sm: {
-    panel: "22em",
+    panel: "22rem",
     display: {
       controlCenter: "none",
+      addBlockButton: "bottom: 1rem;",
     },
     fontSize: {
       controlCenterButton: "1.5rem",
     },
-    padding: {
-      controlCenterButton: "1rem 1.25rem",
-    },
+    settingsGrid: "1fr",
+    addBlockButton: "padding: 1.25rem",
+    controlCenterButton: "height: 4rem; font-size: 1.5rem; padding: 0 1rem;",
   },
 };
 
@@ -271,7 +370,7 @@ export const theme: Theme = {
   flex: {
     column: "display: flex; flex-direction: column;",
     row: "display: flex; flex-direction: row;",
-    centered: "justify-content: center; align-items: center;",
+    centered: "display: flex; justify-content: center; align-items: center;",
     grow: "flex-grow: 1;",
   },
 };

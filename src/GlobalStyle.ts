@@ -9,7 +9,13 @@ export const GlobalStyles = createGlobalStyle`
                 width: 80%;
             }
         }
-          
+        line-height: 1;
+        transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    }
+
+    .public-DraftEditorPlaceholder-root {
+      color: inherit;
+      opacity: 0.5;
     }
 
     .MuiPaper-root {
@@ -23,9 +29,15 @@ export const GlobalStyles = createGlobalStyle`
     h1, h2, h3, h4, h5, h6, p {
         margin: 0;
     }
-    button {
-        margin: 0;
-        padding: 0;
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+      font-family: inherit; /* 1 */
+      font-size: 100%; /* 1 */
+      line-height: 1; /* 1 */
+      margin: 0; /* 2 */
     }
     @keyframes fadein {
         0% {
