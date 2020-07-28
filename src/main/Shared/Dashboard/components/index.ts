@@ -236,6 +236,7 @@ export const DashboardTabList = styled(TabList)`
       theme.colors.currentMode === `dark` ? `1` : `0`};
     background: ${({ theme }) =>
       `linear-gradient(180deg, ${theme.colors.dashboardActiveTab} 5%, rgba(255, 255, 255, 0) 50%)`}
+  }
 `;
 
 /* Dashboard sub tabs */
