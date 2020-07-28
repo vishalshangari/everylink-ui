@@ -216,33 +216,12 @@ export const DashboardTabList = styled(TabList)`
   ${(props) => props.theme.flex.row}
   background: ${(props) => props.theme.colors.dashboardTitleBg};
   z-index: 1;
-<<<<<<< HEAD
-  &:before {
-    height: 1px;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    background: ${({ theme }) => theme.colors.dashboardActiveTabButton};
-    opacity: ${({ theme }) =>
-      theme.colors.currentMode === `default` ? `1` : `0`};  
-  }
-=======
->>>>>>> dev
   &:after {
     content: '';
     display: block;
     position: absolute;
     top: 100%;
-<<<<<<< HEAD
-    transition: opacity 1s ease;
     ${(props) => props.theme.colors.dashboardTabsStyle};
-    opacity: ${({ theme }) =>
-      theme.colors.currentMode === `dark` ? `1` : `0`};
-    background: ${({ theme }) =>
-      `linear-gradient(180deg, ${theme.colors.dashboardActiveTab} 5%, rgba(255, 255, 255, 0) 50%)`}
-=======
-    ${(props) => props.theme.colors.dashboardTabsStyle};
->>>>>>> dev
   }
 `;
 
