@@ -4,10 +4,19 @@ import { theme as baseTheme } from "../theme";
 import { merge, get } from "lodash";
 
 const useTheme: UseThemeDefinition = ({ defaultTheme, displaySize }) => {
-  const [currentTheme, setCurrentTheme] = useState(defaultTheme);
+  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)")
+    .matches;
+  const userSelectedColorMode = localStorage.getItem("userSelectedColorMode");
+  const initTheme = userSelectedColorMode
+    ? userSelectedColorMode
+    : prefersDarkMode
+    ? `dark`
+    : ``;
+  const [currentTheme, setCurrentTheme] = useState(initTheme);
 
   const handleThemeChange = (newTheme: string) => {
     setCurrentTheme(newTheme);
+    localStorage.setItem("userSelectedColorMode", newTheme);
   };
 
   const getNewTheme = (newTheme: string) =>
