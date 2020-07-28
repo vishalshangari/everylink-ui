@@ -10,7 +10,7 @@ export const GlobalStyles = createGlobalStyle`
             }
         }
         line-height: 1;
-        transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+        transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .public-DraftEditorPlaceholder-root {

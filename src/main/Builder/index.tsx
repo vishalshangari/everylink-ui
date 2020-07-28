@@ -14,7 +14,7 @@ import {
   MdViewHeadline,
   MdAccountCircle,
 } from "react-icons/md";
-import { IoMdSunny } from "react-icons/io";
+import { IoMdSunny, IoIosMoon } from "react-icons/io";
 import { WiMoonAltWaningCrescent4 } from "react-icons/wi";
 import { ResponsiveControlCenter } from "../Shared/ResponsiveControlPanel";
 import { ControlCenterActionDef } from "../Shared/ResponsiveControlPanel/models";
@@ -60,12 +60,7 @@ const Builder: React.FC<BuilderProps> = (props) => {
           currentTheme === `dark` ? `default` : `dark`
         } mode`,
         displayType: `icon`,
-        icon:
-          currentTheme === `dark` ? (
-            <IoMdSunny />
-          ) : (
-            <WiMoonAltWaningCrescent4 />
-          ),
+        icon: currentTheme === `dark` ? <IoMdSunny /> : <IoIosMoon />,
         action: () => handleThemeChange(currentTheme === "dark" ? "" : "dark"),
       },
       {
