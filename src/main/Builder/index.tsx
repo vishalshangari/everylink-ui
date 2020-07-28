@@ -60,7 +60,16 @@ const Builder: React.FC<BuilderProps> = (props) => {
           currentTheme === `dark` ? `default` : `dark`
         } mode`,
         displayType: `icon`,
+<<<<<<< HEAD
         icon: currentTheme === `dark` ? <IoMdSunny /> : <IoIosMoon />,
+=======
+        icon:
+          currentTheme === `dark` ? (
+            <IoMdSunny />
+          ) : (
+            <WiMoonAltWaningCrescent4 />
+          ),
+>>>>>>> dev
         action: () => handleThemeChange(currentTheme === "dark" ? "" : "dark"),
       },
       {

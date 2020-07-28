@@ -65,7 +65,10 @@ interface ThemeColors {
 
 // Color assignment object
 const themeColors: ThemeColors = {
+<<<<<<< HEAD
   currentMode: `default`,
+=======
+>>>>>>> dev
   // Text
   textPrimary: colors.grey8,
   textSecondary: colors.grey14,
@@ -86,6 +89,10 @@ const themeColors: ThemeColors = {
   dashboardActiveTab: colors.grey32,
   dashboardActiveTabButton: colors.grey30,
   styleSelectorBg: colors.grey32,
+<<<<<<< HEAD
+=======
+  dashboardTabsStyle: `height: 1px; background: ${colors.grey30}; width: 100%; top: calc(100% - 1px);`,
+>>>>>>> dev
 
   // Buttons, etc.
   elementDialogBg: colors.grey33,
@@ -114,7 +121,10 @@ const themeColors: ThemeColors = {
   // modes: { dark: { builderBg: ... }, light: { builderBg: ... } }
   modes: {
     dark: {
+<<<<<<< HEAD
       currentMode: "dark",
+=======
+>>>>>>> dev
       // Text
       textPrimary: colors.grey32,
       textSecondary: colors.grey24,
@@ -135,7 +145,11 @@ const themeColors: ThemeColors = {
       dashboardActiveTab: colors.grey4,
       dashboardActiveTabButton: colors.grey4,
       styleSelectorBg: colors.grey4,
+<<<<<<< HEAD
       dashboardTabsStyle: `height: 1em; width: calc(100% - 0.5em);`,
+=======
+      dashboardTabsStyle: `height: 1em; background: linear-gradient(180deg, ${colors.grey4} 5%, rgba(255, 255, 255, 0) 50%); width: calc(100% - 0.5em);`,
+>>>>>>> dev
 
       // Buttons, etc.
       elementDialogBg: colors.grey3,
