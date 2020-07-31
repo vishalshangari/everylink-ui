@@ -28,9 +28,9 @@ import {
 } from "react-icons/md";
 import { IconContext } from "react-icons";
 import StyleSelector from "./components/StyleSelector";
+import { Block } from "../../../data";
 
 interface DashboardProps {
-  addBlock: () => void;
   panelRight: boolean;
   isDesktop: boolean;
   dashboardHidden: boolean;
@@ -46,7 +46,6 @@ const StateDashTab = ({ isactive, ...props }: StateDashTab) => {
 };
 
 const Dashboard: React.FC<DashboardProps> = ({
-  addBlock,
   panelRight,
   isDesktop,
   dashboardHidden,

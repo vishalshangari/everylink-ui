@@ -1,9 +1,6 @@
 import { ReactNode } from "react";
 import { DisplaySizes } from "../../../hooks/models";
 
-export type Block = ReactNode;
-export type AccordionElement = ReactNode;
-
 export interface Data {
   type: string;
   textContent: string;

@@ -334,28 +334,22 @@ export const TextAreaInput: React.FC = () => {
 //   color: ${({ theme }) => theme.colors.textSecondary};
 // `;
 
-const CustomCheckbox = styled.label`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  position: relative;
-  ${({ theme }) => theme.flex.row};
-  align-items: center;
-  justify-content: center;
-  input {
-    position: absolute;
-    left: -9999px;
-    opacity: 0;
+const BaseFormFocusStyles = css`
+  transition: color 0.2s ease;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 1px 1px ${(props) => props.theme.colors.formAccent};
+    color: ${(props) => props.theme.colors.textPrimary};
   }
+`;
+
+const DisableTextSelection = css`
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
-`;
-
-const CheckboxLabel = styled.div`
-  margin-left: 1rem;
-  flex-grow: 1;
 `;
 
 const CustomCheckboxIcon = styled.span<{ checked: boolean }>`
@@ -374,21 +368,43 @@ const CustomCheckboxIcon = styled.span<{ checked: boolean }>`
   background-position: center;
 `;
 
+const CustomCheckbox = styled.label`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  position: relative;
+  ${({ theme }) => theme.flex.row};
+  align-items: center;
+  justify-content: center;
+  input {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    &:focus + ${CustomCheckboxIcon} {
+      outline: none;
+      box-shadow: 0 0 1px 1px ${(props) => props.theme.colors.formAccent};
+      color: ${(props) => props.theme.colors.textPrimary};
+    }
+  }
+  ${DisableTextSelection};
+  &:focus {
+    ${CustomCheckboxIcon} {
+      outline: none;
+      box-shadow: 0 0 1px 1px ${(props) => props.theme.colors.formAccent};
+      color: ${(props) => props.theme.colors.textPrimary};
+    }
+  }
+`;
+
+const CheckboxLabel = styled.div`
+  margin-left: 1rem;
+  flex-grow: 1;
+`;
+
 const BaseLabelStyles = css`
   margin-bottom: 1rem;
   font-weight: bold;
   display: inline-block;
   text-transform: capitalize;
-`;
-
-const BaseFormFocusStyles = css`
-  transition: box-shadow 0.2s ease;
-  transition: color 0.2s ease;
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 1px ${(props) => props.theme.colors.formAccent};
-    color: ${(props) => props.theme.colors.textPrimary};
-  }
+  ${DisableTextSelection};
 `;
 
 const SelectSettingInner = styled.div``;
@@ -416,8 +432,8 @@ const SelectArrow = css`
       1
     )}' stroke-width='0' viewBox='0 0 16 16' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")`};
   background-repeat: no-repeat, repeat;
-  background-position: right 1em top 50%, 0 0;
-  background-size: 1em auto, 100%;
+  background-position: right 1rem top 50%, 0 0;
+  background-size: 1rem auto, 100%;
 `;
 
 const BaseSelect = styled.select`

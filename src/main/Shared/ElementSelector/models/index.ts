@@ -1,5 +1,6 @@
+import { BlockType } from "../../../../data";
+
 export interface ElementSelectorProps {
-  container: () => void;
-  text: () => void;
+  addBlock: (blockType: BlockType) => void;
   closeElementDialog: () => void;
 }

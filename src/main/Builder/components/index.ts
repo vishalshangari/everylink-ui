@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Box = styled.div<{ backgroundColor: string }>`
+export const StyledBox = styled.div<{ backgroundColor: string }>`
   background: ${(props) => props.backgroundColor};
   height: 100px;
   margin-bottom: ${(props) => props.theme.margin.halfBase};

@@ -3,31 +3,31 @@ import { ElementSelectorProps } from "./models";
 import styled from "styled-components";
 import { BsBoundingBoxCircles, BsImage } from "react-icons/bs";
 import { MdTextFields } from "react-icons/md";
+import { BlockType } from "../../../data";
 
 const ElementSelector: React.FC<ElementSelectorProps> = ({
-  container,
-  text,
+  addBlock,
   closeElementDialog,
 }) => {
-  const handleNewContainer = () => {
-    container();
+  const handleNewContainer = (blockType: BlockType) => {
+    addBlock(blockType);
     closeElementDialog();
   };
   return (
     <ElementSelectorWrap>
-      <ElementButton onClick={handleNewContainer}>
+      <ElementButton onClick={() => handleNewContainer(BlockType.Container)}>
         <ElementLogo>
           <BsBoundingBoxCircles />
         </ElementLogo>
         <ElementLabel>Container</ElementLabel>
       </ElementButton>
-      <ElementButton onClick={handleNewContainer}>
+      <ElementButton onClick={() => handleNewContainer(BlockType.Text)}>
         <ElementLogo>
           <MdTextFields />
         </ElementLogo>
         <ElementLabel>Text</ElementLabel>
       </ElementButton>
-      <ElementButton onClick={handleNewContainer}>
+      <ElementButton onClick={() => handleNewContainer(BlockType.Container)}>
         <ElementLogo>
           <BsImage />
         </ElementLogo>
