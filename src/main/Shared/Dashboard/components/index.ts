@@ -162,7 +162,7 @@ export const DashboardTab = styled(Tab)<{ isactive: boolean }>`
     `1px solid ` +
     (!props.isactive
       ? `${props.theme.colors.dashboardBorders}`
-      : `transparent`)};
+      : `${props.theme.colors.dashboardBorders}`)};
 
   &:first-child {
     border-right: ${(props) =>

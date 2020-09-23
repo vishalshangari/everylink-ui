@@ -84,7 +84,7 @@ const themeColors: ThemeColors = {
   // Dashboard components
   dashboardTitleBg: colors.grey33,
   dashboardActiveTab: colors.grey32,
-  dashboardActiveTabButton: colors.grey30,
+  dashboardActiveTabButton: colors.grey32,
   styleSelectorBg: colors.grey32,
 
   // Buttons, etc.
