@@ -5,4 +5,5 @@ export interface DashboardProps {
   isDesktop: boolean;
   selectedElement?: Element<ElementType> | undefined;
   updateElement: (element: Element<ElementType>) => void;
+  dashboardHidden: boolean;
 }

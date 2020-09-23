@@ -16,7 +16,7 @@ const Textbox = () => {
   return (
     <DashboardViewWrap>
       <DashboardTextbox>
-        <p>Fuck you vishal</p>
+        <p>Test</p>
       </DashboardTextbox>
       <PaddedDashboardContainer>
         <DashboardTextEditor>
