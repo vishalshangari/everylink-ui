@@ -1,0 +1,23 @@
+{
+  "type": "image",
+  "src": "Lorem ipsum dolor sit amet.",
+  "altText": "This is my image",
+  "link": "//URL//",
+  "lazyLoad": true,
+  "appearance": {
+    "style": "custom image format",
+    "css": {
+      "width": {},
+      "height": {},
+      "position": {},
+      "margins": {
+        "auto": "lock margins",
+        "top": {},
+        "bottom": {},
+        "left": {},
+        "right": {}
+      },
+      "borderRadius": {}
+    }
+  }
+}

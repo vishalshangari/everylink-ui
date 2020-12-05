@@ -1,0 +1,27 @@
+{
+  "type": "text",
+  "content": "Lorem ipsum dolor sit amet.",
+  "appearance": {
+    "style": "custom text format",
+    "css": {
+      "color": {},
+      "fontSize": {},
+      "fontFamily": {},
+      "fontWeight": {},
+      "lineSpacing": {},
+      "letterSpacing": {},
+      "margins": {
+        "auto": "lock margins",
+        "top": {},
+        "bottom": {},
+        "left": {},
+        "right": {}
+      },
+      "textTransform": "lowercase|uppercase|capitalize",
+      "textAlign": {},
+      "dropShadow": {},
+      "backgroundColor": {},
+      "etc": {}
+    }
+  }
+}
